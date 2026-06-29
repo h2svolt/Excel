@@ -1,0 +1,102 @@
+﻿@model ExcelTranscript.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+@*<h2>@ViewBag.Title.</h2>*@
+
+
+<section class="flexbox-container mt-5">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+        <div class="col-md-4 col-10 box-shadow-2 p-0">
+            <div class="card border-grey border-lighten-3 px-2 py-2 m-0">
+                <div class="card-header border-0">
+                    @*<div class="card-title text-center">
+                        </div>*@
+                    <h2 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                        <span>Register User</span>
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal form-simple", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <fieldset class="form-group position-relative has-icon-left mb-2">
+                                @*<lable>User Name</lable>*@
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-lg input-lg", placeholder = "User Name" })
+                                @*<div class="form-control-position">
+                                        <i class="ft-user"></i>
+                                    </div>*@
+                            </fieldset>
+                            <fieldset id="emailHide" class="form-group position-relative has-icon-left mb-2">
+                                @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })*@
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg input-lg", @type = "email", placeholder = "User Email Address" })
+                                @*<div class="form-control-position">
+                                        <i class="ft-mail"></i>
+                                    </div>*@
+                            </fieldset>
+
+                            <fieldset id="nameHide" class="form-group position-relative has-icon-left mb-2">
+                                @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })*@
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control form-control-lg input-lg", @type = "text", placeholder = "Full Name" })
+                                @*<div class="form-control-position">
+                                        <i class="ft-mail"></i>
+                                    </div>*@
+                            </fieldset>
+                            <fieldset class="form-group position-relative has-icon-left mb-2">
+                                @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg input-lg", placeholder = "Enter Password" })
+                                @*<div class="form-control-position">
+                                        <i class="fa fa-key"></i>
+                                    </div>*@
+                            </fieldset>
+                            <fieldset class="form-group position-relative has-icon-left mb-2">
+                                @*@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })*@
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-lg input-lg", placeholder = "Confirm Password" })
+                                @*<div class="form-control-position">
+                                        <i class="fa fa-key"></i>
+                                    </div>*@
+                            </fieldset>
+                            <fieldset class="form-group position-relative has-icon-left">
+                                @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, new { @class = "form-control form-control-lg input-lg", @onchange = "fieldShow(this)" })
+                                @*@Html.DropDownList("UserRoles", new List<SelectListItem>{
+                                        new SelectListItem{ Text="Cashier", Value = "SalesPerson" },
+                                        new SelectListItem{ Text="Manager", Value = "Admin" },
+                                          new SelectListItem{ Text="BDM", Value = "BDM" },
+
+                                        new SelectListItem{ Text="OnlineOrders", Value = "OnlineOrders" },
+                                    }, htmlAttributes: new { @class = "form-control" })*@
+                                @*<div class="form-control-position">
+                                        <i class="fa fa-briefcase"></i>
+                                    </div>*@
+                            </fieldset>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="ft-unlock"></i> Register</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $("#nameHide").hide();
+        function fieldShow(e) {
+            if ($(e).val() == "Typist") {
+                $("#emailHide").hide();
+                $("#nameHide").show();
+
+            }
+            else {
+                $("#emailHide").show();
+                $("#nameHide").hide();
+            }
+        }
+    </script>
+
+}

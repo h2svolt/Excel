@@ -1,0 +1,20 @@
+# --- Patient medical data (PHI) — never publish to a public repo ---
+/Content/Transcripts/*
+!/Content/Transcripts/.gitkeep
+/Content/Temp/*
+!/Content/Temp/.gitkeep
+/Content/TempDownload/*
+!/Content/TempDownload/.gitkeep
+
+# --- Runtime logs ---
+/Logs/*
+!/Logs/.gitkeep
+
+# --- Redundant archives (unpacked folders already present) ---
+backup.zip
+Scripts.zip
+
+# --- Local-only backups / build outputs ---
+bin/*.orig
+_rebuild/source/ExcelTranscript/bin/
+_rebuild/source/ExcelTranscript/obj/

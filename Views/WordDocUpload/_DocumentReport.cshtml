@@ -1,0 +1,175 @@
+﻿@model IEnumerable<ExcelTranscript.Models.DTO.Temp_DocumentList>
+
+<div class="box-shadow mt-3 px-0">
+
+    @if (Model != null && Model.Count() > 0)
+    {
+
+        <div class="row mt-2">
+            <div class="col-md-3 py-2">
+                <div style="background-color:#d2f8d2;text-align:center;font-weight:bold" class="rounded-pill">
+                    <label for="Total" class="pt-1">Clinic</label>
+                    (@Model.FirstOrDefault().Clinic)
+                </div>
+            </div>
+
+            <div class="col-md-3 py-2">
+                <div style="background-color:#d2f8d2; text-align:center;font-weight:bold" class="rounded-pill">
+                    <label for="Total" class="pt-1">Total Lines</label>
+                    (@Model.FirstOrDefault().GTotalLines)
+                </div>
+            </div>
+            <div class="col-md-3 py-2">
+                <div style="background-color:#d2f8d2;text-align:center;font-weight:bold" class="rounded-pill">
+                    <label for="Total" class="pt-1">Total Amount</label>
+
+                    (@Model.FirstOrDefault().GTotalAmount)
+                </div>
+            </div>
+            <div class="col-md-3 py-2">
+                <div style="background-color:#d2f8d2;text-align:center;font-weight:bold" class="rounded-pill">
+                    <label for="Total" class="pt-1">Total Documents</label>
+                    (@Model.FirstOrDefault().GTotalDoc)
+                </div>
+            </div>
+        </div>
+
+        foreach (var item1 in Model)
+        {
+            <div class="table-responsive">
+
+                <table id="example" class="table table-striped table-bordered alt-pagination table-responsive nowrap w-100">
+
+                    @*<div class="col-md-2 text-center">
+                            <button type="button" class="btn btn-primary m-auto" onclick="assign()" id="assignBtn"><i class="fa fa-check-square-o"></i>Print Report</button>
+                        </div>*@
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Clinic</th>
+                            <th scope="col">Provider</th>
+                            <th scope="col">Audio File</th>
+                            <th scope="col">Document File</th>
+                            <th scope="col">Extention</th>
+                            <th scope="col">Word Count</th>
+                            <th scope="col">Character Count</th>
+                            <th scope="col">Line Count</th>
+                            <th scope="col">Character Per Line</th>
+                            <th scope="col">Rate Per Line</th>
+                            <th scope="col">Uploaded User</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int index = 1;}
+
+                        @foreach (var item in item1.Doclst)
+                        {
+
+                            <tr>
+                                <td>
+                                    @index
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Clinic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Provider)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AudioFile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DocFile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Extension)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WordCount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CharacterCount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LineCount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfCharacterPerLine)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatePerLine)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UploadedBy)
+                                </td>
+                                <td>
+                                    @Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.UploadOn))
+                                </td>
+                                <td>
+                                    @Convert.ToString(string.Format("{0:hh:mm:ss tt}", item.UploadOn))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                            </tr>
+                            index++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 py-2">
+                    <div style="background-color:#d2f8d2;text-align:center;font-weight:bold" class="rounded-pill">
+                        <label for="Total" class="pt-1">Clinic</label>
+                        (@item1.Clinic)
+                    </div>
+                </div>
+                <div class="col-md-3 py-2">
+                    <div style="background-color:#d2f8d2;text-align:center;font-weight:bold" class="rounded-pill">
+                        <label for="Total" class="pt-1">Provider</label>
+                        (@item1.Provider)
+                    </div>
+                </div>
+                <div class="col-md-2 py-2">
+                    <div style="background-color:#d2f8d2;text-align:center;font-weight:bold " class="rounded-pill">
+                        <label for="Total" class="pt-1">Total Lines</label>
+                        (@item1.TotalLines)
+                    </div>
+                </div>
+                <div class="col-md-2 py-2">
+                    <div style="background-color:#d2f8d2;text-align:center;font-weight:bold " class="rounded-pill">
+                        <label for="Total" class="pt-1">Total Amount</label>
+                        (@item1.TotalAmount)
+                    </div>
+                </div>
+                <div class="col-md-2 py-2">
+                    <div style="background-color:#d2f8d2;text-align:center;font-weight:bold " class="rounded-pill">
+                        <label for="Total" class="pt-1">Total Documents</label>
+                        (@item1.TotalDoc)
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+    else
+    {
+        <div class="text-center p-4">
+            <b>No matching data found!</b>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        /*$("#TypistAssignID").select2();*/
+
+
+
+    </script>
+}

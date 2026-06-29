@@ -1,0 +1,1031 @@
+@model IEnumerable<ExcelTranscript.Models.stp_GetUploadedAudio_Result>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    .disablefocus:focus {
+        box-shadow: none !important;
+        border-color: #b5b5b5;
+    }
+
+    .disablefocus {
+        border-color: #b5b5b5;
+        font-size: 14px !important;
+        height: 31px !important;
+    }
+</style>
+
+
+<section class="content">
+
+    <!-- *========== Breadcrumbs ========== -->
+
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-white px-0 mb-0">
+                <li class="breadcrumb-item active">Home</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- *========== Filter ========== -->
+    <div class="py-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="" method="" class="py-2 px-3 box-shadow box-rounded">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="form-title p-0 mb-1"><i class="fa fa-filter" aria-hidden="true"></i> Filters</h5>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Clinic">Clinic</label>
+                                    @if (User.IsInRole("Provider"))
+                                    {
+                                        @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), "Select Clinic", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Provider">Provider</label>
+                                    @if (User.IsInRole("Provider"))
+                                    {
+                                        @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), "Select Provider", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Typist">Typist</label>
+                                    @if (User.IsInRole("Typist"))
+                                    {
+                                        @Html.DropDownList("TypistAssignID", new SelectList(ViewBag.GetTypist, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("TypistAssignID", new SelectList(ViewBag.GetTypist, "value", "text"), "Select Typist", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Status">Doc. Status</label>
+                                    @Html.DropDownList("StatusId", new SelectList(ViewBag.StatusId, "value", "text"), "Select Status", htmlAttributes: new { @class = "select2 form-control" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0"><abbr title="Date of Typing">DOT</abbr> From</label>
+                                    <input id="DOTfromDate" type="text" class="form-control disablefocus jq-datepicker" name="DOTfromDate" placeholder="mm/dd/yyyy">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0"><abbr title="Date of Typing">DOT</abbr> To</label>
+                                    <input id="DOTtoDate" type="text" class="form-control disablefocus jq-datepicker" name="DOTtoDate" placeholder="mm/dd/yyyy">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0"><abbr title="Date of Study">DOS</abbr> From</label>
+                                    <input id="DOSfromDate" type="text" class="form-control disablefocus jq-datepicker" name="DOSfromDate" placeholder="mm/dd/yyyy">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0"><abbr title="Date of Study">DOS</abbr> To</label>
+                                    <input id="DOStoDate" type="text" class="form-control disablefocus jq-datepicker" name="DOSfromDate" placeholder="mm/dd/yyyy">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0"><abbr title="Date of Birth">DOD</abbr> From</label>
+                                    <input id="DODfromDate" type="text" class="form-control disablefocus jq-datepicker" name="DODfromDate" placeholder="mm/dd/yyyy">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0"><abbr title="Date of Dictation">DOD</abbr> To</label>
+                                    <input id="DODtoDate" type="text" class="form-control disablefocus jq-datepicker" name="DODtoDate" placeholder="mm/dd/yyyy">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="text-white m-0">asdf</label>
+                                <button type="button" class="btn btn-block btn-primary" id="btnSearch">
+                                    <i class="fa fa-search"></i>&nbsp;Search
+                                </button>
+                            </div>
+
+                            <div class="col-md-1">
+                            </div>
+
+                        </div>
+                    </form>
+
+                    <div id="SearchResult">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @*<----- Status Modal ----->*@
+
+        <div class="modal fade" id="StatusModal" tabindex="-1" role="dialog" aria-labelledby="StatusModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="width:300px">
+                <div class="modal-content">
+                    <div class="modal-header" style="width:300px">
+                        <h4>Document Status</h4>
+                        @*<h5 class="modal-title" id="exampleModalLabel"> <p> Revised Version Of: <text id="quoteOldID"></text></p></h5>*@
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <span>
+                            @if (User.IsInRole("Provider"))
+                            {
+                                <button type="button" class="btn btn-success" id="btnApprove" data-dismiss="modal">Approve</button>
+                                @*<button type="button" class="btn btn-danger" id="btnReject" data-dismiss="modal">Reject</button>*@
+                                @*<button type="button" class="btn btn-secondary" id="btnArchived" data-dismiss="modal">Archived</button>*@
+
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-success" id="btnApprove" data-dismiss="modal">Approve</button>
+                                @*<button type="button" class="btn btn-danger" id="btnReject" data-dismiss="modal">Reject</button>*@
+                                <button type="button" class="btn btn-secondary" id="btnArchived" data-dismiss="modal">Archive</button>
+                            }
+                        </span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<----- Doc Status Modal ----->*@
+
+        <div class="modal fade" id="DocStatusModal" tabindex="-1" role="dialog" aria-labelledby="DocStatusModalLabel" aria-hidden="true">
+            <div class="modal-dialog model-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Document Status</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" value="" id="hdnDocumentId" />
+                        <span>
+                            @if (User.IsInRole("Provider"))
+                            {
+                                <button type="button" class="btn btn-success" id="btnDocApprove" data-dismiss="modal" onclick="SetDocStatus($('#hdnDocumentId').val(), 1)">Approve</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-success" id="btnDocApprove" data-dismiss="modal" onclick="SetDocStatus($('#hdnDocumentId').val(), 1)">Approve</button>
+                                <button type="button" class="btn btn-secondary" id="btnDocArchived" data-dismiss="modal" onclick="SetDocStatus($('#hdnDocumentId').val(), 4)">Archive</button>
+                            }
+                        </span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<-- Modal working -->*@
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="mt-3 mb-2"> Document's Details</h4>
+                        <table id="revisedTable" class="table table-striped table-bordered alt-pagination">
+                            <thead>
+                                <tr>
+                                    <th hidden> Id </th>
+                                    <th> File Name </th>
+                                    <th> Uploaded </th>
+                                    <th> Download </th>
+                                    <th> View </th>
+                                    <th>  </th>
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="patientModal" tabindex="-1" role="dialog" aria-labelledby="patientModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="mb-2"> Details</h4>
+                        <div class="table-responsive">
+                            <table id="patientModalTable" class="table table-bordered alt-pagination">
+                                <thead>
+                                    <tr>
+                                        <th> PatientName </th>
+                                        <th> Modality </th>
+                                        <th> MRN</th>
+                                        <th> DOB </th>
+                                        <th> DOS </th>
+                                        <th> RefDoctor </th>
+                                        <th> FaxNumber </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <hr />
+                        <h4 class="mt-3 mb-2"> Document</h4>
+                        <div class="table-responsive">
+                            <table id="revisedTable" class="table table-bordered alt-pagination">
+                                <thead>
+                                    <tr>
+                                        <th hidden> Id </th>
+                                        <th> File Name </th>
+                                        <th> Uploaded </th>
+                                        <th> Download </th>
+                                        <th> View </th>
+                                        <th>  </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="">Patient Details:</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body border-bottom">
+                        <div class="table-responsive">
+                            <table id="patientDetailsTable" class="table table-bordered alt-pagination">
+                                <thead>
+                                    <tr>
+                                        <th> PatientName </th>
+                                        <th> Modality </th>
+                                        <th> MRN</th>
+                                        <th> DOB </th>
+                                        <th> DOS </th>
+                                        <th> RefDoctor </th>
+                                        <th> FaxNumber </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>                    
+                    <div class="modal-body">
+                        <h4 class="mb-3"> Document Details:</h4>
+                        <div class="table-responsive">
+                            <table id="documentDetailsTable" class="table table-bordered alt-pagination">
+                                <thead>
+                                    <tr>
+                                        <th hidden> Id </th>
+                                        <th> Status </th>
+                                        <th> Filename </th>
+                                        <th> Uploaded </th>
+                                        <th> Download </th>
+                                        <th> View </th>
+                                        <th>  </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="~/Scripts/General.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#DictatorID").select2();
+            $("#ClinicID").select2();
+            $("#StatusId").select2();
+            $("#TypistAssignID").select2();
+
+            var date = new Date();
+            date.setDate(date.getDate() - 1);
+
+            $(".jq-datepicker").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+            //$("#DOTtoDate").datepicker({
+            //    dateFormat: 'mm/dd/yy'
+            //});
+
+            //$("#DOSfromDate").datepicker({
+            //    dateFormat: 'mm/dd/yy'
+            //});
+            //$("#DOStoDate").datepicker({
+            //    dateFormat: 'mm/dd/yy'
+            //});
+            //$("#DODfromDate").datepicker({
+            //    dateFormat: 'mm/dd/yy'
+            //});
+            //$("#DODtoDate").datepicker({
+            //    dateFormat: 'mm/dd/yy'
+            //});
+
+            $("#DOTfromDate").datepicker('setDate', date);
+            $("#DOTtoDate").datepicker('setDate', new Date());
+
+            $(".jq-datepicker").datepicker();
+            //$("#DOStoDate").datepicker();
+            //$("#DODfromDate").datepicker();
+            //$("#DODtoDate").datepicker();
+
+            $("#btnSearch").click();
+
+            $('#exampleModal').on('hidden.bs.modal', function () {
+                $("#btnSearch").click()
+            });
+
+            $('#patientModal').on('hidden.bs.modal', function () {
+                $("#revisedTable tbody").empty();
+                $("#patientModalTable tbody").empty();
+            });
+
+            $('#documentModal').on('hidden.bs.modal', function () {
+                $("#patientDetailsTable tbody").empty();
+                $("#documentDetailsTable tbody").empty();
+            });
+
+            $("#mastersearch").on("keyup", function () {
+                //console.log("Test");
+                var value = $(this).val().toLowerCase();
+                $("#example tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+        });
+
+        var documentID;
+        var rowAudioID;
+        function GetStatus(audioI, docID, isApproved) {
+            documentID = docID;
+            rowAudioID = audioI;
+
+            if (isApproved) {
+                $("#btnApprove").prop("disabled", true);
+            } else {
+                $("#btnApprove").prop("disabled", false);
+            }
+                $("#StatusModal").modal("show");
+        }
+
+        function CheckDocStatus(DocumentId, isApproved, isArchieved) {
+            $("#documentModal").modal("hide");
+
+            if (isApproved == true) {
+                $("#btnDocApprove").prop("disabled", true);
+            } else {
+                $("#btnDocApprove").prop("disabled", false);
+            }
+
+            if (isArchieved == true) {
+                $("#btnDocArchived").prop("disabled", true);
+            } else {
+                $("#btnDocArchived").prop("disabled", false);
+            }
+
+            $("#hdnDocumentId").val(DocumentId);
+            $("#DocStatusModal").modal("show");
+        }
+
+        function GetPatientDetails(PatientName, AudioID) {
+
+            var isTypist = '@User.IsInRole("Typist")';
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '/Home/GetPatientDetails',
+                async: true,
+                data: JSON.stringify({ "AudioID": AudioID, "PatientName": PatientName}),
+                success: function (data) {
+
+                    var details = data.details;
+                    var documents = data.documents;
+
+                    if (details != "Error") {
+                        $("#patientModalTable tbody").empty();
+                        var markup = `<tr>
+                                        <td> ${details.PatientName}</td>
+                                        <td> ${details.Modality} </td>
+                                        <td> ${details.MRN} </td>
+                                        <td> ${details.DOB} </td>
+                                        <td> ${details.DOS} </td>
+                                        <td> ${details.RefDoctor} </td>
+                                        <td> ${details.FaxNumber} </td>
+                                      </tr>`;
+
+                        $("#patientModalTable tbody").append(markup);
+                        $("#patientModal").modal("show");
+                    }
+                    if (documents != "Error") {
+                        $("#revisedTable tbody").empty();
+                        for (var i = 0; i < documents.length; i++) {
+                            var bgcolor = "white"
+                            if (documents[i].DocChildID) {
+                                bgcolor = "paleturquoise";
+                            }
+                            var markup = "<tr style='background-color:" + bgcolor + "'>\
+                                            <td hidden> "+ documents[i].DocId + " </td> \
+                                            <td> "+ documents[i].FileName + " </td> \
+                                            <td> "+ documents[i].Uploaded + " </td> \
+                                            <td> <a href='"+ documents[i].FilePath + "' download> Download </a> </td> \
+                                            <td> <a target='_blank' href='/WordDocument/Index?FilePath="+ documents[i].FileName + "." + documents[i].ext + "&DocID=" + documents[i].DocId + "'> View </a> </td> \
+                                            <td> <a class='FaxOption' href='/WordDocument/UploadFax?FileName="+ documents[i].FileName + "." + documents[i].ext + "'> Fax </a> </td> \
+                                            </tr>";
+
+                            $("#revisedTable tbody").append(markup);
+                        }
+
+                        if (isTypist === "True") {
+                            $('.FaxOption').addClass('d-none');
+                        }
+                    }
+                    $('.Loader').hide();
+                },
+                error: function (xhr, status) {
+                    $('.Loader').hide();
+                    console.log('xhr:' + xhr + ', status: ' + status);
+                }
+            });
+
+        }
+
+        function GetDocumentDetails(DocId) {
+
+            var isTypist = '@User.IsInRole("Typist")';
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '/Home/GetDocumentDetails',
+                async: true,
+                data: JSON.stringify({ "DocId": DocId }),
+                success: function (data) {
+
+                    var details = data.details;
+                    var documents = data.documents[0];
+                    var userRole = data.role;
+
+                    if (details != "Error") {
+                        $("#patientDetailsTable tbody").empty();
+                        var markup = `<tr>
+                                        <td> ${details.PatientName}</td>
+                                        <td> ${details.Modality} </td>
+                                        <td> ${details.MRN} </td>
+                                        <td> ${details.DOB} </td>
+                                        <td> ${details.DOS} </td>
+                                        <td> ${details.RefDoctor} </td>
+                                        <td> ${details.FaxNumber} </td>
+                                      </tr>`;
+
+                        $("#patientDetailsTable tbody").append(markup);
+                    }
+                    if (documents != "Error") {
+                        $("#documentDetailsTable tbody").empty();
+                        var statusHTML = "";
+
+                        if (userRole != "Typist"){
+                            if (documents.Status == "Ready For Review") {
+                                statusHTML = `<button style="background-color:blue" type="button" onclick="CheckDocStatus(${documents.DocId}, false, false)" class="btn btn-info"> Ready For Review </button>`;
+                            } else if (documents.Status == "Approved") {
+                                statusHTML = `<button type="button" onclick="CheckDocStatus(${documents.DocId}, true, false)" class="btn btn-success"> Approved </button>`;
+                            } else if (documents.Status == "Archived") {
+                                statusHTML = `<button type="button" disabled="disabled" class="btn btn-secondary"> Archived </button>`;
+                            }
+                            else {
+                                if (userRole == "Provider") {
+                                    if (documents.Status == "Assigned" || documents.Status == "Unassigned") {
+                                        documents.Status = "InProgress";
+                                        statusHTML = '<span class="p-2">' + documents.Status + '</span>';
+                                    }
+                                } else {
+                                    statusHTML = '<span class="p-2">' + documents.Status + '</span>';
+                                }
+                            }
+                        } else {
+                            statusHTML = '<span class="p-2">' + documents.Status + '</span>';
+                        }
+
+                        var markup = "<tr style='background-color:" + documents.bgColor + "'>\
+                                            <td hidden> "+ documents.DocId + " </td> \
+                                            <td> "+ statusHTML + " </td> \
+                                            <td class='p-2'> "+ documents.FileName + " </td> \
+                                            <td class='p-2'> "+ documents.Uploaded + " </td> \
+                                            <td> <a onclick='DownloadFile("+ DocId +")' class='btn btn-link btn-sm'> Download </a> </td> \
+                                            <td> <a target='_blank' class='btn btn-link btn-sm' href='/WordDocument/Index?FilePath="+ documents.FileName + "." + documents.ext + "&DocID=" + documents.DocId + "'> View </a> </td> \
+                                            <td> <a class='FaxOption btn btn-link btn-sm' href='/WordDocument/UploadFax?FileName="+ documents.FileName + "." + documents.ext + "'> Fax </a> </td> \
+                                            </tr>";
+
+                            $("#documentDetailsTable tbody").append(markup);
+
+                        if (userRole === "Typist") {
+                                $('.FaxOption').addClass('d-none');
+                        }
+
+                        if (documents.Status != "Approved") {
+                            $('.FaxOption').addClass('d-none');
+                        }
+
+                        if (!documents.isFax) {
+                            $('.FaxOption').addClass('d-none');
+                        }
+                    }
+                    $("#documentModal").modal("show");
+                    $('.Loader').hide();
+                },
+                error: function (xhr, status) {
+                    $('.Loader').hide();
+                    console.log('xhr:' + xhr + ', status: ' + status);
+                }
+            });
+
+        }
+
+        $("#btnApprove").click(function () {
+            StatusValue(1);
+        });
+        $("#btnReject").click(function () {
+            console.log("in");
+            StatusValue(0);
+        });
+        $("#btnArchived").click(function () {
+            StatusValue(4);
+        });
+
+        function StatusValue(value) {
+            $('.Loader').show();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Home/GetStatusValue?FileID',
+                    data: JSON.stringify({ 'audID': rowAudioID, 'DocId': documentID,'cond' : value  }),
+                    async: true,
+                    success: function (data) {
+                        if (data != "Green") {
+                            swal({
+                                position: 'center',
+                                icon: 'warning',
+                                title: 'Something went wrong! ',
+                                text: 'Please try again later.',
+                                showConfirmButton: true
+                            }).then(function () {
+                                window.location.reload();
+                            });
+                        }
+                        $("#btnSearch").click();
+                    }, error: function () {
+                        $('.Loader').hide();
+                    }
+                });
+        }
+
+        function SetDocStatus(docId, cond) {
+
+            $('.Loader').show();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Home/SetDocumentStatus?DocId',
+                    data: JSON.stringify({ 'DocID': docId, 'cond': cond  }),
+                    async: true,
+                    success: function (data) {
+                        if (data != "Green") {
+                            swal({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Status update Failed! ',
+                                text: 'Please try again.',
+                                showConfirmButton: true
+                            }).then(function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $("#btnSearch").click();
+                        }
+                    }, error: function () {
+                        $('.Loader').hide();
+                    }
+                });
+        }
+
+        function DownloadFile(DocId)
+        {
+
+            if (DocId != null && DocId != '') {
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Home/DownloadFile',
+                    data: JSON.stringify({ DocId: DocId }),
+                    async: true,
+                    success: function (data) {
+
+                        if (data.success) {
+                            window.open(data.Link);
+                        }
+
+                    }, error: function () {
+                        $('.Loader').hide();
+                    }
+                });
+            }
+        }
+
+        $("#btnSearch").on("click", function () {
+
+            $('.Loader').show();
+            var DictatorID = $('#DictatorID').val();
+            if (DictatorID == '') {
+                $("#DictatorID option").each(function (){
+                    DictatorID += $(this).val() +",";
+                });
+            }
+
+            var ClinicID = $('#ClinicID').val();
+            if (ClinicID == '') {
+                $("#ClinicID option").each(function (){
+                    ClinicID += $(this).val() +",";
+                });
+            }
+
+            var fromDate = $('#DOTfromDate').val();
+            var toDate = $('#DOTtoDate').val();
+            //var StatusId = $('#StatusId').val();
+            var html = '<img src="@ViewBag.Picture" class="brand-logo" align = "left" margin="10px"><h1  align="center">@ViewBag.CompanyName</h1><h5 align="center">@ViewBag.CompanyAddress </h5><h5 align="center">Contact: @ViewBag.CompanyCell</h5><hr /><h4 align="center"> @ViewBag.Title </h4>';
+
+
+            if (fromDate != "" && toDate != "") {
+                html += "<h4>From:    " + fromDate + "            TO:    " + toDate + " </h4>";
+            }
+            if ((new Date($("#DOTfromDate").val())) != "Invalid Date" && (new Date($("#DOTtoDate").val()) != "Invalid Date")) {
+                $.ajax({
+                    url: "@Url.Action("Index", "Home")",
+                    data: {
+                        btn: true,
+                        DictatorID: DictatorID,
+                        ClinicID: ClinicID,                        
+                        StatusId: $('#StatusId').val(),
+                        DOTfromDate: $('#DOTfromDate').val(),
+                        DOTtoDate: $('#DOTtoDate').val(),
+                        DOSfromDate: $('#DOSfromDate').val(),
+                        DOStoDate: $('#DOStoDate').val(),
+                        DODfromDate: $('#DODfromDate').val(),
+                        DODtoDate: $('#DODtoDate').val(),
+                    },
+                    success: function (data) {
+                        $("#SearchResult").html(data);
+                        $('#example').dataTable({
+                            sDom: '<"top" lRB> frtip',
+                            //deferRender: true,
+                            //scrollX: true,
+                            stateSave: true,
+                            lengthMenu: [
+                                [10, 25, 50, 100, -1],
+                                [10, 25, 50, 100, 'All'],
+                            ],
+                            ordering: false,
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    messageTop: function () {
+                                        return '<h3 align="center">Notification List</h3>';
+                                    },
+                                    title: '',
+                                    messageBottom: 'Powered by H2S Volt',
+                                    exportOptions: {
+                                        columns: [0,2,3,4,5,6,7,8,9,10,11,12]
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    messageTop: 'Notification List',
+                                    messageBottom: 'Powered by H2S Volt',
+                                    //exportOptions: {
+                                    //    //columns: [0, 1, 2, 3]
+                                    //}
+                                }
+                            ]
+                        });
+                        $('.Loader').hide();
+                    },
+                    error: function (xhr, status) {
+                        $('.Loader').hide();
+                    }
+                });
+            }
+            else {
+                $('.Loader').hide();
+                swal({
+                    title: "Invalid Date",
+                    text: "Please select correct date range!",
+                    icon: "warning",
+                    buttons: false,
+                    timer: 2500
+                });
+            }
+        });
+
+        function GetAudioDocuments(AudioID) {
+            let qID = AudioID || 0;
+            console.log(qID);
+            if (qID > 0) {
+                var isTypist = '@User.IsInRole("Typist")';
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/UploadFiles/GetDocumentCounts?AudioID=' + qID,
+                    async: true,
+                    success: function (data) {
+                        $("#revisedTable tbody").empty();
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i].UploadOn);
+                            var date = new Date(data[i].Uploaded);
+                            console.log(date);
+
+                            var bgcolor= "white"
+
+                            if (data[i].DocChildID) {
+                                bgcolor = "paleturquoise";
+                            }
+
+                            var markup = "<tr style='background-color:" + bgcolor +"'>\
+                                            <td hidden> "+ data[i].DocId + " </td> \
+                                            <td> "+ data[i].FileName + " </td> \
+                                            <td> "+ data[i].Uploaded + " </td> \
+                                            <td> <a href='"+ data[i].FilePath +"' download> Download </a> </td> \
+                                            <td> <a target='_blank' href='/WordDocument/Index?FilePath="+ data[i].FileName + "." + data[i].ext + "&DocID=" + data[i].DocId +"'> View </a> </td> \
+                                            <td> <a class='FaxOption' href='/WordDocument/UploadFax?FileName="+ data[i].FileName + "." + data[i].ext+"'> Fax </a> </td> \
+                                            </tr>";
+
+                            $("#revisedTable tbody").append(markup);
+                        }
+
+                        if (isTypist === "True") {
+                            $('.FaxOption').addClass('d-none');
+                        }
+                    },
+                    error: function (err) { console.log(err); }
+                });
+            }
+        }
+
+        //CheckBox Working
+        @*$("#select_all").change(function () {  //"select all" change
+            console.log("InCheckbox");
+            $(".checkbox").prop('checked', $(this).prop("checked")); //change all ".checkbox" checked status
+        });
+
+        //".checkbox" change
+        $('.checkbox').change(function () {
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if (false == $(this).prop("checked")) { //if this item is unchecked
+                $("#select_all").prop('checked', false); //change "select all" checked status to false
+            }
+            //check "select all" if all checkbox items are checked
+            if ($('.checkbox:checked').length == $('.checkbox').length) {
+                $("#select_all").prop('checked', true);
+            }
+        });
+
+        $('#btnUpdateStatus').click(function () {
+            var STRMS = [];
+            console.log("Post");
+            var chkall = $("#select_all").is(':checked');
+            console.log(chkall);
+            if (chkall == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateAllStatus", "Home")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ 'STRMSelected': null }),
+                    success:
+                        function (data) {
+                            if (data == true)
+                                alert("Updated Successfully")
+
+                            $("#test").attr("href", data[i]);
+                            $("#test").click();
+
+                            //else ("Download failed")
+                        }
+
+                });
+            }
+            else {
+
+                $('#example tbody tr').each(function (i, n) {
+                    var $row = $(n);
+
+                    if ($row.find('input[id = "selectedid"]').is(':checked')) {
+
+                        STRMS.push($row.find('input[id="selectedid"]').val());
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateAllStatus", "Home")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ 'STRMSelected': STRMS }),
+                    success:
+                        function (data) {
+                            if (data == true)
+                                alert("Updated Successfully")
+                            else ("Updated failed")
+                        }
+                });
+
+                console.log(STRMS);
+            }
+        });*@
+
+
+        var arr = [];
+
+        function getIDs(fileID,n) {
+            var $row = $(n);
+            if (fileID > 0 && +chkID > 0) {
+
+                var obj = { AudioID: fileID, CHKID: +chkID };
+                const isExist = obj => obj.AudioID === fileID && obj.CHKID === chkID;
+
+                if (arr.some(isExist)) {
+                    //console.log("exists")
+                }
+                else {
+                    arr.push(obj)
+                    //console.log("not exists")
+                    //console.log(arr)
+
+                }
+
+            }
+
+
+                        //var selected = [];
+            //$('[name="price[]"]:checked').each(function (checkbox) {
+            //    selected.push(checkbox);
+            //});
+        }
+
+function StackMark(e,AudioID){
+    $('.Loader').show();
+let qID = AudioID || 0;
+        console.log(qID);
+        if (qID > 0) {
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '/Home/StackMark?AudioID=' + qID,
+                async: true,
+                success: function (data) {
+                if(data == true)
+                {
+                    $(e).css("color", "Red");
+                }
+                else
+                {
+                    $(e).css("color", "Black");
+                }
+                    $('.Loader').hide();
+                },
+                error: function (xhr, status) {
+                    $('.Loader').hide();
+                }
+              });
+        }
+}
+
+        function UpdateStatus(DocId) {
+        $('.Loader').show();
+        let qID = DocId || 0;
+        //console.log(qID);
+        if (qID > 0) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '/WordDocUpload/UpdateStatus?Id=' + qID,
+                async: true,
+                success: function (data) {
+                    $('.Loader').hide();
+                },
+                error: function (xhr, status) {
+                    $('.Loader').hide();
+                }
+            });
+        }
+        }
+
+        $("#ClinicID").change(function () {
+            var ClinicID = $('#ClinicID').val();
+            getProviders(ClinicID);
+        });
+
+    function getProviders(ClinicID) {
+
+            if (ClinicID == "") { ClinicID = -1; }
+            var json = { "ClinicID": ClinicID };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '/Dictators/GetProviders',
+                async: true,
+                data: JSON.stringify(json),
+                success: function (data) {
+                    //console.log(data)
+                    GetDropdown("DictatorID", data, true);
+                },
+                error: function (err) { console.log(err); }
+            });
+        }
+    function GetAudioFile(AudioId) {
+        if (AudioId == "") { AudioId = -1; }
+
+        console.log(AudioId);
+        if (AudioId > 0) {
+
+           var url = '@Url.Action("DownloadDocuments", "Home")?AudioId=' + AudioId;
+                window.open(url, "_blank")
+        }
+        }
+
+
+
+    </script>
+
+
+
+}

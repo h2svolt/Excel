@@ -1,0 +1,145 @@
+﻿@model IEnumerable<ExcelTranscript.Models.GetFaxStatusFilterWise_Result>
+@using ExcelTranscript.Models;
+@{
+    var db = new db_ExcelTransEntities();
+}
+<div class="box-shadow mt-3">
+
+    @if (Model != null)
+    {
+        int serialNo = 1;
+        <div class="table-responsive">
+            <table id="tblFD" class="table table-striped table-responsive table-bordered alt-pagination nowrap w-100">
+                <thead>
+                    <tr>
+                        <th>
+
+                            <input type="checkbox" id="chkSelectAll" />
+                            <label for="chkSelectAll"> All  </label>
+                        </th>
+                        <th>
+                            S. No &nbsp;
+                        </th>
+                        <th>
+                            Clinic
+                        </th>
+                        <th>
+                            &nbsp;&nbsp; Provider  &nbsp;&nbsp;
+                        </th>
+                        <th>
+                            &nbsp;&nbsp; Document Name   &nbsp;
+                        </th>
+                        <th>
+                            &nbsp;&nbsp; Patient Name       &nbsp;&nbsp;
+                        </th>
+                        <th>
+                            &nbsp;  &nbsp; Typist     &nbsp;&nbsp;
+                        </th>
+                        <th>
+                            &nbsp;&nbsp;  MRN Number    &nbsp;&nbsp;
+                        </th>
+                        <th>
+                            &nbsp;&nbsp; Fax Number    &nbsp;&nbsp;
+                        </th>
+                        <th>
+                            Faxing Date
+                        </th>
+                        <th>
+                            &nbsp;&nbsp; Status  &nbsp;&nbsp;
+                        </th>
+
+                        <th>&nbsp; Action &nbsp;</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <input type="hidden" name="fileID" class="fileID" value="@item.ID" />
+                            </td>
+                            <td>
+                                <span>
+                                    @serialNo
+                                </span>
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Clinic)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Provider)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Document)
+                            </td>
+                            <td>
+                                @{
+                                    string PatientName = string.IsNullOrWhiteSpace(item.PatientName) ? "N/A" : item.PatientName;
+                                }
+                                @PatientName
+                            </td>
+                            <td>
+                                @{
+                                    string typistName = "";
+                                    var typist = db.AspNetUsers.Where(u => u.UserId == item.TypistAssignedID).FirstOrDefault();
+                                    if (typist != null)
+                                    {
+                                        typistName = typist.UserName;
+                                    }
+                                    else
+                                    {
+                                        typistName = "N/A";
+                                    }
+                                }
+                                @typistName
+                            </td>
+                            <td>
+                                @{
+                                    item.MRN = string.IsNullOrWhiteSpace(item.MRN) ? "N/A" : item.MRN;
+                                }
+                                @item.MRN
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ToNumber)
+                            </td>
+                            <td>
+                                @Convert.ToString(string.Format("{0:MM/dd/yyyy hh:mm:ss tt}", item.AddedOn))
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+
+                            <td>
+
+                                @if (item.FaxID != null)
+                                {
+                                    <button onclick="CheckStatus(this,'@item.FaxID')" class="btn btn-sm btn-link ">
+                                        Check Status
+                                    </button>
+                                }
+
+                            </td>
+                        </tr>
+
+                        serialNo++;
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+    else
+    {
+        <text>
+            <div class="text-center p-4">
+                <b>No matching data found!</b>
+            </div>
+        </text>
+    }
+</div>
+
+

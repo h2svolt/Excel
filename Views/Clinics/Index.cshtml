@@ -1,0 +1,252 @@
+@model IEnumerable<ExcelTranscript.Models.Clinic>
+
+@{
+    ViewBag.Title = "Clinics List";
+}
+
+<section class="content">
+
+    <!-- *========== Main Heading ========== -->
+    @*<div class="pt-3 pb-2">
+            <div class="container-fluid">
+                <h2 class="main-heading">Clinic List</h2>
+            </div>
+        </div>*@
+
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0 mb-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Clinics")">Home</a></li>
+                    <li class="breadcrumb-item">Clinic </li>
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- *========== Data Table ========== -->
+    <div class="py-3">
+        <div class="container-fluid">
+
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered table-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>System ID</th>
+                            <th>Account ID</th>
+                            <th style="min-width: 150px">Name</th>
+                            <th style="min-width: 150px">Address</th>
+                            <th style="min-width: 75px">City</th>
+                            <th style="min-width: 75px">State</th>
+                            <th style="min-width: 75px">Country</th>
+                            <th style="min-width: 50px">ZipCode</th>
+                            <th style="min-width: 50px">Phone</th>
+                            <th style="min-width: 50px">Cell</th>
+                            <th style="min-width: 50px">Fax</th>
+                            <th style="min-width: 100px">Actions</th>
+
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SystemID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AccountID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Country)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ZipCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cell)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FaxNo)
+                            </td>
+                            <td style="width: 195px;">
+                                @Html.ActionLink("Edit", "Edit", "Clinics", new { id = item.ClinicID }, new { @class = "btn btn-primary", @style = "font-size:12px" })
+                                @Html.ActionLink("Delete", "Delete", "Clinics", new { id = item.ClinicID }, new { @class = "btn btn-danger", @style = "font-size:12px" })
+                                <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-whatever="" onclick="GetClinicDetails(@item.ClinicID)"> Detail </button>
+                            </td>
+
+                            @*<td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ClinicID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ClinicID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ClinicID })
+                                </td>*@
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:600px">
+                <div class="modal-header">
+                    @*<h5 class="modal-title" id="exampleModalLabel"> <p> Revised Version Of: <text id="quoteOldID"></text></p></h5>*@
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="revisedTable" class="table table-striped table-bordered alt-pagination">
+                        <thead>
+                            <tr>
+                                <th hidden> Id </th>
+                                <th> Name </th>
+                                <th> Phone </th>
+                                <th> Cell </th>
+                                <th> Address </th>
+                                <th> Email </th>
+                                <th> Pager </th>
+                                <th>  </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $("#example").dataTable({
+            sDom: '<"top" lRB> frtip',
+            //deferRender: true,
+            //scrollX: true,
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, 'All'],
+            ],
+            ordering: false,
+            buttons: [
+                {
+                    extend: 'print',
+                    messageTop: function () {
+                        return '<h3 align="center">@ViewBag.Title</h3>';
+                    },
+                    title: '',
+                    messageBottom: 'Powered by H2S Volt',
+                    exportOptions: {
+                        columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
+                },
+                {
+                    extend: 'excel',
+                    messageTop: '@ViewBag.Title',
+                    messageBottom: 'Powered by H2S Volt',
+                    //exportOptions: {
+                    //    //columns: [0, 1, 2, 3]
+                    //}
+                }
+            ]
+        });
+
+        $(document).ready(() => {
+            var message = '@ViewBag.message';
+            if (message === 'Added')
+            {
+                swal({
+                    title: "New clinic added, successfully!",
+                    text: "",
+                    icon: "success",
+                    timer: 2500,
+                });
+            }
+            else if (message === 'Edited')
+            {
+                swal({
+                    title: "Clinic details updated, successfully!",
+                    text: "",
+                    icon: "success",
+                    timer: 2500,
+                });
+            }
+            else if (message === 'Deleted')
+            {
+                swal({
+                    title: "Clinic deleted!",
+                    text: "",
+                    icon: "info",
+                    timer: 2500,
+                });
+            }
+            window.history.pushState({}, document.title, window.location.pathname);
+
+        });
+        //var col = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        //GetTableData(col, 0, "asc");
+
+        function GetClinicDetails(ClinicID) {
+            let qID = ClinicID || 0;
+            if (qID > 0) {
+
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Clinics/GetClinicDetails?ClinicID=' + qID,
+                    async: true,
+                    success: function (data) {
+                        // console.log(data);
+                        //$("#FileID").text(StrCode);
+                        $("#revisedTable tbody").empty();
+
+                        for (var i = 0; i < data.length; i++) {
+                            let Name = data[i].Name == null ? '-' : data[i].Name;
+                            let Phone = data[i].Phone == null ? '-' : data[i].Phone;
+                            let Cell = data[i].Cell == null ? '-' : data[i].Cell;
+                            let Address = data[i].Address == null ? '-' : data[i].Address;
+                            let Email = data[i].Email == null ? '-' : data[i].Email;
+                            let Pager = data[i].Pager == null ? '-' : data[i].Pager;
+
+                            var markup = "<tr>\
+                                            <td hidden> "+ data[i].ClinicID + " </td> \
+                                            <td> "+ Name + " </td> \
+                                            <td> "+ Phone + " </td> \
+                                            <td> "+ Cell + " </td> \
+                                            <td> "+ Address + " </td> \
+                                            <td> "+ Email + " </td> \
+                                            <td> "+ Pager + " </td> \
+                                            </tr>";
+
+                            $("#revisedTable tbody").append(markup);
+                        }
+                    },
+                    error: function (err) { console.log(err); }
+                });
+            }
+        }
+
+    </script>
+}

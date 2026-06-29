@@ -1,0 +1,304 @@
+﻿@model ExcelTranscript.Models.Dictator
+
+@{
+    ViewBag.Title = "Edit";
+    var SystemNo = ViewBag.SystemID;
+}
+
+<section class="content">
+
+    <!-- *========== Main Heading ========== -->
+    @*<div class="pt-3 pb-2">
+            <div class="container-fluid">
+                <h2 class="main-heading">Add Clinic</h2>
+            </div>
+        </div>*@
+
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dictators")">Home</a></li>
+                    <li class="breadcrumb-item active">Edit Provider</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- *========== Form ========== -->
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 m-auto">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.DictatorID)
+                        @Html.HiddenFor(model => model.AddedOn)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="form-title pb-2"><i class="fa fa-user-o" aria-hidden="true"></i> Login Information</h4>
+                            </div>
+                            <div class="col-md-6 py-2">
+                                <div class="form-group">
+                                    <label for="name">System ID</label>
+                                    @Html.EditorFor(model => Model.SystemID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="col-md-6 py-2">
+                                <div class="form-group">
+                                    <label> Clinic Name </label>
+                                    @Html.DropDownList("AccountID", null, "Select Clinic", htmlAttributes: new { @class = "select2 form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => Model.AccountID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label for="address">User Name</label>
+                                    @Html.EditorFor(model => model.LoginID, new { htmlAttributes = new { @class = "form-control", maxlength = "150", minlength = "2" } })
+                                    @Html.ValidationMessageFor(model => model.LoginID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Password</label>
+                                    <div class="input-group col-md-12" id="show_hide_password">
+                                        @Html.PasswordFor(modal => modal.Password, new { @class = "form-control", maxlength = "100", minlength = "2" })
+                                        <div class="input-group-addon" title="Show Password" style="background: #E8F0FE;padding: 0px 10px;border-radius: 0px 5px 5px 0px;">
+                                            <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-2">
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    @Html.Password("confirmPassword", null, new { @class = "form-control", id = "confirmPassword", maxlength = "100", @type = "password", minlength = "2" })
+                                    <span class="text-danger" id="notMatchingError"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-2 mt-4">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(x => x.AllClientAccess, new { @class = "form-check-input", @id = "AllClientAccess" })
+                                    <label for="AllClientAccess" class="control-label">All Client Access</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-2 mt-4">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", @id = "IsActive" })
+                                    <label for="IsActive">InActive</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="form-title pb-2"><i class="fa fa-user-o" aria-hidden="true"></i> Personal Information</h4>
+                            </div>
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label for="account_Id">Prefix</label>
+                                    @Html.DropDownList("Prefix", new List<SelectListItem>{
+                                                  new SelectListItem{ Text="Select", Value = "0" },
+                                                  new SelectListItem{ Text="Dr", Value = "Dr" },
+                                                  new SelectListItem{ Text="Mr", Value = "Mr" },
+                                                  new SelectListItem{ Text="Ms", Value = "Ms" },
+                                                  new SelectListItem{ Text="Mrs", Value = "Mrs" },
+                                              }, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Prefix, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label for="name">First Name</label>
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @required = "required", maxlength = "150", minlength = "2" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label for="name">Middle Name</label>
+                                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", maxlength = "150", minlength = "0" } })
+                                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label for="name">Last Name</label>
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @required = "required", maxlength = "150", minlength = "2" } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="form-title pb-2"><i class="fa fa-user-o" aria-hidden="true"></i> Professional Information</h4>
+                            </div>
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label for="account_Id">Speciality</label>
+                                    @if (User.IsInRole("Provider"))
+                                    {
+                                        @Html.DropDownList("SpecialityID", null, "Select Speciality", htmlAttributes: new { @class = "select2 form-control", required = "required" , @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("SpecialityID", null, "Select Speciality", htmlAttributes: new { @class = "select2 form-control", required = "required" })
+                                    }
+                                    @Html.ValidationMessageFor(model => model.SpecialityID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 py-2">
+                                <div class="form-group">
+                                    <label for="Secretary">Secretary</label>
+                                    @Html.EditorFor(model => model.SecretaryName, new { htmlAttributes = new { @class = "form-control", @required = "required", maxlength = "150", minlength = "2" } })
+                                    @Html.ValidationMessageFor(model => model.SecretaryName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 py-2 mt-4">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(x => x.IsFax, new { @class = "form-check-input", @id = "IsFax" })
+                                    <label for="IsFax">Is Fax</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 py-2 mt-4">
+                                <div class="form-check">
+                                    @Html.CheckBox("AddSign", Model != null && Model.AddSign == true, new { @class = "form-check-input", @id = "AddSign" })
+                                    <label for="AddSign">Add Sign</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-2">
+                                <div class="form-group">
+                                    <label for="NoOfLine">Characters per Line</label>
+                                    @Html.EditorFor(model => model.NoOfLine, new { htmlAttributes = new { @class = "form-control", @required = "required", oninvalid = "this.setCustomValidity('Please enter valid number for Characters Per Line.')", @oninput = "this.setCustomValidity('')", max = "100000", min = "1" } })
+                                    @Html.ValidationMessageFor(model => model.NoOfLine, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-2">
+                                <div class="form-group">
+                                    <label for="RateOfLine">Rate per Line</label>
+                                    @Html.EditorFor(model => model.RateOfLine, new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern=@"^\d*(\.\d{0,2})?$",
+                                   oninvalid = "this.setCustomValidity('Please enter valid Rate Per Line.')", @oninput= "this.setCustomValidity('')", step="0.01", max = "100000", min = "0" } })
+                                    @Html.ValidationMessageFor(model => model.RateOfLine, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="form-title pb-2">
+                                    <i class="fa fa-user-o" aria-hidden="true"></i> Contact Information
+                                </h4>
+                            </div>
+                            <div class="col-md-4 py-2">
+                                <div class="form-group">
+                                    <label for="pName">Name</label>
+                                    @Html.EditorFor(model => model.CP_Name, new { htmlAttributes = new { @class = "form-control", maxlength = "150", minlength = "2" } })
+                                    @Html.ValidationMessageFor(model => model.CP_Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 py-2">
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    @Html.EditorFor(model => model.CP_Phone, new { htmlAttributes = new { @class = "form-control", @type = "number", maxlength= "25", minlength = "7" } })
+                                    @Html.ValidationMessageFor(model => model.CP_Phone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 py-2">
+                                <div class="form-group">
+                                    <label for="cell">Cell</label>
+                                    @Html.EditorFor(model => model.CP_Cell, new { htmlAttributes = new { @class = "form-control", @type = "number", maxlength = "25", minlength = "7" } })
+                                    @Html.ValidationMessageFor(model => model.CP_Cell, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 py-2">
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    @Html.EditorFor(model => model.CP_Address, new { htmlAttributes = new { @class = "form-control", maxlength = "500", minlength = "2" } })
+                                    @Html.ValidationMessageFor(model => model.CP_Address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 py-2">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    @Html.EditorFor(model => model.CP_Email, new { htmlAttributes = new { @class = "form-control",  @type = "email" } })
+                                    @Html.ValidationMessageFor(model => model.CP_Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 py-2">
+                                <div class="form-group">
+                                    <label for="pager">Pager</label>
+                                    @Html.EditorFor(model => model.CP_Pager, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CP_Pager, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <div class="col-md-12 pt-2">
+                                <input type="button" value="Save" class="form-btn mr-2" id="btnSubmitClient" />
+                                <input type="submit" value="Save" class="form-btn mr-2 d-none" id="btnSubmit" />
+                                <button type="button" class="form-btn-cancel mr-2" onclick="location.href='@Url.Action("Index", "Dictators")'">                                    
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+
+    <script>
+        $("#AccountID").select2();
+        $("#SpecialityID").select2();
+
+        $(document).ready(function () {
+            $("#show_hide_password a").on('click', function (event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("fa-eye-slash");
+                    $('#show_hide_password i').removeClass("fa-eye");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("fa-eye-slash");
+                    $('#show_hide_password i').addClass("fa-eye");
+                }
+            });
+        });
+        $("#confirmPassword").on('keyup', function (event) {
+            var password = $('#Password').val();
+            var confirmPassword = $(this).val();
+            if (password !== confirmPassword) {
+                $('#notMatchingError').show().html('Password and confirm password not matching.');
+            } else {
+                $('#notMatchingError').hide().html('');
+            }
+        });
+        $("#btnSubmitClient").on('click', function (event) {
+            //event.preventDefault();
+            var password = $('#Password').val();
+            var confirmPassword = $('#confirmPassword').val();
+            if (password !== confirmPassword) {
+                $('#notMatchingError').show().html('Password and confirm password not matching.');
+                return;
+            } else {
+                $('#btnSubmit').click();
+                //swal('Excel Transcript', 'Provider added successfully', 'success').then(() => {
+                //    window.location.href = '/Dictators';
+                //});
+            }
+        });
+    </script>
+}

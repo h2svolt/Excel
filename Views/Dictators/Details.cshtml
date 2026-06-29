@@ -1,0 +1,178 @@
+﻿@model ExcelTranscript.Models.Dictator
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Dictator</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SystemID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoginID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoginID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AllClientAccess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AllClientAccess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Prefix)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prefix)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSecretary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSecretary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsFax)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsFax)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsReview)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsReview)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Clinic.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clinic.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Secretary.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Secretary.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Speciality.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Speciality.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DictatorID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

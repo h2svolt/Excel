@@ -1,0 +1,456 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Excel Transcript</title>
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- *========== Custom Css ========== -->
+    <link rel="stylesheet" href="~/Theme/assets/style/bootstrap.min.css">
+    <link href="~/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/DataTables/Select-1.2.6/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.css" rel="stylesheet" />
+
+    @*<link rel="stylesheet" href="sweetalert2.min.css">*@
+    @*<link href="~/Theme/assets/style/dataTable/buttons.dataTables.min.css" rel="stylesheet" />*@
+    <link href="~/Theme/assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 30px;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 30px;
+        }
+
+        .disablefocus:focus {
+            box-shadow: none !important;
+            border-color: #b5b5b5;
+        }
+
+        .disablefocus {
+            border-color: #b5b5b5;
+            font-size: 14px !important;
+            height: 31px !important;
+        }
+
+        .dropdown-menu {
+            margin-top: 1rem !important;
+        }
+
+        .table thead tr th {
+            padding: 5px 10px !important;
+            vertical-align: middle !important;
+        }
+
+        .dt-buttons {
+            margin-left: 50px !important;
+        }
+
+        /*  input[type=search] {
+            width: 250px !important;
+            padding: 10px !important;
+        }
+        input[type=search]:focus {
+            width: 250px !important;
+            padding: 10px !important;
+        }*/
+
+        .btn-record {
+            position: relative;
+            padding: 7px 40px;
+            border: none;
+            background-color: #e74c3c;
+            color: white;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-record:hover {
+                background-color: #c0392b;
+            }
+
+        .record-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        }
+
+            .record-icon::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 10px;
+                height: 10px;
+                background-color: red;
+                border-radius: 50%;
+            }
+    </style>
+
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Theme/assets/style/style.css">
+
+</head>
+<body>
+    <div id="overlay" class="Loader">
+        <!-- *========== Loader ========== -->
+        <div class="windows8">
+            <div class="wBall" id="wBall_1">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_2">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_3">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_4">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_5">
+                <div class="wInnerBall"></div>
+            </div>
+            <h4 style="margin-top: 100px;position: fixed;color: #d10303;z-index: 9999;">
+                Loading...
+            </h4>
+        </div>
+    </div>
+
+    <!-- *========== Header ========== -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navb">
+                    <a class="navbar-brand" href="home">
+                        <img src="~/Theme/assets/images/logo.png" alt="Excel Transcription" width="160">
+                    </a>
+                    @if (Request.IsAuthenticated)
+                    {
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item d-none">
+                            <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                        </li>
+
+                        @if (@User.IsInRole("Admin") || @User.IsInRole("SuperAdmin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Manager
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Create", "Managers")">Add Manager</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Managers")">Managers List</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Clinic
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Create", "Clinics")">Add Clinic</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Clinics")">Clinic List</a>
+                                    <a class="dropdown-item" href="@Url.Action("Create", "Specialities")">Add Speciality</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Specialities")">Speciality List</a>
+                                    <a class="dropdown-item" href="@Url.Action("Create", "Modalities")">Add Modality</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Modalities")">Modality List</a>
+                                    @*<a class="dropdown-item" href="@Url.Action("Create", "Secretaries")">Add Secretary</a>*@
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Secretaries")">Secretary List</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Provider
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Create", "Dictators")">Add Provider</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Dictators")">Provider List</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Typist
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Create", "Typist")">Add Typist</a>
+                                    <a class="dropdown-item" href="@Url.Action("SearchTypistList", "UploadFiles")">Assign Typist</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Typist")">Typist List</a>
+                                </div>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "ActivityLogs")">
+                                    Activity Log
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown" hidden>
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Address Book
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Add Address Book</a>
+                                    <a class="dropdown-item" href="#">Address Book List</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dictations
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="@Url.Action("Upload", "UploadFiles")">Upload</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "UploadFiles")">Dictations List</a>
+
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Documents
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Upload", "WordDocUpload")">Upload</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "WordDocUpload")">Document List</a>
+                                </div>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-dark" href="@Url.Action("DocumentReport", "WordDocUpload")">
+                                    Document Report
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "FaxStatus")">
+                                    Fax Status
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "Historic")">
+                                    Historic Entry
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "UserManagement")">
+                                    User Management
+                                </a>
+                            </li>
+                        }
+
+                        else if (@User.IsInRole("Typist"))
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dictations
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="@Url.Action("Index", "UploadFiles")">Dictations List</a>
+
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Documents
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Upload", "WordDocUpload")">Upload</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "WordDocUpload")">Document List</a>
+                                </div>
+                            </li>
+
+                        }
+                        else if (@User.IsInRole("Provider"))
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dictations
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="@Url.Action("Upload", "UploadFiles")">Upload</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "UploadFiles")">Dictations List</a>
+
+                                </div>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "ActivityLogs")">
+                                    Activity Log
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "FaxStatus")">
+                                    Fax Status
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+
+                                <div class="container">
+                                    <a href="@Url.Action("Record", "Home")">
+                                        <button class="btn btn-record">
+                                            <span class="record-icon"></span>
+                                            Record
+                                   
+                                    </button></a>
+                                </div>
+                            </li>
+
+
+                        }
+                        else if (@User.IsInRole("Manager"))
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dictations
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Upload", "UploadFiles")">Upload</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "UploadFiles")">Dictations List</a>
+
+                                </div>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "ActivityLogs")">
+                                    Activity Log
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "FaxStatus")">
+                                    Fax Status
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Documents
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Index", "WordDocUpload")">Document List</a>
+                                </div>
+                            </li>
+                        }
+
+                    </ul>
+                        @*<input type="text" placeholder="Search.." id="mastersearch" name="search">
+                            <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>*@
+                        <div class="dropdown show mr-6">
+                            <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> @User.Identity.Name
+                            </a>
+
+                            @if (Request.IsAuthenticated)
+                            {
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                        @if (@User.IsInRole("Admin") || @User.IsInRole("SuperAdmin"))
+                                        {
+                                            <a class="dropdown-item" href="@Url.Action("Register", "Account")">
+                                                <i class="fa fa-user-plus" aria-hidden="true"></i> Register User
+                                            </a>
+                                        }
+                                        <a class="dropdown-item" href="@Url.Action("ChangePassword", "Manage")">
+                                            <i class="fa fa-lock" aria-hidden="true"></i>&nbsp; Change password
+                                        </a>
+                                        <a class="dropdown-item" href="@Url.Action("LogOff", "Account")">
+                                            <i class="fa fa-power-off" aria-hidden="true"></i> Logout
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <i class="ft-log-in"></i>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- *========== Header END ========== -->
+    <!-- *========== Content ========== -->
+    <section class="content">
+        @RenderBody()
+    </section>
+
+    <!-- *========== Footer ========== -->
+    <footer class="py-2">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Powered by <a href="https://www.h2svolt.com/" target="_blank">H2S Volt</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- *========== Js Lib ========== -->
+    <script src="~/Theme/assets/js/jquery.min.js"></script>
+    <script src="~/Theme/assets/js/bootstrap.min.js"></script>
+    <script src="~/Theme/assets/js/popper.min.js"></script>
+    <script src="~/DataTables/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="~/DataTables/datatables.min.js"></script>
+    <script src="~/DataTables/Select-1.2.6/js/dataTables.select.min.js"></script>
+    @*<script src="~/Theme/assets/js/dataTable/data-table-jquery.min.js"></script>
+        <script src="~/Theme/assets/js/dataTable/data-table.min.js"></script>
+        <script src="~/Theme/assets/js/dataTables.buttons.min.js"></script>*@
+    <script src="~/Scripts/select2.min.js"></script>
+    @**<script src="~/Scripts/select2.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/select2.full.js"></script>*@
+    <!-- *========== Custom Js ========== -->
+    @*<script src="~/Theme/assets/js/frontend.js"></script>*@
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryui")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

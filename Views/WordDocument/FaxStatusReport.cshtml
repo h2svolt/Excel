@@ -1,0 +1,196 @@
+@model IEnumerable<ExcelTranscript.Models.FaxStatu>
+
+@{
+    ViewBag.Title = "Document Report";
+}
+
+<section class="content">
+
+    <!-- *========== Main Heading ========== -->
+    @*<div class="pt-3 pb-2">
+            <div class="container-fluid">
+                <h2 class="main-heading">Clinic List</h2>
+            </div>
+        </div>*@
+
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0 mb-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("WordDocument", "GetFaxStatusList")">Home</a></li>
+                    <li class="breadcrumb-item active">Fax Status Report</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- *========== Data Table ========== -->
+    <div class="py-3">
+        <div class="container-fluid">
+            <!-- *========== Filter ========== -->
+            <div class="py-2">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="" method="" class="py-2 px-3 box-shadow box-rounded">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="form-title p-0 mb-1"><i class="fa fa-filter" aria-hidden="true"></i> Filter</h5>
+                                    </div>
+
+                                    @*<div class="col-md-3">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="Clinic">Clinic</label>
+                                            @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), "Select Clinic", htmlAttributes: new { @class = "select2 form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="Provider">Provider</label>
+                                            @if (User.IsInRole("Provider"))
+                                            {
+                                                @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), new { @class = "form-control", @Disabled = "Disabled" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), "Select Provider", htmlAttributes: new { @class = "select2 form-control" })
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="Typist">Typist</label>
+                                            @Html.DropDownList("TypistAssignID", new SelectList(ViewBag.GetTypist, "Value", "text"), "Select Typist", htmlAttributes: new { @class = "select2 form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="StatusId">Status</label>
+                                            @Html.DropDownList("StatusId", new SelectList(ViewBag.StatusID, "Value", "text"), "Select Status", htmlAttributes: new { @class = "select2 form-control" })
+                                        </div>
+                                    </div>*@
+                                    
+                                    <div class="col-md-2">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="from">From</label>
+                                            <input id="fromDate" type="date" class="form-control" name="from">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="to">To</label>
+                                            <input id="toDate" type="date" class="form-control" name="to">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" style="padding-top:27px;">
+                                        <button type="button" class="btn btn-primary" id="btnSearch">
+                                        <i class="fa fa-search"></i>&nbsp;Search</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div id="SearchResult">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+@section scripts{
+    <script>
+
+
+        $("#btnSearch").on("click", function () {
+            //console.log("test");
+            //var DictatorID = $('#DictatorID').val();
+            //var ClinicID = $('#ClinicID').val();
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            var StatusId = $('#StatusId').val();
+            var html = '<img src="@ViewBag.Picture" class="brand-logo" align = "left" margin="10px"><h1  align="center">@ViewBag.CompanyName</h1><h5 align="center">@ViewBag.CompanyAddress </h5><h5 align="center">Contact: @ViewBag.CompanyCell</h5><hr /><h4 align="center"> @ViewBag.Title </h4>';
+
+
+            if (fromDate != "" && toDate != "")
+            {
+                html += "<h4>From:    " + fromDate + "            TO:    " + toDate + " </h4>";
+            }
+
+            $.ajax({
+                url: "@Url.Action("DocumentReport", "WordDocUpload")",
+                data: {
+                    btn: true,
+                    DictatorID: $('#DictatorID').val(),
+                    ClinicID: $('#ClinicID').val(),
+                    StatusId: $('#StatusId').val(),
+                    fromDate: $('#fromDate').val(),
+                    toDate: $('#toDate').val(),
+TypistAssignID: $('#TypistAssignID').val(),
+
+
+                },
+                success: function (data) {
+                    $("#SearchResult").html(data);
+                    $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+                    messageTop: function () {
+                        return '<h3 align="center">Notification List</h3>';
+                        //return '<h3 align="center" style="margin-top:208px; margin-bottom:76px;">Products List</h3>';
+                    },
+                    title: '',
+                    messageBottom: 'Powered by H2S Volt',
+                    exportOptions: {
+                       // columns: [0, 1, 2, 3]
+                    }
+                },
+                {
+                    extend: 'excel',
+                    messageTop: 'Notification List',
+                    messageBottom: 'Powered by H2S Volt',
+                    exportOptions: {
+                        //columns: [0, 1, 2, 3]
+                    }
+                }
+            ]
+        });
+        }
+             });
+        });
+
+    $("#ClinicID").change(function () {
+            var ClinicID = $('#ClinicID').val();
+            getProviders(ClinicID);
+        });
+
+        function getProviders(ClinicID) {
+
+            if (ClinicID == "") { ClinicID = -1; }
+            var json = { "ClinicID": ClinicID };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '/Dictators/GetProviders',
+                async: true,
+                data: JSON.stringify(json),
+                success: function (data) {
+                    console.log(data)
+                    GetDropdown("DictatorID", data, true);
+                },
+                error: function (err) { console.log(err); }
+            });
+        }
+
+</script>
+}

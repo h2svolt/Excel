@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ExcelTranscript.Models.Modality>
+
+@{
+    ViewBag.Title = "Modality List";
+}
+
+<section class="content">
+
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Modalities")">Home</a></li>
+                    <li class="breadcrumb-item ">Clinic</li>
+                    <li class="breadcrumb-item active">@ViewBag.Title </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- *========== Data Table ========== -->
+    <div class="py-3 px-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Modality Name</th>
+                                <th>Action</th>
+                            </tr>
+                            
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModalityName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Modalities", new { id = item.Id }, new { @class = "btn btn-primary", @style = "font-size:12px" })
+                            @Html.ActionLink("Delete", "Delete", "Modalities", new { id = item.Id }, new { @class = "btn btn-danger", @style = "font-size:12px" })
+                        </td>
+                    </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(() => {
+            var message = '@ViewBag.message';
+            if (message === 'Added')
+            {
+                swal({
+                    title: "New modality added, successfully!",
+                    text: "",
+                    icon: "success",
+                    timer: 2500,
+                });
+            }
+            else if (message === 'Edited')
+            {
+                swal({
+                    title: "Modality details updated, successfully!",
+                    text: "",
+                    icon: "success",
+                    timer: 2500,
+                });
+            }
+            else if (message === 'Deleted')
+            {
+                swal({
+                    title: "Modality deleted!",
+                    text: "",
+                    icon: "info",
+                    timer: 2500,
+                });
+            }
+            window.history.pushState({}, document.title, window.location.pathname);
+
+        });
+    </script>
+}

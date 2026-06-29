@@ -1,0 +1,430 @@
+@model IEnumerable<ExcelTranscript.Models.GetFaxStatusFilterWise_Result>
+
+@{
+    ViewBag.Title = "Fax Status Report";
+}
+<section class="content">
+
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0 mb-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "WordDocUpload")">Home</a></li>                   
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- *========== Filter ========== -->
+    <div class="py-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="" method="" class="py-2 px-3 box-shadow box-rounded">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="form-title p-0 mb-1"><i class="fa fa-filter" aria-hidden="true"></i> Filters</h5>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Clinic">Clinic</label>
+                                    @if (User.IsInRole("Provider"))
+                                    {
+                                        @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), "Select Clinic", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Provider">Provider</label>
+                                    @if (User.IsInRole("Provider"))
+                                    {
+                                        @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), "Select Provider", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Typist">Typist</label>
+                                    @Html.DropDownList("TypistAssignID", new SelectList(ViewBag.GetTypist, "value", "text"), "Select Typist", htmlAttributes: new { @class = "select2 form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">Fax Status</label>
+                                    <select class="form-control" id="StatusId">
+                                        <option value="" selected>Select Fax Status</option>
+                                        <option value="Sent">Sent</option>
+                                        <option value="SendingFailed">Failed</option>
+                                        <option value="Wait to convert">Waiting</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">From Date</label>
+                                    <input id="fromDate" type="text" class="form-control disablefocus" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">To Date</label>
+                                    <input id="toDate" type="text" class="form-control disablefocus" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">DOT From</label>
+                                    <input id="dotFromDate" type="text" class="form-control disablefocus datefilter" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">DOT To</label>
+                                    <input id="dotToDate" type="text" class="form-control disablefocus datefilter" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">DOS From</label>
+                                    <input id="dosFromDate" type="text" class="form-control disablefocus datefilter" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">DOS To</label>
+                                    <input id="dosToDate" type="text" class="form-control disablefocus datefilter" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">DOB From</label>
+                                    <input id="dobFromDate" type="text" class="form-control disablefocus datefilter" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0">DOB To</label>
+                                    <input id="dobToDate" type="text" class="form-control disablefocus datefilter" />
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="text-white m-0">asdf</label>
+                                    <button type="button" class="btn btn-primary w-100" id="btnSearch">
+                                        <i class="fa fa-search"></i>&nbsp;Search
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="text-white m-0">asdf</label>
+                                    <button type="button" class="btn btn-info w-100" id="btnReFreshFaxStatus">
+                                        <i class="fa fa-send-o"></i>&nbsp;Refresh FaxStatus
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                    <div id="SearchResult">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@section scripts{
+    <script src="~/Scripts/General.js"></script>
+<script>        
+        $(document).ready(function () {
+
+            $("#DictatorID").select2();
+            $("#ClinicID").select2();
+            $("#TypistAssignID").select2();
+            $("#StatusId").select2();
+
+            var date = new Date();
+            date.setDate(date.getDate() - 1);
+
+            $("#fromDate").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+            $("#toDate").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+
+            $(".datefilter").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+
+            $("#fromDate").datepicker('setDate', date);
+            $("#toDate").datepicker('setDate', new Date());
+            $("#btnSearch").trigger("click");
+
+        });
+
+        $("#btnSearch").on("click", function () {
+            $('.Loader').show();
+            var DictatorID = $('#DictatorID').val();
+            if (DictatorID == '') {
+                $("#DictatorID option").each(function () {
+                    DictatorID += $(this).val() + ",";
+                });
+            }
+
+            var ClinicID = $('#ClinicID').val();
+            if (ClinicID == '') {
+                $("#ClinicID option").each(function () {
+                    ClinicID += $(this).val() + ",";
+                });
+            }
+
+            $.ajax({
+                url: "@Url.Action("Index", "FaxStatus")",
+                data: {
+                    btn: true,
+                    DictatorID: DictatorID,
+                    ClinicID: ClinicID,
+                    TypistID: $('#TypistAssignID').val(),
+                    StatusId: $('#StatusId').val(),
+                    fromDate: $('#fromDate').val(),
+                    toDate: $('#toDate').val(),
+                    DotFromDate: $('#dotFromDate').val(),
+                    DotToDate: $('#dotToDate').val(),
+                    DosFromDate: $('#dosFromDate').val(),
+                    DosToDate: $('#dosToDate').val(),
+                    DobFromDate: $('#dobFromDate').val(),
+                    DobToDate: $('#dobToDate').val()
+                },
+                success: function (data) {
+
+                    $("#SearchResult").html(data);
+
+                    $('#tblFD').dataTable({
+                        columnDefs: [{
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: 0
+                        }],
+                        select: {
+                            style: 'multi',
+                            selector: 'td:first-child'
+                        },
+                        ordering: false,
+                        stateSave: true,
+                        dom: '<"top" lRB> frtip',
+                        lengthMenu: [
+                            [10, 25, 50, 100, -1],
+                            [10, 25, 50, 100, 'All'],
+                        ],
+                        buttons: [
+                            {
+                                extend: 'print',
+                                messageTop: function () {
+                                    return '<h3 align="center">@ViewBag.Title</h3>';
+                                },
+                                title: '',
+                                messageBottom: 'Powered by H2S Volt',
+                                exportOptions: {
+                                    columns: [2, 3, 4, 5, 6, 7, 8, 9]
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                messageTop: '@ViewBag.Title',
+                                messageBottom: 'Powered by H2S Volt',
+                                exportOptions: {
+                                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                }
+                            },
+                            {
+                                text: 'Resend Selected',
+                                action: function (e, dt, node, config) {
+                                    var selectedItems = $('#tblFD').DataTable().rows({ selected: true });
+                                    RefreshSelectedItems(selectedItems);
+                                }
+                            }
+                        ]
+                    });
+                    $('.Loader').hide();
+
+                },
+                error: function (xhr, status, egg) {
+                    $('.Loader').hide();
+
+                }
+            });
+        });
+
+        $("#btnReFreshFaxStatus").on("click", function () {
+            $('.Loader').show();
+
+            $.ajax({
+                url: "@Url.Action("RefreshFaxStatus", "FaxStatus")",
+                type:'POST',
+                contentType: 'application/json',
+                async: true,
+                success: function (response) {
+                    $('.Loader').hide();
+                    if (response == "success"){
+                        swal({
+                            title: "Fax Status Refreshed",
+                            text: "Fax status refresh completed successfully.",
+                            icon: "success",
+                            button: "Okay"
+                        });
+                    } else {
+                        swal({
+                            title: "Fax Status",
+                            text: "Fax status refresh failed.",
+                            icon: "warning",
+                            button: "Okay"
+                        });
+                    }
+                },
+                error: function (xhr, status) {
+                    $('.Loader').hide();
+                    console.log(xhr);
+                    console.log(status);
+                }
+                });
+        });
+
+    $("#ClinicID").change(function () {
+        var ClinicID = $('#ClinicID').val();
+        getProviders(ClinicID);
+    });
+
+    function getProviders(ClinicID) {
+
+        if (ClinicID == "") { ClinicID = -1; }
+        var json = { "ClinicID": ClinicID };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: '/Dictators/GetProviders',
+            async: true,
+            data: JSON.stringify(json),
+            success: function (data) {                
+                GetDropdown("DictatorID", data, true);
+            },
+            error: function (err) { console.log(err); }
+        });
+    }
+        $(document).on('change', '#chkSelectAll', function () {
+            if ($(this).is(":checked")) {
+                $("#tblFD").DataTable().rows().select();
+            } else {
+                $("#tblFD").DataTable().rows().deselect();
+            }
+        });
+
+        function RefreshSelectedItems(selectedItems) {
+            if (selectedItems.count() == 0) {
+               swal({
+                   title: "Warning: Please Select!",
+                   text: "Please select item(s) to refresh their fax status!",
+                   icon: "warning",
+                   button: "Okay"
+               });
+            } else {
+                $('.Loader').show();
+
+                let param = '';
+                selectedItems.data().each(function (value, index) {
+                    let id = value[0].substring(57, value[0].length - 2);
+                    param += `` + id + `,`;
+                });
+                param = param.substring(0, param.length - 1);
+
+                $.ajax({
+                    url: '@Url.Action("RefreshFaxStatus", "FaxStatus")?selectedIds=' + param,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    async: true,
+                    success: function (response) {
+                        $('.Loader').hide();
+                        $("#tblFD").DataTable().rows().deselect();
+                        $("#chkSelectAll").prop('checked', false);
+
+                        if (response == "success"){
+                            swal({
+                                title: "Fax Status Refreshed",
+                                text: "Fax status refresh completed successfully.",
+                                icon: "success",
+                                button: "Okay"
+                            });
+                        } else {
+                            swal({
+                                title: "Fax Status",
+                                text: "Fax status refresh failed.",
+                                icon: "warning",
+                                button: "Okay"
+                            });
+                        }
+                    },
+                    error: function (xhr, status) {
+                        $('.Loader').hide();
+                        console.log(xhr);
+                        console.log(status);
+                    }
+                    });
+
+            }
+    }
+
+    function CheckStatus(e, FaxId) {
+            $('.Loader').show();
+            //var prevText = $(e).parents('tr').find('td')[9].innerText;
+            if (FaxId != null || FaxId != '') {
+                 $.ajax({
+                     type: "POST",
+                     contentType: "application/json; charset=utf-8",
+                     url: '@Url.Action("CheckStatus", "FaxStatus")',
+                     dataType: "json",
+                     data: JSON.stringify({ 'FaxID': FaxId }),
+                     async: true,
+                     success: function (data) {
+                         if(data != "" && data != null)
+                         {
+                             $(e).parents('tr').find('td')[9].innerText = data;
+                         }
+                         $('.Loader').hide();
+                     },
+                     error: function (xhr, status) {
+                         $('.Loader').hide();
+                     }
+                 });
+            } else {
+                $('.Loader').hide();
+            }
+    }
+
+</script>
+
+
+}
+
+

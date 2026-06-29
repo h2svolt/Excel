@@ -1,0 +1,66 @@
+﻿@using ExcelTranscript.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+<section class="login-bg">
+    <div class="pt-5 text-center">
+        <h2 style="color: #79c5e0;">Excel Transcriptions</h2>
+        <p class="text-light">HIPAA Compliant Transcription Services</p>
+        @*<img src="~/Theme/assets/images/upload.png" style="align-content:center"/>*@
+    </div>
+    <div class="login-form">        
+            @*<div class="col-md-6 img"></div>*@
+            <div class="py-5 px-3">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @*@Html.AntiForgeryToken()*@
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger bg-white" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", maxlength = "50", minlength = "2" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Password</label>
+                        <div class="input-group col-md-12" id="show_hide_password">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", maxlength = "100", minlength = "2" })
+                            <div class="input-group-addon" title="Show Password" style="background: #E8F0FE;padding: 0px 10px;border-radius: 0px 5px 5px 0px;">
+                                <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger col-md-12 mt-1" })
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-4">
+                            <input type="submit" value="Log in" class="btn login-btn" />
+                        </div>
+                    </div>
+                }
+            </div>        
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#show_hide_password a").on('click', function (event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("fa-eye-slash");
+                    $('#show_hide_password i').removeClass("fa-eye");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("fa-eye-slash");
+                    $('#show_hide_password i').addClass("fa-eye");
+                }
+            });
+        });
+    </script>
+}

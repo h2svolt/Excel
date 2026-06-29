@@ -1,0 +1,207 @@
+﻿@model ExcelTranscript.Models.Clinic
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<section class="content">
+
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Clinics")">Home</a></li>
+                    <li class="breadcrumb-item active">Edit Clinic</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 m-auto">
+                    @using (Html.BeginForm("Edit", "Clinics",
+new { ReturnUrl = ViewBag.ReturnUrl },
+FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ClinicID)
+                            @Html.HiddenFor(model => model.AddedOn)
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="form-title pb-2"><i class="fa fa-user-o" aria-hidden="true"></i> Account Information</h4>
+                                </div>
+                                <div class="col-md-6 py-2">
+                                    <div class="form-group">
+                                        <label for="name">System ID</label>
+                                        @Html.EditorFor(model => model.SystemID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 py-2">
+                                    <div class="form-group">
+                                        <label for="">Account ID</label>
+                                        @Html.EditorFor(model => model.AccountID, new { htmlAttributes = new { @class = "form-control", maxlength = "100", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.AccountID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 py-2">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required", maxlength = "150", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="form-title pb-2"><i class="fa fa-user-o" aria-hidden="true"></i> Contact Information</h4>
+                                </div>
+                                <div class="col-md-3 py-2">
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", maxlength = "500", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3 py-2">
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", maxlength = "100", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 py-2">
+                                    <div class="form-group">
+                                        <label for="state">State</label>
+                                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", maxlength = "100", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 py-2">
+                                    <div class="form-group">
+                                        <label for="zipCode">Zip Code</label>
+                                        @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control", maxlength = "50", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 py-2">
+                                    <div class="form-group">
+                                        <label for="country">Country</label>
+                                        @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", maxlength = "100", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2 py-2">
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", maxlength = "25", minlength = "7" } })
+                                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 py-2">
+                                    <div class="form-group">
+                                        <label for="cell">Cell</label>
+                                        @Html.EditorFor(model => model.Cell, new { htmlAttributes = new { @class = "form-control", maxlength = "25", minlength = "7" } })
+                                        @Html.ValidationMessageFor(model => model.Cell, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 py-2">
+                                    <div class="form-group">
+                                        <label for="faxNo">fax No</label>
+                                        @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", maxlength = "100", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.FaxNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3 py-2">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3 py-2">
+                                    <div class="form-group">
+                                        <label for="url">URL</label>
+                                        @Html.EditorFor(model => model.URL, new { htmlAttributes = new { @class = "form-control", @type = "url" } })
+                                        @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="form-title pb-2">
+                                        <i class="fa fa-user-o" aria-hidden="true"></i> Contact Person's
+                                        Information
+                                    </h4>
+                                </div>
+                                <div class="col-md-4 py-2">
+                                    <div class="form-group">
+                                        <label for="pName">Name</label>
+                                        @Html.EditorFor(model => model.CP_Name, new { htmlAttributes = new { @class = "form-control", maxlength = "150", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.CP_Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 py-2">
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        @Html.EditorFor(model => model.CP_Phone, new { htmlAttributes = new { @class = "form-control", maxlength = "25", minlength = "7" } })
+                                        @Html.ValidationMessageFor(model => model.CP_Phone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 py-2">
+                                    <div class="form-group">
+                                        <label for="cell">Cell</label>
+                                        @Html.EditorFor(model => model.CP_Cell, new { htmlAttributes = new { @class = "form-control", maxlength = "25", minlength = "7" } })
+                                        @Html.ValidationMessageFor(model => model.CP_Cell, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 py-2">
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        @Html.EditorFor(model => model.CP_Address, new { htmlAttributes = new { @class = "form-control", maxlength = "500", minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.CP_Address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 py-2">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        @Html.EditorFor(model => model.CP_Email, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                        @Html.ValidationMessageFor(model => model.CP_Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 py-2">
+                                    <div class="form-group">
+                                        <label for="pager">Pager</label>
+                                        @Html.EditorFor(model => model.CP_Pager, new { htmlAttributes = new { @class = "form-control", maxlength = "150", minlength = "0" } })
+                                        @Html.ValidationMessageFor(model => model.CP_Pager, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="row">
+                                <div class="col-md-12 pt-2">
+                                    @*<input type="submit" value="Save" class="btn btn-default" />*@
+                                    <input type="submit" value="Save" class="form-btn mr-2" />
+        <button type="button" class="form-btn-cancel mr-2" onclick="location.href='@Url.Action("Index", "Clinics")'">
+            Cancel
+        </button>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    @*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

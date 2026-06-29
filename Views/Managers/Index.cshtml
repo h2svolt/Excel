@@ -1,0 +1,192 @@
+@using ExcelTranscript.Models
+
+@model IEnumerable<ExcelTranscript.Models.GetManagers_Result>
+
+@{
+    ViewBag.Title = "Managers List";
+    var db = new db_ExcelTransEntities();
+    var dictators = db.Dictators.ToList();
+    var clinics = db.Clinics.ToList();
+    var managerClinics = db.ManagerClinics.ToList();
+
+    int index = 1;
+
+}
+<style>
+    .customEdit {
+        font-size: 12px !important;
+    }
+</style>
+<section class="content">
+
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-white px-0 mb-0">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Managers")">Home</a></li>
+                <li class="breadcrumb-item ">Managers</li>
+                <li class="breadcrumb-item active">@ViewBag.Title</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="py-3">
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <table id="tblManagers" class="display table table-striped table-bordered table-responsive w-100">
+                    <thead>
+                        <tr>
+
+                            <th style="min-width: 50px;">
+                                S. No
+                            </th>
+                            <th style="min-width: 175px;">
+                                User Name
+                            </th>
+                            <th style="min-width: 150px;">
+                                @Html.DisplayNameFor(model => model.Password)
+                            </th>
+                            <th style="min-width: 200px;">
+                                @Html.DisplayNameFor(model => model.AddedOn)
+                            </th>
+                            <th style="min-width: 250px; max-width: 300px;">
+                                Clinic(s)
+                            </th>
+                            <th style="min-width: 250px; max-width: 300px;">
+                                Provider(s)
+                            </th>
+                            <th style="min-width: 100px;">
+                                Is Active
+                            </th>
+                            <th style="min-width:125px;">
+                                Action(s)
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        var clinicNames = new HashSet<string>();
+                        var dNames = new HashSet<string>();
+
+                        var mcList = managerClinics.Where(m => m.ManagerID == item.ManagerID).ToList();
+                        mcList.ForEach((mc) =>
+                        {
+                            var clinic = clinics.Where(c => c.ClinicID == mc.ClinicID).FirstOrDefault();
+                            clinicNames.Add(clinic.Name);
+                        });
+                        mcList.ForEach((mc) =>
+                        {
+                            var dictator = dictators.Where(c => c.DictatorID == mc.DictatorID).FirstOrDefault();
+                            dNames.Add(dictator.LoginID);
+                        });
+
+                        <tr>
+                            <td>
+                                @index
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+
+                                @Html.DisplayFor(modelItem => item.Password)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AddedOn)
+                            </td>
+
+                            <td>
+                                @foreach (var clinicName in clinicNames)
+                                {
+                                    <span class="badge badge-secondary customEdit">
+                                        @clinicName
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                @foreach (var dictatorName in dNames)
+                                {
+                                    <span class="badge badge-dark customEdit">
+                                        @dictatorName
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                @{
+                                    string cssClass3 = item.isActive == false ? "badge-danger" : "badge-success";
+                                    string IsActive = item.isActive == true ? "Active" : "InActive";
+                                }
+                                <span class="badge @cssClass3">
+                                    @IsActive
+                                </span>
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Managers", new { id = item.ManagerID }, new { @class = "btn btn-primary", @style = "font-size:12px" })
+                                @Html.ActionLink("Delete", "Delete", "Managers", new { id = item.ManagerID }, new { @class = "btn btn-danger", @style = "font-size:12px" })
+                            </td>
+                        </tr>
+
+                        index++;
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblManagers').dataTable({
+                sDom: '<"top" lRB> frtip',
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, 'All'],
+                ],
+                ordering: false,
+                buttons: [
+                    {
+                        extend: 'print',
+                        messageTop: function () {
+                            return '<h3 align="center">@ViewBag.Title</h3>';
+                        },
+                        title: '',
+                        messageBottom: 'Powered by H2S Volt',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        messageTop: '@ViewBag.Title',
+                        messageBottom: 'Powered by H2S Volt',
+                        //exportOptions: {
+                        //    //columns: [0, 1, 2, 3]
+                        //}
+                    }
+                ]
+            });
+
+            var message = '@ViewBag.message';
+            if (message === 'Added')
+            {
+                swal('Manager added successfully', 'Excel Transcript', 'success');                
+            }
+            else if (message === 'Edited')
+            {
+                swal('Manager updated successfully', 'Excel Transcript', 'success');                
+            }
+            else if (message === 'Deleted')
+            {
+                swal('Manager Deleted successfully', 'Excel Transcript', 'success');
+            }
+            window.history.pushState({}, document.title, window.location.pathname);
+
+
+        });
+    </script>
+}

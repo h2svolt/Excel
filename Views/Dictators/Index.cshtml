@@ -1,0 +1,344 @@
+@model IEnumerable<ExcelTranscript.Models.Dictator>
+
+@{
+    ViewBag.Title = "Provider List";
+}
+
+<section class="content">
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0 mb-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dictators")">Home</a></li>
+                    <li class="breadcrumb-item ">Provider</li>
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- *========== Data Table ========== -->
+    <div class="py-3">
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <table id="example" class="display table table-striped table-bordered table-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SystemID)
+                            </th>
+                            <th style="min-width: 100px;">
+                                Clinic Name
+                            </th>
+
+                            <th style="min-width: 100px;">
+                                User Name
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Password)
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.AllClientAccess)
+                                </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.Prefix)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstName)
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.MiddleName)
+                                </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </th>
+
+                            <th>
+                                Can Fax
+                            </th>
+                            <th>
+                                Add Sign
+                            </th>
+                            <th>Is Active</th>
+                            <th style="width: 100px;">
+                                Characters <br />per Line
+                            </th>
+                            <th style="width: 100px;">
+                                Rate <br />per Line
+                            </th>
+                            <th>
+                                Secretary
+                            </th>
+                            <th>
+                                Speciality
+                            </th>
+                            <th style="width:150px;"> Actions </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SystemID)
+                            </td>
+                            <td>
+                                @*@Html.DropDownList("AccountID", new SelectList(ViewBag.AccountID, "Value", "Name"), "Select Clinic", htmlAttributes: new { @class = "form-control", @required = "required" })*@
+                                @Html.DisplayFor(modelItem => item.Clinic.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LoginID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Password)
+                            </td>
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.AllClientAccess)
+                                </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Prefix)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.MiddleName)
+                                </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @{
+                                    string cssClass = item.IsFax == true ? "badge-success" : "badge-danger";
+                                    string canFax = item.IsFax == false ? "No" : "Yes";
+                                }
+                              <span class="badge @cssClass">                                
+                                @canFax
+                              </span>
+                            </td>
+                            <td>
+                                @{
+                                    string canAdd = "";
+                                    string cssClass2 = "";
+
+                                    if (item.AddSign != null)
+                                    {
+                                        canAdd = item.AddSign == false ? "No" : "Yes";
+                                        cssClass2 = item.AddSign == true ? "badge-success" : "badge-danger";
+                                    }
+                                    else
+                                    {
+                                        canAdd = "No";
+                                        cssClass2 = "badge-danger";
+                                    }
+                                }
+                                <span class="badge @cssClass2">
+                                    @canAdd
+                                </span>
+                            </td>
+                            <td>
+                                @{
+                                    string cssClass3 = item.IsActive == true ? "badge-danger" : "badge-success";
+                                    string IsActive = item.IsActive == false ? "Active" : "InActive";
+                                }
+                                <span class="badge @cssClass3">
+                                    @IsActive
+                                </span>                                
+                            </td>
+                            <td>
+                                @{
+                                    item.NoOfLine = item.NoOfLine == null ? 0 : item.NoOfLine;
+                                }
+                                @item.NoOfLine
+                            </td>
+                            <td>
+                                @{
+                                    item.RateOfLine = item.RateOfLine == null ? 0 : item.RateOfLine;
+                                }
+                                @item.RateOfLine
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SecretaryName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Speciality.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Dictators", new { id = item.DictatorID }, new { @class = "btn btn-primary", @style = "font-size:12px" })
+                                @*@Html.ActionLink("Delete", "Delete", "Dictators", new { id = item.DictatorID }, new { @class = "btn btn-danger", @style = "font-size:12px" })*@
+                                <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-whatever="" onclick="GetDictatorDetails(@item.DictatorID)"> Detail </button>
+                            </td>
+                            @*<td>
+                                    @Html.ActionLink("Edit", "Edit", "Dictators", new { id = item.DictatorID }, new { @class = "btn btn-primary", @style = "font-size:12px" })
+                                    @Html.ActionLink("Delete", "Delete", "Dictators", new { id = item.DictatorID }, new { @class = "btn btn-danger", @style = "font-size:12px" })
+                                    <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-whatever="" onclick="GetDictatorDetails(@item.DictatorID)"> Detail </button>
+                                </td>*@
+                            @*<td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.DictatorID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.DictatorID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.DictatorID })
+                                </td>*@
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @*<h5 class="modal-title" id="exampleModalLabel"> <p> Revised Version Of: <text id="quoteOldID"></text></p></h5>*@
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="revisedTable" class="table table-striped table-bordered alt-pagination">
+                        <thead>
+                            <tr>
+                                <th hidden> ProviderID </th>
+                                <th> Name </th>
+                                <th> Phone </th>
+                                <th> Cell </th>
+                                <th> Address </th>
+                                <th> Email </th>
+                                <th> Pager </th>
+                                @*<th>  </th>*@
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $("#example").dataTable({
+            sDom: '<"top" lRB> frtip',           
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, 'All'],
+            ],
+            ordering: false,
+            buttons: [
+                {
+                    extend: 'print',
+                    messageTop: function () {
+                        return '<h3 align="center">@ViewBag.Title</h3>';
+                    },
+                    title: '',
+                    messageBottom: 'Powered by H2S Volt',
+                    exportOptions: {
+                        columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    }
+                },
+                {
+                    extend: 'excel',
+                    messageTop: '@ViewBag.Title',
+                    messageBottom: 'Powered by H2S Volt',
+                    //exportOptions: {
+                    //    //columns: [0, 1, 2, 3]
+                    //}
+                }
+            ]
+        });
+
+        function StatusValue(value) {
+            let StatusId = value || 0;
+            if (StatusId == 1) {
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/UploadFiles/UpdateStatus?FileID=' + audioid,
+                    async: true,
+                    success: function (data) {
+                    }
+                });
+            }
+        }
+
+        function GetDictatorDetails(DictatorID) {
+            console.log(DictatorID);
+            let qID = DictatorID || 0;
+            if (qID > 0) {
+
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Dictators/GetDictatorsDetails?DictatorID=' + qID,
+                    async: true,
+                    success: function (data) {
+                        // console.log(data);
+                        //$("#FileID").text(StrCode);
+                        $("#revisedTable tbody").empty();
+
+                        for (var i = 0; i < data.length; i++) {
+                            let name = data[i].Name == null ? '-' : data[i].Name;
+                            let Phone = data[i].Phone == null ? '-' : data[i].Phone;
+                            let Cell = data[i].Cell == null ? '-' : data[i].Cell;
+                            let Address = data[i].Address == null ? '-' : data[i].Address;
+                            let Email = data[i].Email == null ? '-' : data[i].Email;
+                            let Pager = data[i].Pager == null ? '-' : data[i].Pager;
+                            var markup = "<tr>\
+                                            <td hidden> "+ data[i].DictatorID + " </td> \
+                                            <td> "+ name + " </td> \
+                                            <td> "+ Phone + " </td> \
+                                            <td> "+ Cell + " </td> \
+                                            <td> "+ Address + " </td> \
+                                            <td> "+ Email + " </td> \
+                                            <td> "+ Pager + " </td> \
+                                            </tr>";
+
+                            $("#revisedTable tbody").append(markup);
+                        }
+                    },
+                    error: function (err) { console.log(err); }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+                var message = '@ViewBag.message';
+                if (message === 'Added')
+                {
+                    swal('Provider added successfully', 'Excel Transcript', 'success');
+                    window.history.pushState({}, document.title, window.location.pathname);
+                }
+                else if (message === 'Edited')
+                {
+                    swal('Provider updated successfully', 'Excel Transcript', 'success');
+                    window.history.pushState({}, document.title, window.location.pathname);
+                }
+                //var DictatorID = $(this).data("DictatorID");
+                //$(document).click(".BtnId", function () {
+                //    $.ajax({
+                //        type: "POST",
+                //        url: "Dictator/Edit",
+                //        data: { DictatorID: DictatorID },
+                //        success: function () {
+
+                //        }
+                //    });
+                });
+
+    </script>
+
+
+
+}

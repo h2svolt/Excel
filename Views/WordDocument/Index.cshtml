@@ -1,0 +1,175 @@
+﻿@using ExcelTranscript.Models;
+
+@{
+    Layout = null;
+    db_ExcelTransEntities db = new db_ExcelTransEntities();
+    bool? isDocApproved = false;
+
+    if (Request.QueryString["DocID"] != null && Request.QueryString["FilePath"] != null)
+    {
+        var id = Request.QueryString["DocID"].ToString() == "" ? 0 : Convert.ToUInt32(Request.QueryString["DocID"]);
+        var name = Request.QueryString["FilePath"].ToString() == "" ? "" : Request.QueryString["FilePath"];
+
+        if (id != 0)
+        {
+            var filename = name.Split('.').FirstOrDefault();
+            var DocApproved = db.UploadedDocuments.Where(d => d.Id == id).FirstOrDefault();
+            var uploadedFile = db.UploadedFiles.Where(f => f.FileID == DocApproved.FileID && f.FileName == filename).FirstOrDefault();
+            if (DocApproved != null)
+            {
+                if (DocApproved.IsApproved.HasValue)
+                {
+                    isDocApproved = DocApproved.IsApproved;
+                }
+                else
+                {
+                    if (DocApproved.StatusId == 5)
+                    {
+                        isDocApproved = true;
+                    }
+                }
+            }
+            else if (DocApproved == null && uploadedFile != null)
+            {
+                if (uploadedFile.StatusId == 5)
+                {
+                    isDocApproved = true;
+                }
+            }
+            else
+            {
+                isDocApproved = false;
+            }
+        }
+
+    }
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="~/Assets/Editor/editor.js"></script>
+    <script src="~/Scripts/sweetalert2.all.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#txtEditor").Editor();
+            var element = $("#menuBarDiv_txtEditor");
+            $(element[0].nextElementSibling).html($("#HideHtml").text());
+        });
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="~/Assets/Editor/editor.css" rel="stylesheet" />
+
+    <title>Excel Transcript Document</title>
+</head>
+<body>
+    @*<button type="button" onclick="OpenDocument()">Save</button>*@
+
+    @if (!@User.IsInRole("Typist") && isDocApproved == false)
+    {
+        <div class="col-md-2" style="padding-top:27px;">
+            <button type="button" class="btn btn-primary" onclick="OpenDocument(0)"><i class="fa fa-check-square-o"></i>Approve Document</button>
+        </div>
+        <div class="col-md-2" style="padding-top:27px;">
+            <button type="button" style="background-color:cornflowerblue;color:black" class="btn btn-primary" onclick="OpenDocument(1)"><i class="fa fa-close"></i>Not Now</button>
+        </div>
+    }
+    <div class="container-fluid">
+        <div class="row">
+            @*<h2 class="demo-text">You may edit</h2>*@
+
+
+            @using (Html.BeginForm("SaveDocument", "WordDocument", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input type="file" style="display:none" name="postedFile" />
+                @*<div class="col-md-2" style="padding-top:27px;">
+                        <button type="button" class="btn btn-primary" id="btnSaveDocument"><i class="fa fa-check-square-o"></i>Save Document</button>
+                    </div>*@
+                @*<input type="button" value="submit" onclick="OpenDocument()" />*@
+            }
+
+
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-12 nopadding">
+                        <textarea id="txtEditor"></textarea>
+                        <textarea id="HideHtml" style="display:none">
+                    @Html.Raw(ViewBag.HTML)
+                    @*@ViewBag.HTML*@
+                    </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid footer">
+        @*<p class="pull-right">
+                &copy; Suyati Technologies
+                <script>document.write(new Date().getFullYear())</script>. All rights reserved.
+            </p>*@
+    </div>
+</body>
+</html>
+
+<hr />
+
+
+<script>
+
+        @*function LeaveReviewFunc() {
+            var textareadata = $("#txtEditor").val();
+      window.localtion.href='@Url.Action("SaveDocument", "WordDocument", new { FileText : textareadata })';
+  }*@
+
+    function OpenDocument(v) {
+        $('.Loader').show();
+            console.log(txtEditor);
+        var value = $("#v").val();
+            var FileText = $(".Editor-editor").html();
+            var HideText = $("#HideHtml").html();
+            console.log(HideText);
+            console.log(FileText);
+            var params = { 'FileText': FileText, 'HideText': HideText,'value' : v};
+
+            $.ajax({
+                url: '/WordDocument/SaveDocument',
+                data: JSON.stringify(params),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (result) {
+                    if (result == true) {
+                        $('.Loader').hide();
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Successfully Updated!',
+                            showConfirmButton: true
+                        }).then((result) => {
+                            location.reload();
+                        });
+                        
+                    }
+                    else {
+                        $('.Loader').hide();
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'warning',
+                            title: result,
+                            showConfirmButton: true,
+                            timer: 5000
+                        });
+                    }
+                },
+
+                error: function (response) {
+                    alert(response);
+                }
+            });
+            return false;
+        }
+</script>
+

@@ -1,0 +1,124 @@
+﻿@model IEnumerable<ExcelTranscript.Models.stp_GetUploadedAudioInfo_Result>
+
+@using ExcelTranscript.Models;
+@{
+    db_ExcelTransEntities db = new db_ExcelTransEntities();
+    var obj = db.AspNetUsers;
+    var statuses = db.Status.ToList();
+    AspNetUser assignedUser = new AspNetUser();
+}
+<div class="row show py-3">
+    @if (Model != null)
+    {
+        <div class="col-md-12">
+            <div class="row justify-content-end my-2">
+
+                <div class="col-md-3">
+                    @Html.DropDownList("MultiSelectTypistID", new SelectList(ViewBag.GetTypist, "TypistAssignID", "Name"), "Select Typist", htmlAttributes: new { @class = "select2 form-control" })
+                </div>
+                <div class="col-md-2 text-center">
+                    <button type="button" class="btn btn-primary m-auto btn-block" onclick="assign()" id="assignBtn">
+                        <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                        Assign
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered table-responsive alt-pagination nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 50px">
+                                <input type="checkbox" class="checkbox" id="CheckAll" onchange="CheckChangedAll(this)" />
+                                All
+                            </th>
+
+                            <th scope="col" style="min-width: 50px">S. No</th>
+                            <th scope="col" style="min-width: 50px" hidden>Audio ID</th>
+                            <th scope="col" style="min-width: 175px">Provider</th>
+                          @*<th scope="col" style="min-width: 50px">Clinic</th>*@
+                            <th scope="col" style="min-width: 200px">Audio File</th>
+                            <th scope="col" style="min-width: 100px">Duration</th>
+                            <th scope="col" style="min-width: 150px">Date & Time</th>
+                            <th scope="col" style="min-width: 200px">Typist</th>
+                            <th scope="col" style="min-width: 100px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int index = 1;}
+                        @foreach (var item in Model)
+                        {
+                            string RowColor;
+                            if (item.TypistAssignID != null)
+                            {
+                                RowColor = statuses.Where(s => s.Id == 2).Select(s => s.Color).FirstOrDefault();
+                                //RowColor = "mediumseagreen";
+                            }
+                            else
+                            {
+                                RowColor = statuses.Where(s => s.Id == 1).Select(s => s.Color).FirstOrDefault();
+                                //RowColor = "palevioletred";
+                            }
+
+                            <tr style="background-color: @RowColor">
+                                <td>
+                                    <input type="checkbox" class="checkbox" onchange="CheckedTypistIDs(this,@item.AudioID)" />
+                                </td>
+                                <td>
+                                    @index
+                                </td>
+                                <td id="sAudioID" hidden>
+                                    @Html.DisplayFor(modelItem => item.AudioID)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Provider)
+                                </td>                               
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AudioFile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Duration)
+                                </td>
+                                <td>
+                                    @Convert.ToString(string.Format("{0:MM/dd/yyyy hh:mm:ss tt}", item.Uploaded))
+                               
+                                </td>
+                                <td>
+                                    <span></span>
+                                    @if (item.TypistAssignID != null)
+                                    {
+                                        assignedUser = obj.Where(sa => sa.UserId == item.TypistAssignID).FirstOrDefault();
+                                    }
+                                    @Html.DropDownListFor(m => item.TypistAssignID, new SelectList(ViewBag.GetTypist, "TypistAssignID", "Name"), item.TypistAssignID != null ? (assignedUser == null ? "Please Assign New Typist" : assignedUser.UserName) : "Select Typist", htmlAttributes: new { @class = "select2 form-control", @onchange = "getIDs(this.value," + item.AudioID + ")" })
+                                </td>
+                                <td>
+                                    <button class="btn btn-info" onclick="SingleTypistAssign(this)"> Assign </button>
+                                </td>
+
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'no data found!',
+                showConfirmButton: true,
+                timer: 1500
+            })
+        </script>
+    }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+     
+    </script>
+}

@@ -1,0 +1,204 @@
+﻿@model ExcelTranscript.Models.UploadedFile
+
+@{
+    ViewBag.title = "Upload File";
+    var Dictatorlst = ViewBag.DictatorID;
+}
+<style>
+    /* .ui-widget-header {
+        background: #cedc98;
+        border: 1px solid #DDDDDD;
+        color: #333333;
+        font-weight: bold;
+    }
+
+    .progress-label {
+        position: absolute;
+        left: 50%;
+        top: 13px;
+        font-weight: bold;
+        text-shadow: 1px 1px 0 #fff;
+    }
+
+    .red {
+        color: red;
+    }
+
+
+    .loader {
+        border: 5px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 5px solid red;
+        border-bottom: 5px solid red;
+        width: 120px;
+        height: 120px;
+        margin-left: 200px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    progress {
+        border: 0;
+        height: 25px;
+        border-radius: 15px;
+        width: 100%;
+        background-color: #fff;
+    }
+
+        progress::-webkit-progress-bar {
+            border: 0;
+            height: 25px;
+            border-radius: 15px;
+        }
+
+        progress::-webkit-progress-value {
+            border: 0;
+            height: 25px;
+            border-radius: 15px;
+        }
+
+        progress::-moz-progress-bar {
+            border: 0;
+            height: 25px;
+            border-radius: 15px;
+        }
+
+        progress[value]::-webkit-progress-bar {
+            background-color: #808387;
+        }
+
+        progress::-moz-progress-bar {
+            background: #808387;
+        }
+
+    .progress-bar span {
+        position: absolute;
+        display: inline-block;
+        color: #fff;
+        text-align: right;
+    }
+
+    .progress-bar {
+        display: block;
+        position: relative;
+        width: 100%;
+        background-color: #fff;
+    }
+
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }*/
+</style>
+
+
+<!-- blueimp File Upload & Gallery styles -->
+@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/jQuery-File-Upload")
+<script src="~/Content/Custom/js/demo.js"></script>
+
+<section class="content">
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UploadFiles")">Home</a></li>
+                    <li class="breadcrumb-item active">Upload Dictations</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- *========== Upload Transcription ========== -->
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 m-auto">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="form-title pb-2"><i class="fa fa-user-o" aria-hidden="true"></i> Information</h4>
+                        </div>
+                        <div class="col-md-6 py-2">
+                            <div class="form-group">
+                                <label for="dictator">Provider</label>
+                                @if (User.IsInRole("Provider"))
+                                {
+                                    @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), new { @class = "form-control", @Disabled = "Disabled" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.DictatorID, "", new { @class = "text-danger" })
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6 py-2">
+                        </div>
+
+                        <script>
+                            var $form = null;
+                            $(function () {
+                                var dicId =  $("#DictatorID").val();
+                                $form = $('#fileupload').fileupload({
+                                    //dataType: 'json'
+                                    url: '/UploadFiles/SingleUploadAsync?DictatorID=' + dicId,
+                                });
+
+                            });
+                            //$('#fileupload').fileupload({
+                            //    // Uncomment the following to send cross-domain cookies:
+                            //    //xhrFields: {withCredentials: true},
+                            //    //url: 'server/php/'
+                            //});
+                            $('#fileupload').addClass('fileupload-processing');
+                        </script>
+
+                        <div class="col-md-12 py-2">
+                            @Html.Partial("_Files")
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jQuery-File-Upload")
+
+    <script type="text/javascript">
+        $("#DictatorID").select2();
+        $("#DictatorID").change(function () {
+            var dictatorId = $(this).val();
+            //$('#fileupload').url
+            $form = $('#fileupload').fileupload({
+                //dataType: 'json'
+                url: '/UploadFiles/SingleUploadAsync?DictatorID=' + dictatorId,
+            });
+        });
+        $(".cancel").click(function () {
+            $("#tblfiles tbody.files").empty();
+        });
+
+    </script>
+
+}

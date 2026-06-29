@@ -1,0 +1,687 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_ExcelTransModelStoreContainer" CdmEntityContainer="db_ExcelTransEntities">
+    <EntitySetMapping Name="AppUserProfiles">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.AppUserProfile">
+        <MappingFragment StoreEntitySet="AppUserProfile">
+          <ScalarProperty Name="AppUserID" ColumnName="AppUserID" />
+          <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Cell" ColumnName="Cell" />
+          <ScalarProperty Name="OtherPhone" ColumnName="OtherPhone" />
+          <ScalarProperty Name="CNICNo" ColumnName="CNICNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="AddOn" ColumnName="AddOn" />
+          <ScalarProperty Name="AddBy" ColumnName="AddBy" />
+          <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.AspNetRole">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.AspNetUserClaim">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.AspNetUserLogin">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserRoles">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.AspNetUserRole">
+        <MappingFragment StoreEntitySet="AspNetUserRoles">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.AspNetUser">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+          <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccountTypes">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.AccountType">
+        <MappingFragment StoreEntitySet="AccountType">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cities">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.City">
+        <MappingFragment StoreEntitySet="City">
+          <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="ShortCode" ColumnName="ShortCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clinics">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Clinic">
+        <MappingFragment StoreEntitySet="Clinic">
+          <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+          <ScalarProperty Name="CP_Pager" ColumnName="CP_Pager" />
+          <ScalarProperty Name="CP_Email" ColumnName="CP_Email" />
+          <ScalarProperty Name="CP_Address" ColumnName="CP_Address" />
+          <ScalarProperty Name="CP_Cell" ColumnName="CP_Cell" />
+          <ScalarProperty Name="CP_Phone" ColumnName="CP_Phone" />
+          <ScalarProperty Name="CP_Name" ColumnName="CP_Name" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+          <ScalarProperty Name="Cell" ColumnName="Cell" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="ClinicID" ColumnName="ClinicID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ContactPersons">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.ContactPerson">
+        <MappingFragment StoreEntitySet="ContactPerson">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
+          <ScalarProperty Name="Pager" ColumnName="Pager" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Cell" ColumnName="Cell" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CPID" ColumnName="CPID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Countries">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Country">
+        <MappingFragment StoreEntitySet="Country">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="ShortCode" ColumnName="ShortCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Specialities">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Speciality">
+        <MappingFragment StoreEntitySet="Speciality">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileLogs">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.FileLog">
+        <MappingFragment StoreEntitySet="FileLog">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+          <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogTypes">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.LogType">
+        <MappingFragment StoreEntitySet="LogType">
+          <ScalarProperty Name="LogTypeTitle" ColumnName="LogTypeTitle" />
+          <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Secretaries">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Secretary">
+        <MappingFragment StoreEntitySet="Secretary">
+          <ScalarProperty Name="DictatorID" ColumnName="DictatorID" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="ShortCode" ColumnName="ShortCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="SecretaryID" ColumnName="SecretaryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Proc_InsertErrorDetails" FunctionName="db_ExcelTransModel.Store.Proc_InsertErrorDetails" />
+    <EntitySetMapping Name="Typists">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Typist">
+        <MappingFragment StoreEntitySet="Typist">
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="TypistName" ColumnName="TypistName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetTypist" FunctionName="db_ExcelTransModel.Store.stp_GetTypist">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetTypist_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="UserLogs">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.UserLog">
+        <MappingFragment StoreEntitySet="UserLog">
+          <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="UserLogId" ColumnName="UserLogId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="UserLogName" ColumnName="UserLogName" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetUserLog" FunctionName="db_ExcelTransModel.Store.stp_GetUserLog">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetUserLog_Result">
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="UserLogName" ColumnName="UserLogName" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="UserLogId" ColumnName="UserLogId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="UploadedFiles">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.UploadedFile">
+        <MappingFragment StoreEntitySet="UploadedFile">
+          <ScalarProperty Name="StackMark" ColumnName="StackMark" />
+          <ScalarProperty Name="TypistAssignID" ColumnName="TypistAssignID" />
+          <ScalarProperty Name="TypistId" ColumnName="TypistId" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="IsDownloaded" ColumnName="IsDownloaded" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UploadOn" ColumnName="UploadOn" />
+          <ScalarProperty Name="UploadBy" ColumnName="UploadBy" />
+          <ScalarProperty Name="ClinicID" ColumnName="ClinicID" />
+          <ScalarProperty Name="DictatorID" ColumnName="DictatorID" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Modalities">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Modality">
+        <MappingFragment StoreEntitySet="Modality">
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="ModalityName" ColumnName="ModalityName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="stp_DocumentReport" FunctionName="db_ExcelTransModel.Store.stp_DocumentReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_DocumentReport_Result">
+          <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="Clinic" ColumnName="Clinic" />
+          <ScalarProperty Name="AudioFile" ColumnName="AudioFile" />
+          <ScalarProperty Name="DocFile" ColumnName="DocFile" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="WordCount" ColumnName="WordCount" />
+          <ScalarProperty Name="CharacterCount" ColumnName="CharacterCount" />
+          <ScalarProperty Name="LineCount" ColumnName="LineCount" />
+          <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+          <ScalarProperty Name="UploadOn" ColumnName="UploadOn" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TypistAssign" ColumnName="TypistAssign" />
+          <ScalarProperty Name="NoOfCharacterPerLine" ColumnName="NoOfCharacterPerLine" />
+          <ScalarProperty Name="RatePerLine" ColumnName="RatePerLine" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="FileFaxStatus">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.FileFaxStatu">
+        <MappingFragment StoreEntitySet="FileFaxStatus">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="PageCount" ColumnName="PageCount" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="ToNumber" ColumnName="ToNumber" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+          <ScalarProperty Name="UpDocID" ColumnName="UpDocID" />
+          <ScalarProperty Name="FaxID" ColumnName="FaxID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DictatorSecretaries">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.DictatorSecretary">
+        <MappingFragment StoreEntitySet="DictatorSecretary">
+          <ScalarProperty Name="SecretaryId" ColumnName="SecretaryId" />
+          <ScalarProperty Name="DictatorId" ColumnName="DictatorId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetUploadedAudio" FunctionName="db_ExcelTransModel.Store.stp_GetUploadedAudio">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetUploadedAudio_Result">
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Clinic" ColumnName="Clinic" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="Uploaded" ColumnName="Uploaded" />
+          <ScalarProperty Name="AudioFile" ColumnName="AudioFile" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="DocCounts" ColumnName="DocCounts" />
+          <ScalarProperty Name="UploadBy" ColumnName="UploadBy" />
+          <ScalarProperty Name="StatusColor" ColumnName="StatusColor" />
+          <ScalarProperty Name="TypistAssignID" ColumnName="TypistAssignID" />
+          <ScalarProperty Name="StackMark" ColumnName="StackMark" />
+          <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+          <ScalarProperty Name="ModalityName" ColumnName="ModalityName" />
+          <ScalarProperty Name="MRN" ColumnName="MRN" />
+          <ScalarProperty Name="DOS" ColumnName="DOS" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="RefDoctor" ColumnName="RefDoctor" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetUploadedAudioInfo" FunctionName="db_ExcelTransModel.Store.stp_GetUploadedAudioInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetUploadedAudioInfo_Result">
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Clinic" ColumnName="Clinic" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="Uploaded" ColumnName="Uploaded" />
+          <ScalarProperty Name="AudioFile" ColumnName="AudioFile" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="DocCounts" ColumnName="DocCounts" />
+          <ScalarProperty Name="UploadBy" ColumnName="UploadBy" />
+          <ScalarProperty Name="StatusColor" ColumnName="StatusColor" />
+          <ScalarProperty Name="TypistAssignID" ColumnName="TypistAssignID" />
+          <ScalarProperty Name="StackMark" ColumnName="StackMark" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ModalityName" ColumnName="ModalityName" />
+          <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+          <ScalarProperty Name="MRN" ColumnName="MRN" />
+          <ScalarProperty Name="DOS" ColumnName="DOS" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="RefDoctor" ColumnName="RefDoctor" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+          <ScalarProperty Name="WordCount" ColumnName="WordCount" />
+          <ScalarProperty Name="CharCount" ColumnName="CharCount" />
+          <ScalarProperty Name="CharCountWithSpace" ColumnName="CharCountWithSpace" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetActivityLogs" FunctionName="db_ExcelTransModel.Store.stp_GetActivityLogs">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetActivityLogs_Result">
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="ActivityDate" ColumnName="ActivityDate" />
+          <ScalarProperty Name="AudioFile" ColumnName="AudioFile" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="StatusColor" ColumnName="StatusColor" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetUserLogByDocumentId" FunctionName="db_ExcelTransModel.Store.stp_GetUserLogByDocumentId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetUserLogByDocumentId_Result">
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="UserLogName" ColumnName="UserLogName" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="UserLogId" ColumnName="UserLogId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="UploadedDocuments">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.UploadedDocument">
+        <MappingFragment StoreEntitySet="UploadedDocument">
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="RefDoctor" ColumnName="RefDoctor" />
+          <ScalarProperty Name="DOS" ColumnName="DOS" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="MRN" ColumnName="MRN" />
+          <ScalarProperty Name="ModalityId" ColumnName="ModalityId" />
+          <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+          <ScalarProperty Name="LineCount" ColumnName="LineCount" />
+          <ScalarProperty Name="CharCountWithSpace" ColumnName="CharCountWithSpace" />
+          <ScalarProperty Name="CharCount" ColumnName="CharCount" />
+          <ScalarProperty Name="DocChildID" ColumnName="DocChildID" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="UploadOn" ColumnName="UploadOn" />
+          <ScalarProperty Name="UploadBy" ColumnName="UploadBy" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="WordCount" ColumnName="WordCount" />
+          <ScalarProperty Name="Decription" ColumnName="Decription" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetDocuments" FunctionName="db_ExcelTransModel.Store.stp_GetDocuments">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetDocuments_Result">
+          <ScalarProperty Name="AudioName" ColumnName="AudioName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TypistAssignID" ColumnName="TypistAssignID" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="ClinicName" ColumnName="ClinicName" />
+          <ScalarProperty Name="ModalityId" ColumnName="ModalityId" />
+          <ScalarProperty Name="AudioFileID" ColumnName="AudioFileID" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+          <ScalarProperty Name="DOS" ColumnName="DOS" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="MRN" ColumnName="MRN" />
+          <ScalarProperty Name="UploadOn" ColumnName="UploadOn" />
+          <ScalarProperty Name="UploadBy" ColumnName="UploadBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetDocumentsData" FunctionName="db_ExcelTransModel.Store.stp_GetDocumentsData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetDocumentsData_Result">
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Clinic" ColumnName="Clinic" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="AudioFile" ColumnName="AudioFile" />
+          <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="DocCounts" ColumnName="DocCounts" />
+          <ScalarProperty Name="StatusColor" ColumnName="StatusColor" />
+          <ScalarProperty Name="TypistAssignID" ColumnName="TypistAssignID" />
+          <ScalarProperty Name="StackMark" ColumnName="StackMark" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DOT" ColumnName="DOT" />
+          <ScalarProperty Name="ModalityName" ColumnName="ModalityName" />
+          <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+          <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+          <ScalarProperty Name="MRN" ColumnName="MRN" />
+          <ScalarProperty Name="DOS" ColumnName="DOS" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="RefDoctor" ColumnName="RefDoctor" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="WordCount" ColumnName="WordCount" />
+          <ScalarProperty Name="CharCount" ColumnName="CharCount" />
+          <ScalarProperty Name="CharCountWithSpace" ColumnName="CharCountWithSpace" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Dictators">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Dictator">
+        <MappingFragment StoreEntitySet="Dictator">
+          <ScalarProperty Name="AddSign" ColumnName="AddSign" />
+          <ScalarProperty Name="RateOfLine" ColumnName="RateOfLine" />
+          <ScalarProperty Name="NoOfLine" ColumnName="NoOfLine" />
+          <ScalarProperty Name="SecretaryName" ColumnName="SecretaryName" />
+          <ScalarProperty Name="CP_Pager" ColumnName="CP_Pager" />
+          <ScalarProperty Name="CP_Email" ColumnName="CP_Email" />
+          <ScalarProperty Name="CP_Address" ColumnName="CP_Address" />
+          <ScalarProperty Name="CP_Cell" ColumnName="CP_Cell" />
+          <ScalarProperty Name="CP_Phone" ColumnName="CP_Phone" />
+          <ScalarProperty Name="CP_Name" ColumnName="CP_Name" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+          <ScalarProperty Name="IsFax" ColumnName="IsFax" />
+          <ScalarProperty Name="IsSecretary" ColumnName="IsSecretary" />
+          <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+          <ScalarProperty Name="AllClientAccess" ColumnName="AllClientAccess" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+          <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="DictatorID" ColumnName="DictatorID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="stp_Dictator" FunctionName="db_ExcelTransModel.Store.stp_Dictator" />
+    <EntitySetMapping Name="Managers">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.Manager">
+        <MappingFragment StoreEntitySet="Manager">
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ManagerClinics">
+      <EntityTypeMapping TypeName="db_ExcelTransModel.ManagerClinic">
+        <MappingFragment StoreEntitySet="ManagerClinic">
+          <ScalarProperty Name="DictatorID" ColumnName="DictatorID" />
+          <ScalarProperty Name="ClinicID" ColumnName="ClinicID" />
+          <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetManagers" FunctionName="db_ExcelTransModel.Store.GetManagers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.GetManagers_Result">
+          <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="DictatorName" ColumnName="DictatorName" />
+          <ScalarProperty Name="DictatorID" ColumnName="DictatorID" />
+          <ScalarProperty Name="ClinicName" ColumnName="ClinicName" />
+          <ScalarProperty Name="ClinicID" ColumnName="ClinicID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetFaxStatusFilterWise" FunctionName="db_ExcelTransModel.Store.GetFaxStatusFilterWise">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.GetFaxStatusFilterWise_Result">
+          <ScalarProperty Name="Clinic" ColumnName="Clinic" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+          <ScalarProperty Name="Document" ColumnName="Document" />
+          <ScalarProperty Name="MRN" ColumnName="MRN" />
+          <ScalarProperty Name="TypistAssignedID" ColumnName="TypistAssignedID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FaxID" ColumnName="FaxID" />
+          <ScalarProperty Name="UpDocID" ColumnName="UpDocID" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="ToNumber" ColumnName="ToNumber" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="PageCount" ColumnName="PageCount" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetDictations" FunctionName="db_ExcelTransModel.Store.stp_GetDictations">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetDictations_Result">
+          <ScalarProperty Name="TypistAssignID" ColumnName="TypistAssignID" />
+          <ScalarProperty Name="UploadBy" ColumnName="UploadBy" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="UploadOn" ColumnName="UploadOn" />
+          <ScalarProperty Name="DictatorID" ColumnName="DictatorID" />
+          <ScalarProperty Name="isDownloaded" ColumnName="isDownloaded" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="ClinicName" ColumnName="ClinicName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="STRINGSplit_Fun" FunctionName="db_ExcelTransModel.Store.STRINGSplit_Fun">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.STRINGSplit_Fun_Result">
+          <ScalarProperty Name="ItemNumber" ColumnName="ItemNumber" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="stp_GetDocumentsDataNew" FunctionName="db_ExcelTransModel.Store.stp_GetDocumentsDataNew">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_ExcelTransModel.stp_GetDocumentsDataNew_Result">
+          <ScalarProperty Name="AudioID" ColumnName="AudioID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Clinic" ColumnName="Clinic" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="AudioFile" ColumnName="AudioFile" />
+          <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="DocCounts" ColumnName="DocCounts" />
+          <ScalarProperty Name="StatusColor" ColumnName="StatusColor" />
+          <ScalarProperty Name="TypistAssignID" ColumnName="TypistAssignID" />
+          <ScalarProperty Name="StackMark" ColumnName="StackMark" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DOT" ColumnName="DOT" />
+          <ScalarProperty Name="ModalityName" ColumnName="ModalityName" />
+          <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+          <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+          <ScalarProperty Name="MRN" ColumnName="MRN" />
+          <ScalarProperty Name="DOS" ColumnName="DOS" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="RefDoctor" ColumnName="RefDoctor" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="WordCount" ColumnName="WordCount" />
+          <ScalarProperty Name="CharCount" ColumnName="CharCount" />
+          <ScalarProperty Name="CharCountWithSpace" ColumnName="CharCountWithSpace" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

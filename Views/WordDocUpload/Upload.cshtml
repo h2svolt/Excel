@@ -1,0 +1,308 @@
+﻿@model ExcelTranscript.Models.UploadedDocument
+
+
+
+@{
+    ViewBag.title = "Upload Word Documents";
+}
+
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+@*<link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/bootstrap-theme.css" rel="stylesheet" type="text/css" />*@
+@*<link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />*@
+<style>
+    .ui-widget-header {
+        background: #cedc98;
+        border: 1px solid #DDDDDD;
+        color: #333333;
+        font-weight: bold;
+    }
+
+    .progress-label {
+        position: absolute;
+        left: 50%;
+        top: 13px;
+        font-weight: bold;
+        text-shadow: 1px 1px 0 #fff;
+    }
+
+    .red {
+        color: red;
+    }
+</style>
+<section class="content">
+
+     @**========== Breadcrumbs ==========*@ 
+    <div>
+            <div class="container-fluid">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white px-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "UploadFiles")">Home</a></li>
+                        <li class="breadcrumb-item ">Upload </li>
+                        <li class="breadcrumb-item active">Upload Documents</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    <!-- *========== Upload Transcription ========== -->
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 m-auto">
+                    @using (Html.BeginForm("Upload", "WordDocUpload", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <h1>
+                            Document(s) Upload
+                        </h1>
+                        <div id="FileBrowse">
+                            <div class="row mb-2">
+                                <div class="col-sm-10">
+                                    <input type="file" id="Files" multiple="multiple" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="button" id="UploadBtn" class="btn btn-danger" value="Upload" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <div id="progressbar-5">
+                                    <div class="progress-label" style="margin-top: -7px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table" id="ListofFiles">
+                                    <tr>
+                                        <th>
+                                            Files
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        @*<th>
+                                                Action
+                                            </th>*@
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <button type="button" onClick="ClearRecords();" class="d-none btn btn-info"  id="btnUploadAgain">Upload Again!</button>
+                        @*<a href="@Url.Action("Index","WordDocUpload")"> Go to Document Files </a>*@
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section scripts{
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <script>
+
+        $('#UploadBtn').click(function () {
+
+            console.log('debug');
+            var fileUpload = $("#Files").get(0);
+            var files = fileUpload.files;
+
+            if (files.length <= 0 ) {
+                swal("Please select any document before uploading", "Documents upload", "warning");
+                return;
+            }
+
+
+            // Create FormData object
+            var fileData = new FormData();
+            var errlst = [];
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+
+                if (files[i].size > 0) {
+                    fileData.append(files[i].name, files[i]);
+                    console.log(i);
+                }
+                else {
+                    errlst.push(i);
+                    console.log(errlst);
+                    console.log(i);
+                    //alert("file: " + files[i].name + " does not exist!");
+                }
+            }
+            $.ajax({
+                url: '/WordDocUpload/UploadDocuments',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                //dataType: "text",
+
+                async: false,
+                success: function (result) {
+                    if (result != "") {
+                        $('#FileBrowse').find("*").prop("disabled", true);
+                        //if (result.len == 1)
+                        //{
+                        console.log(result);
+                        LoadProgressBar(result, errlst); //calling LoadProgressBar function to load the progress bar.
+
+                        //}
+                        //else
+                        //    alert("data not saved");
+                    }
+                },
+                error: function (err) {
+                    console.log(err.statusText);
+                }
+
+                // error: function (err) {
+                //alert(jqXHR.status);
+                //var msg = '';
+                //    if (jqXHR.status === 0) {
+                //        msg = exception.responseText;
+                //} else if (jqXHR.status == 404) {
+                //    msg = 'Requested page not found. [404]';
+                //} else if (jqXHR.status == 500) {
+                //    msg = 'Internal Server Error [500].';
+                //} else if (exception === 'parsererror') {
+                //    msg = 'Requested JSON parse failed.';
+                //} else if (exception === 'timeout') {
+                //    msg = 'Time out error.';
+                //} else if (exception === 'abort') {
+                //    msg = 'Ajax request aborted.';
+                //} else {
+                //    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                //}
+                //    alert(msg);
+                //}
+
+            });
+
+        });
+
+        function LoadProgressBar(result, errlst) {
+            var progressbar = $("#progressbar-5");
+            var progressLabel = $(".progress-label");
+            progressbar.show();
+            $("#progressbar-5").progressbar({
+                //value: false,
+                change: function () {
+                    progressLabel.text(
+                        progressbar.progressbar("value") + "%");  // Showing the progress increment value in progress bar
+                },
+                complete: function () {
+                    progressLabel.text("Loading Completed!");
+                    progressbar.progressbar("value", 0);  //Reinitialize the progress bar value 0
+                    progressLabel.text("");
+                    progressbar.hide(); //Hiding the progress bar
+
+                    var fileUpload = $("#Files").get(0);
+                    var files = fileUpload.files;
+                    // Create FormData object
+                    var fileData = new FormData();
+
+                    // Looping over all files and add it to FormData object
+
+                    var finalList = [];
+                    for (var i = 0; i < files.length; i++) {
+
+                        if (files[i].size > 0) {
+
+                            var index = $.inArray(files[i].name, result);
+                            console.log("result->");
+                            console.log(result);
+                            console.log("index->" + index);
+                            if (index != -1) {
+
+                                finalList.push({ ID: i, Name: files[i].name, IsUploaded: true, IsExist: true });
+                                //<td><a href='+#' onclick='DeleteFile(\"" + files[i].name + "\")'><span class='glyphicon glyphicon-remove red'></span></a></td>
+                                //var markup = "<tr><td>" + files[i].name + "</td><td style='color:green;'>Uploaded Successfully!</td></tr>"; // Binding the file name
+                                //$("#ListofFiles tbody").append(markup);
+                            }
+                            else {
+                                finalList.push({ ID: i, Name: files[i].name, IsUploaded: true, IsExist: false });
+                                //<td><a href='#' onclick='DeleteFile(\"" + files[i].name + "\")'><span class='glyphicon glyphicon-remove red'></span></a></td>
+                                //var markup = "<tr><td>" + files[i].name + "</td><td style='color:red;'>Upload Failed!</td></tr>"; // Binding the file name
+                                //$("#ListofFiles tbody").append(markup);
+                            }
+                            //} else {
+                            //    var index = $.inArray(+i, errlst);
+
+                            //    if (index != -1) {
+                            //        //<td><a href='+#' onclick='DeleteFile(\"" + files[i].name + "\")'><span class='glyphicon glyphicon-remove red'></span></a></td>
+                            //        var markup = "<tr><td>" + files[i].name + "</td><td style='color:red;'>Does not exist!</td></tr>"; // Binding the file name
+                            //         $("#ListofFiles tbody").append(markup);
+                            //    }
+                        }
+                        else {
+                            finalList.push({ ID: i, Name: files[i].name, IsUploaded: false, IsExist: false });
+
+                        }
+
+
+                        //fileData.append(files[i].name, files[i]);
+
+                        //$('#Files').val('');
+                        //$('#FileBrowse').find("*").prop("disabled", false);
+                    }
+
+
+                    for (var b = 0; b < finalList.length; b++) {
+                        if (finalList[b].IsExist == true && finalList[b].IsUploaded == true) {
+                            var markup = "<tr><td>" + finalList[b].Name + "</td><td style='color:green;'>Uploaded Successfully!</td></tr>"; // Binding the file name
+                            $("#ListofFiles tbody").append(markup);
+                        }
+                        else if (finalList[b].IsExist == false && finalList[b].IsUploaded == true) {
+                            var markup = "<tr><td>" + finalList[b].Name + "</td><td style='color:red;'>Upload Failed! File Not Supported or Already Exists!</td></tr>"; // Binding the file name
+                            $("#ListofFiles tbody").append(markup);
+                        }
+                        else if (finalList[b].IsExist == false && finalList[b].IsUploaded == false) {
+                            var markup = "<tr><td>" + finalList[b].Name + "</td><td style='color:red;'>Does not exist!</td></tr>"; // Binding the file name
+                            $("#ListofFiles tbody").append(markup);
+                        }
+                    }
+
+                    $("#btnUploadAgain").removeClass('d-none');
+                    //setTimeout(function () { window.location.href = "/UploadFiles/Index" }, 4000)
+                    //var markup = "<tr><td>" + result + "</td><td><a href='#' onclick='DeleteFile(\"" + result + "\")'><span class='glyphicon glyphicon-remove red'></span></a></td></tr>"; // Binding the file name
+                    //$("#ListofFiles tbody").append(markup);
+                    //$('#Files').val('');
+                    //$('#FileBrowse').find("*").prop("disabled", false);
+
+                }
+            });
+
+            function progress() {
+                var val = progressbar.progressbar("value") || 0;
+                progressbar.progressbar("value", val + 1);
+                if (val < 99) { setTimeout(progress, 25); }
+            } setTimeout(progress, 100);
+        }
+
+        function ClearRecords() {
+            $("#btnUploadAgain").addClass('d-none');
+            $('#FileBrowse').find("*").prop("disabled", false);
+            $("#Files").val('');
+            $("#ListofFiles tbody").empty();
+
+        }
+
+    </script>
+
+
+
+}

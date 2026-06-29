@@ -1,0 +1,90 @@
+@model IEnumerable<ExcelTranscript.Controllers.UserMgmtRow>
+@{
+    ViewBag.Title = "User Management";
+}
+
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="m-0">User Management</h5>
+            <small>View / change passwords &amp; delete users</small>
+        </div>
+        <div class="card-body">
+
+            @if (TempData["UMMsg"] != null)
+            {
+                <div class="alert alert-success">@TempData["UMMsg"]</div>
+            }
+            @if (TempData["UMErr"] != null)
+            {
+                <div class="alert alert-danger">@TempData["UMErr"]</div>
+            }
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>User Name</th>
+                            <th>Name</th>
+                            <th>Role(s)</th>
+                            <th>Password</th>
+                            <th>Active</th>
+                            <th>Change Password</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var i = 1; }
+                        @foreach (var u in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@u.UserName</td>
+                                <td>@u.Name</td>
+                                <td>@u.Roles</td>
+                                <td>
+                                    @if (string.IsNullOrEmpty(u.PlainPassword))
+                                    {
+                                        <span class="text-muted">(set via "Change Password")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="pwd" data-pwd="@u.PlainPassword">••••••••</span>
+                                        <button type="button" class="btn btn-sm btn-link p-0 ml-1 toggle-pwd">show</button>
+                                    }
+                                </td>
+                                <td>@(u.IsActive ? "Yes" : "No")</td>
+                                <td>
+                                    <form method="post" action="@Url.Action("ChangePassword", "UserManagement")" class="form-inline">
+                                        <input type="hidden" name="id" value="@u.Id" />
+                                        <input type="text" name="newPassword" class="form-control form-control-sm mr-1" placeholder="New password" required />
+                                        <button type="submit" class="btn btn-sm btn-warning">Set</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" action="@Url.Action("Delete", "UserManagement")" onsubmit="return confirm('Delete user @u.UserName? This cannot be undone.');">
+                                        <input type="hidden" name="id" value="@u.Id" />
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-muted mb-0"><small>Note: passwords are also stored hashed for login; the plaintext column exists so admins can view them, consistent with how the app already stores provider/manager passwords.</small></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).on('click', '.toggle-pwd', function () {
+            var span = $(this).prev('.pwd');
+            if (span.text().indexOf('•') === 0) { span.text(span.data('pwd')); $(this).text('hide'); }
+            else { span.text('••••••••'); $(this).text('show'); }
+        });
+    </script>
+}

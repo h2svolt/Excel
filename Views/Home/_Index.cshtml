@@ -1,0 +1,353 @@
+﻿@model IEnumerable<ExcelTranscript.Models.stp_GetDocumentsDataNew_Result>
+
+@using ExcelTranscript.Models;
+@using ExcelTranscript.Models.Helper;
+@using System.Globalization;
+@using Microsoft.Ajax.Utilities;
+
+@{
+    var db = new db_ExcelTransEntities();
+    var modalities = db.Modalities.ToList();
+    var audios = db.UploadedFiles.ToList();
+    var applicationUsers = db.AspNetUsers.ToList();
+
+}
+
+<style>
+    .clicked {
+        background-color: white;
+    }
+</style>
+
+<div class="box-shadow mt-3">
+    @if (Model != null && Model.Count() > 0)
+    {
+        <div class="table-responsive ">
+            <table id="example" class="table table-responsive table-bordered nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col" style="min-width: 25px;">S. No</th>
+                        <th scope="col">Stat</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" style="min-width: 150px;">Clinic</th>
+                        <th scope="col" style="min-width: 100px;">Provider</th>
+                        <th scope="col" style="min-width: 100px;">Typist</th>
+                        <th scope="col" style="min-width: 100px;">Date Of Typing</th>
+                        <th scope="col" style="min-width: 100px;">Patient Name </th>
+                        <th scope="col" style="min-width: 100px;">MRN</th>
+                        <th scope="col" style="min-width: 100px;">Date Of Birth</th>
+                        <th scope="col" style="min-width: 100px;">Modality</th>
+                        <th scope="col" style="min-width: 100px;">Date Of Study</th>
+                        <th scope="col" style="min-width: 100px;">Fax Status</th>
+                        <th scope="col">Document(s)</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int index = 1;
+                        var customFormatInfo = new DateTimeFormatInfo { DateSeparator = "/" };
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        string RowColor;
+                        if (item.StackMark == 1)
+                        {
+                            RowColor = "Red";
+                        }
+                        else
+                        {
+                            RowColor = "Black";
+                        }
+
+                        //if (item.DocCounts == 0 && string.IsNullOrWhiteSpace(item.Status))
+                        //{
+                        //    var audio = db.UploadedFiles.Where(a => a.FileID == item.AudioID).FirstOrDefault();
+                        //    item.Status = audio.Status.Name;
+                        //    item.StatusColor = audio.Status.Color;
+
+                        //    var oldDoc = db.UploadedDocuments.Where(d => d.FileID == item.AudioID).ToList();
+                        //    if (oldDoc.Count == 1)
+                        //    {
+                        //        foreach (var doc in oldDoc)
+                        //        {
+                        //            item.PatientName = doc.PatientName;
+                        //            item.RefDoctor = doc.RefDoctor;
+                        //            item.DOB = doc.DOB;
+                        //            item.DOS = doc.DOS;
+                        //            item.MRN = doc.MRN;
+                        //            item.DocumentName = doc.FileName;
+                        //            var modlty = modalities.Where(p => p.Id == doc.ModalityId).FirstOrDefault();
+                        //            item.ModalityName = modlty == null ? "" : modlty.ModalityName;
+                        //        }
+                        //    }
+                        //}
+
+                        if (string.IsNullOrWhiteSpace(item.StatusColor))
+                        {
+                            var audioStatus = audios.Where(a => a.FileID == item.AudioID).FirstOrDefault();
+                            if (audioStatus != null)
+                            {
+                                item.Status = audioStatus.Status.Name;
+                                item.StatusColor = audioStatus.Status.Color;
+                            }
+                            else
+                            {
+                                item.StatusColor = db.Status.Where(s => s.Id == 1).FirstOrDefault().Color;
+                                item.Status = db.Status.Where(s => s.Id == 1).FirstOrDefault().Name;
+                            }
+                        }
+
+                        <tr style="background-color: @item.StatusColor">
+                            <td>
+                                @index
+                            </td>
+                            <td>
+                                <span class="fa fa-star" style="height:5px;width:8px;color:@RowColor;font-size:large;margin-left:5px;margin-top:8px" id="StarId" aria-hidden="false" onclick="StackMark(this,'@item.AudioID')"></span>
+                            </td>
+                            <td class="text-center">
+                                @if (!@User.IsInRole("Typist"))
+                                {
+                                    if (item.Status == "Ready For Review")
+                                    {
+                                        <button style="background-color:blue" type="button" onclick="CheckDocStatus('@item.DocumentId', false, false)" class="btn btn-info"> Ready For Review </button>
+                                    }
+                                    else if (item.Status == "Approved")
+                                    {
+                                        <button type="button" onclick="CheckDocStatus('@item.DocumentId',true, false)" class="btn btn-success"> Approved </button>
+                                    }
+                                    else if (item.Status == "Rejected")
+                                    {
+                                        <button type="button" onclick="CheckDocStatus('@item.DocumentId', false, false)" class="btn btn-danger"> Rejected </button>
+                                    }
+                                    else if (item.Status == "Archived")
+                                    {
+                                        <button type="button" disabled="disabled" class="btn btn-secondary"> Archived </button>
+                                    }
+                                    else
+                                    {
+                                        if (@User.IsInRole("Provider"))
+                                        {
+                                            if (item.Status == "Unassigned" || item.Status == "Assigned")
+                                            {
+                                                string Name = (item.Status = "InProgress");
+
+                                                @Html.DisplayFor(modelItem => Name)
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Clinic)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Provider)
+                            </td>
+                            <td>
+                                @{
+                                    string typistName = "";
+                                    var typist = applicationUsers.Where(u => u.UserId == item.TypistAssignID).FirstOrDefault();
+                                    if (typist != null)
+                                    {
+                                        typistName = typist.UserName;
+                                    }
+                                    else
+                                    {
+                                        typistName = "N/A";
+                                    }
+                                }
+                                @typistName
+                            </td>
+                            @*<td hidden title="Click here to download this file." style="cursor: pointer;">
+                                    @Html.DisplayFor(modelItem => item.AudioFile)
+                                </td>
+                                <td hidden>
+                                    @Html.DisplayFor(modelItem => item.Duration)
+                                </td>*@
+                            <td>
+                                @*@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Uploaded))*@
+                                @Convert.ToString(string.Format("{0:MM/dd/yyyy hh:mm:ss tt}", item.DOT))
+                            </td>
+                            <td>
+                                @if (string.IsNullOrWhiteSpace(item.PatientName))
+                                {
+                                    item.PatientName = "N/A";
+                                }
+                                @Html.DisplayFor(modelItem => item.PatientName)
+
+                            </td>
+                            <td>
+                                @*@if (item.MRN == null)
+                                    {
+                                        item.MRN = patient.MRN ?? "";
+                                    }*@
+                                @{var mrn = string.IsNullOrWhiteSpace(item.MRN) ? "N/A" : item.MRN; }
+                                @mrn
+                            </td>
+                            <td>
+                                @{
+                                    //if (item.DOB == null)
+                                    //{
+                                    //    item.DOB = patient.DOB ?? "";
+                                    //}
+                                    var dob = "";
+                                    if (!string.IsNullOrWhiteSpace(item.DOB) && DateTime.TryParse(item.DOB, customFormatInfo, DateTimeStyles.None, out DateTime sampleDate))
+                                    {
+                                        dob = sampleDate.ToString("MM/dd/yyyy", customFormatInfo);
+                                    }
+                                    else
+                                    {
+                                        dob = "N/A";
+                                    }
+                                }
+                                @dob
+                            </td>
+                            <td>
+                                @{
+                                    if (string.IsNullOrWhiteSpace(item.ModalityName))
+                                    {
+                                        item.ModalityName = "N/A";
+                                    }
+
+                                }
+                                @item.ModalityName
+                            </td>
+                            <td>
+                                @{
+                                    if (string.IsNullOrWhiteSpace(item.DOS))
+                                    {
+                                        item.DOS = "N/A";
+                                    }
+                                }
+                                @item.DOS
+                            </td>
+                            <td>
+                                @{
+                                    string faxStatus = "";
+                                    var tbl_faxStatus = db.FileFaxStatus.Where(f => f.UpDocID == item.DocumentId).FirstOrDefault();
+                                    if (tbl_faxStatus != null)
+                                    {
+                                        faxStatus = tbl_faxStatus.Status;
+                                    }
+                                    else
+                                    {
+                                        faxStatus = "N/A";
+                                    }
+                                }
+                                @faxStatus
+                            </td>
+
+                            @*<td>
+                                    @{
+                                        var mrn = string.IsNullOrWhiteSpace(item.MRN) ? "N/A" : item.MRN;
+                                    }
+                                    @mrn
+                                </td>
+                                <td>
+                                    @{
+                                        var dob = "";
+                                        if (!string.IsNullOrWhiteSpace(item.DOB) && DateTime.TryParse(item.DOB, customFormatInfo, DateTimeStyles.None, out DateTime sampleDate))
+                                        {
+                                            dob = sampleDate.ToString("MM/dd/yyyy", customFormatInfo);
+                                        }
+                                        else
+                                        {
+                                            dob = "N/A";
+                                        }
+                                    }
+                                    @dob
+                                </td>
+                                <td>
+                                    @{var mod = string.IsNullOrWhiteSpace(item.ModalityName) ? "N/A" : item.ModalityName; }
+                                    @mod
+                                </td>
+                                <td>
+                                    @{
+                                        var dos = "";
+                                        if (!string.IsNullOrWhiteSpace(item.DOS) && DateTime.TryParse(item.DOS, customFormatInfo, DateTimeStyles.None, out DateTime sampleDate2))
+                                        {
+                                            dos = sampleDate2.ToString("MM/dd/yyyy", customFormatInfo);
+                                        }
+                                        else
+                                        {
+                                            dos = "N/A";
+                                        }
+                                    }
+                                    @dos
+                                </td>*@
+                            @{
+                                //var pid = item.DocumentId ?? 0;
+                                //if (pid > 0)
+                                //{
+                                //    docs = db.UploadedDocuments.Where(d => d.PatientID == item.PatientId && d.FileID == item.AudioID).ToList();
+                                //}
+                                //else
+                                //{
+                                //    docs.Clear();
+                                //    docs = db.UploadedDocuments.Where(d => d.FileID == item.AudioID && d.PatientName == item.PatientName && d.PatientID == null).ToList();
+                                //}
+                            }
+                            <td>
+
+                                <button class="badge badge-dark badge-pill mt-1 " type="button" data-toggle="modal" data-target="#documentModal" onclick="GetDocumentDetails(@item.DocumentId)">
+                                    @item.DocumentName
+                                </button>
+
+
+                            </td>
+                            <!--<td scope="row">
+
+                                <button class="btn btn-success" data-toggle="collapse" data-target="#audio1">3</button>
+
+                                <!--//if (item.DocCounts > 0)
+                                {
+                                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal" onclick="GetAudioDocuments(@item.AudioID)">
+                                        //(objDoc.Where(sa => sa.FileID == item.AudioID && sa.DocChildID == null).Count())
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-danger"> //(item.DocCounts) </button>
+                                }
+                            </td>-->
+
+
+                        </tr>
+                        index++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <text>
+            <div class="text-center p-4">
+                <b>No matching data found!</b>
+            </div>
+            @*<script type="text/javascript">
+                    swal("No Data", "No Data Found!", "error");
+                </script>*@
+        </text>
+    }
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $('.star').click(function () {
+            $(this).toggleClass('clicked');
+        });                                                                                                                                                             //GetTableData(col, 0, "desc");
+    </script>
+
+}

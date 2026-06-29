@@ -1,0 +1,600 @@
+@model IEnumerable<ExcelTranscript.Models.UploadedDocument>
+
+@using ExcelTranscript.Models;
+@{
+    ViewBag.Title = "Documents List";
+    db_ExcelTransEntities db = new db_ExcelTransEntities();
+    var obj = db.Modalities;
+
+}
+<section class="content">
+
+    <!-- *========== Main Heading ========== -->
+    @*<div class="pt-3 pb-2">
+            <div class="container-fluid">
+                <h2 class="main-heading">Clinic List</h2>
+            </div>
+        </div>*@
+
+    <!-- *========== Breadcrumbs ========== -->
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-white px-0 mb-0">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "WordDocUpload")">Home</a></li>
+                <li class="breadcrumb-item active">Documents</li>
+                <li class="breadcrumb-item active">@ViewBag.Title</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- *========== Data Table ========== -->
+    <div class="py-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div>
+                    <input type="button" class="btn btn-primary" value="Download" hidden id="submitBtn" />
+                </div>
+                <div class="col-md-12">
+                    <form action="" method="" class="py-2 px-3 box-shadow box-rounded">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="form-title p-0 mb-1"><i class="fa fa-filter" aria-hidden="true"></i> Filter</h5>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Clinic">Clinic</label>
+                                    @if (User.IsInRole("Provider"))
+                                    {
+                                        @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), "Select Clinic", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), "Select Clinic", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Provider">Provider</label>
+                                    @if (User.IsInRole("Provider"))
+                                    {
+                                        @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), "Select Provider", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Typist">Typist</label>
+                                    @if (User.IsInRole("Typist"))
+                                    {
+                                        @Html.DropDownList("TypistAssignID", new SelectList(ViewBag.GetTypist, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("TypistAssignID", new SelectList(ViewBag.GetTypist, "value", "text"), "Select Typist", htmlAttributes: new { @class = "select2 form-control" })
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="Status">Doc. Status</label>
+                                    @Html.DropDownList("StatusId", new SelectList(ViewBag.StatusId, "value", "text"), "Select Status", htmlAttributes: new { @class = "select2 form-control" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="from">From</label>
+                                    <input id="fromDate" type="text" class="form-control disablefocus" name="from">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0" for="to">To</label>
+                                    <input id="toDate" type="text" class="form-control disablefocus" name="to">
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="text-white m-0">asdf</label>
+                                <button type="button" class="btn btn-block btn-primary" id="btnSearch">
+                                    <i class="fa fa-search"></i>&nbsp;Search
+                                </button>
+                                @*<input type="button" id="btnSearch" value="Apply" class="btn btn-primary" />*@
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="SearchResult">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@section scripts{
+
+    <script>
+
+        $(document).ready(() => {
+
+            $("#DictatorID").select2();
+            $("#ClinicID").select2();
+            $("#StatusId").select2();
+            $("#TypistAssignID").select2();
+            $("#example").DataTable();
+
+            var date = new Date();
+            date.setDate(date.getDate() - 1);
+
+            $("#fromDate").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+            $("#toDate").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+            $("#fromDate").datepicker('setDate', date);
+            $("#toDate").datepicker('setDate', new Date());
+            $("#btnSearch").trigger("click");
+        });
+        //$("#example").DataTable();
+
+        //$("#select_all").change(function () {  //"select all" change
+        //    console.log("InCheckbox");
+        //    $(".checkbox").prop('checked', $(this).prop("checked")); //change all ".checkbox" checked status
+        //});
+
+        $('#example tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $(document).on('change', '#select_all', function () {
+            if ($(this).is(":checked")) {
+                //$("input[type='checkbox']").prop('checked', true);
+                $("#example").DataTable().rows().select();
+                $('#example > tbody').find('tr').each(function (i) {
+                    var $row = $(this).find('td');
+                    var id = $row.eq(0).find(".fileID").val();
+                    if (id != undefined || id != 0) {
+                        arr += id + ',';
+                    }
+                });
+            } else {
+                $("#example").DataTable().rows().deselect();
+                //$("input[type='checkbox']").prop('checked', false);
+                arr = "";
+            }
+        });
+
+        //".checkbox" change
+        $('.checkbox').change(function () {
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if (false == $(this).prop("checked")) { //if this item is unchecked
+                $("#select_all").prop('checked', false); //change "select all" checked status to false
+            }
+            //check "select all" if all checkbox items are checked
+            if ($('.checkbox:checked').length == $('.checkbox').length) {
+                $("#select_all").prop('checked', true);
+            }
+        });
+
+
+
+        $("#btnSearch").on("click", function () {
+            $('.Loader').show();
+
+            //var DictatorID = $('#DictatorID').val();
+            //var ClinicID = $('#ClinicID').val();
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            //var StatusId = $('#StatusId').val();
+            var html = '<img src="@ViewBag.Picture" class="brand-logo" align = "left" margin="10px"><h1  align="center">@ViewBag.CompanyName</h1><h5 align="center">@ViewBag.CompanyAddress </h5><h5 align="center">Contact: @ViewBag.CompanyCell</h5><hr /><h4 align="center"> @ViewBag.Title </h4>';
+
+
+            if (fromDate != "" && toDate != "") {
+                html += "<h4>From:    " + fromDate + "            TO:    " + toDate + " </h4>";
+            }
+            if (fromDate != "" && toDate != "" && (new Date($("#fromDate").val())) != "Invalid Date" && (new Date($("#toDate").val()) != "Invalid Date")) {
+                $.ajax({
+                    url: "@Url.Action("Index", "WordDocUpload")",
+                    data: {
+                        btn: true,
+                        DictatorID: $('#DictatorID').val(),
+                        ClinicID: $('#ClinicID').val(),
+                        TypistID: $('#TypistAssignID').val(),
+                        StatusId: $('#StatusId').val(),
+                        fromDate: $('#fromDate').val(),
+                        toDate: $('#toDate').val(),
+                    },
+                    success: function (data) {
+                        $("#SearchResult").html(data);
+                        $('#example').dataTable({
+                            columnDefs: [{
+                                orderable: false,
+                                className: 'select-checkbox',
+                                targets: 0
+                            }],
+                            select: {
+                                style: 'multi',
+                                selector: 'td:first-child'
+                            },
+                            ordering: false,
+                            stateSave: true,
+                            dom: '<"top" lB> frtip',
+                            lengthMenu: [
+                                [10, 25, 50, 100, -1],
+                                [10, 25, 50, 100, 'All'],
+                            ],
+                            buttons: [
+                                {
+                                    text: '<i class="fa fa-refresh"></i> Refresh',
+                                    className: 'btn-refresh',
+                                    action: function (e, dt, node, config) {
+                                        $('#btnSearch').click();
+                                    }
+                                },
+                                {
+                                    extend: 'print',
+                                    messageTop: function () {
+                                        return '<h3 align="center">@ViewBag.Title</h3>';
+                                        //return '<h3 align="center" style="margin-top:208px; margin-bottom:76px;">Products List</h3>';
+                                    },
+                                    title: '',
+                                    messageBottom: 'Powered by H2S Volt',
+                                    exportOptions: {
+                                        //columns: [0, 1, 2, 3]
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    messageTop: '@ViewBag.Title',
+                                    messageBottom: 'Powered by H2S Volt',
+                                    //exportOptions: {
+                                    //    //columns: [0, 1, 2, 3]
+                                    //}
+                                },
+                                {
+                                    text: 'Download Selected',
+                                    action: function (e, dt, node, config) {
+                                        var selectedItems = $('#example').DataTable().rows({ selected: true });
+                                        DownLoadSelectedItems(selectedItems);
+                                    }
+                                },
+                                {
+                                    text: 'Delete Selected',
+                                    action: function (e, dt, node, config) {
+                                        var selectedItems = $('#example').DataTable().rows({ selected: true });
+                                        BulkDelete(selectedItems);
+                                    }
+                                }
+                            ]
+                        });
+                        $('.Loader').hide();
+
+                    },
+                    error: function (xhr, status) {
+                        $('.Loader').hide();
+                    }
+                });
+            }
+            else {
+                $('.Loader').hide();
+                swal({
+                    title: "Invalid Date",
+                    text: "Please select correct date range!",
+                    icon: "warning",
+                    buttons: false,
+                    timer: 2500
+                });
+            }
+        });
+
+
+
+        $('#submitBtn1').click(function () {
+            console.log("test");
+            var STRMS = [];
+
+            var chkall = $("#select_all").is(':checked');
+            console.log(chkall);
+            if (chkall == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DownloadFiles", "WordDocUpload")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ 'STRMSelected': null }),
+                    success:
+                        function (data) {
+                            if (data == true)
+                                alert("Downloaded Successfully")
+                            else ("Download failed")
+                        }
+
+                });
+            }
+            else {
+
+                $('#example tbody tr').each(function (i, n) {
+                    var $row = $(n);
+
+                    if ($row.find('input[id = "selectedid"]').is(':checked')) {
+
+                        STRMS.push($row.find('input[id="selectedid"]').val());
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DownloadFiles", "WordDocUpload")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ 'STRMSelected': STRMS }),
+                    success:
+                        function (data) {
+                            if (data == true)
+                                alert("Downloaded Successfully")
+                            else ("Download failed")
+                        }
+                });
+
+                console.log(STRMS);
+            }
+        });
+var testingrow;
+        function CheckMark(e, id) {
+            $('.Loader').show();
+
+            testingrow = $(e);
+            var DocId = parseInt(id);
+            var ModalityId = parseInt($(e).parents('tr').find("#item_ModalityId").val());
+            console.log(DocId);
+            console.log(ModalityId);
+            if (DocId > 0) {
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("CheckMark", "WordDocUpload")',
+                    dataType: "json",
+                    data: JSON.stringify({ 'DocId': DocId, 'ModalityId': ModalityId }),
+                    async: true,
+                    success: function (data) {
+                        if(data == true)
+                        {
+                            $(e).css("color","Green");
+                        }
+                        else
+                        {
+                            $(e).css("color","Red");
+                        }
+                        $('.Loader').hide();
+
+                    },
+                    error: function (xhr, status) {
+                        $('.Loader').hide();
+                    }
+                });
+            } else {
+                $('.Loader').hide();
+            }
+            }
+
+        function UpdateStatus(Id) {
+            let qID = Id || 0;
+            if (qID > 0) {
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/WordDocUpload/UpdateStatus?Id=' + qID,
+                    async: true,
+                    success: function (data) {
+                    }
+                });
+            }
+        }
+
+        var arr = '';
+        var FileIDs = [];
+        function CheckedIDs(e, fileID) {
+            if ($(e).is(":checked")) {
+                if (arr) {
+                    arr+= ","
+                }
+                arr += fileID ;
+                console.log(arr);
+            }
+            else {
+                if (arr.includes(fileID)) {
+
+                    if (arr.includes(',')) {
+                        FileIDs = arr.split(",");
+
+                        var arrindex = FileIDs.indexOf(fileID.toString(), 0);
+                        FileIDs.splice(arrindex,1);
+                        arr = FileIDs.join();
+                    }
+                    else {
+                        arr = '';
+                    }
+
+                }
+            }
+        }
+
+        $('#submitBtn').click(function () {
+
+            if (arr == '') {
+                var url = '@Url.Action("DownloadFiles", "WordDocUpload")?STRMSelected';
+                window.open(url, "_blank")
+            }
+            else {
+                FileIDs = arr.split(',');
+                console.log(FileIDs)
+                var param = '';
+                for (var i = 0; i < FileIDs.length; i++) {
+                    param += `STRMSelected[${i}]=` + FileIDs[i] + `&`;
+                }
+                param = param.substring(0, param.length - 1);
+
+                var url = '@Url.Action("DownloadFiles", "WordDocUpload")?' + param;
+                window.open(url, "_blank")
+            }
+});
+
+        function DownLoadSelectedItems(selectedItems) {
+            if (selectedItems.count() == 0) {
+               swal({
+                   title: "Warning: Please Select!",
+                   text: "Please select item(s) to download!",
+                   icon: "warning",
+                   button: "Okay"
+               });
+            } else {
+                let param = '';
+                selectedItems.data().each(function (value, index) {
+                    let id = value[0].substring(57, value[0].length - 2);
+                    param += `STRMSelected[${index}]=` + id + `&`;
+                });
+                param = param.substring(0, param.length - 1);
+                var url = '@Url.Action("DownloadFiles", "WordDocUpload")?' + param;
+                window.open(url, "_blank");
+            }
+        }
+
+        function BulkDelete(selectedItems) {
+            if (selectedItems.count() == 0) {
+                swal({
+                    title: "Warning: Please Select!",
+                    text: "Please select document(s) to Delete!",
+                    icon: "warning",
+                    button: "Okay"
+                });
+                return;
+            }
+            swal({
+                title: "Confirm Delete!",
+                text: "Are you sure you want to delete these documents?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $('.Loader').show();
+
+                    let param = '';
+                    selectedItems.data().each(function (value, index) {
+                        let id = value[0].substring(57, value[0].length - 2);
+                        param += `` + id + `,`;
+                    });
+
+                    param = param.substring(0, param.length - 1);
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: '/WordDocUpload/BulkRemoveDocuments?DocIds=' + param,
+                        async: true,
+                        success: function (response) {
+                            if (response.returnObj != undefined) {
+                                swal(response.returnObj, {
+                                    icon: "success",
+                                    button: "Okay"
+                                }).then((e) => {
+                                    $("#btnSearch").click();
+                                });
+                            } else {
+                                swal({
+                                    title: "Delete Failed!",
+                                    text: response,
+                                    icon: "error",
+                                    button: "Okay"
+                                });
+                            }
+                            $('.Loader').hide();
+
+                        },
+                        error: function (xhr, status) {
+                            console.log(xhr);
+                            $('.Loader').hide();
+
+                        }
+                    });
+                }
+            });
+        };
+
+        function ConfDelDictation(Id) {
+            swal({
+                title: "Confirm Delete!",
+                text: "Are you sure you want to delete this document?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+
+                    let fileId = parseInt(Id);
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: '/WordDocUpload/RemoveDocument?DocId=' + fileId,
+                        async: true,
+                        success: function (data) {
+                            if (data == true) {
+                                swal("Document has been deleted!", {
+                                    icon: "success",
+                                    button: "Okay"
+                                }).then((e) => {
+                                    $("#btnSearch").click();
+                                });
+                            } else {
+                                swal({
+                                    title: "Delete Failed!",
+                                    text: data,
+                                    icon: "error",
+                                    button: "Okay"
+                                });
+                            }
+                        },
+                        error: function (xhr, status) {
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+        };
+
+        function DownloadFile(DocId) {
+
+            if (DocId != null && DocId != '') {
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Home/DownloadFile',
+                    data: JSON.stringify({ DocId: DocId }),
+                    async: true,
+                    success: function (data) {
+
+                        if (data.success) {
+                            window.open(data.Link);
+                        }
+
+                    }, error: function () {
+                        $('.Loader').hide();
+                    }
+                });
+            }
+        }
+    </script>
+}

@@ -1,0 +1,174 @@
+﻿@model ExcelTranscript.Models.UploadedFile
+
+@{
+    ViewBag.title = "Upload File";
+    var Dictatorlst = ViewBag.DictatorID;
+}
+@Styles.Render("~/Content/jQuery-File-Upload")
+<noscript>
+    <link href="~/Content/jQuery.FileUpload/css/jquery.fileupload-noscript.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/jQuery.FileUpload/css/jquery.fileupload-ui-noscript.css" rel="stylesheet" type="text/css" />
+</noscript>
+
+<section class="content">
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UploadFiles")">Home</a></li>
+                    <li class="breadcrumb-item active">Upload Transcriptions</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- *========== Upload Transcription ========== -->
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="form-title pb-2"><i class="fa fa-user-o" aria-hidden="true"></i> Information</h4>
+                        </div>
+                        <div class="col-md-4 py-2">
+                            <div class="form-group">
+                                <label for="ClinicID">Clinic</label>
+                                @if (User.IsInRole("Provider"))
+                                {
+                                    @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), htmlAttributes: new { @class = "select2 form-control", @Disabled = "Disabled" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("ClinicID", new SelectList(ViewBag.ClinicID, "value", "text"), "Select Clinic", htmlAttributes: new { @class = "select2 form-control" })
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 py-2">
+                            <div class="form-group m-0">
+                                <label for="DictatorID">Provider</label>
+                                @if (User.IsInRole("Provider"))
+                                {
+                                    @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "Text"), new { @class = "form-control", @Disabled = "Disabled" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "Text"), "Please select a Provider", new { @class = "form-control" })
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @Html.Partial("_Files")
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jQuery-File-Upload")
+    <script src="~/Scripts/General.js"></script>
+    <script type="text/javascript">
+
+        let fileUploader = null;
+        $(document).ready(function () {
+            $("#startUpload").attr("disabled", true);
+            $(".cancel").attr("disabled", true);
+            $('#fileUploadProgress').addClass('d-none');
+            $("#DictatorID").select2();
+            $("#ClinicID").select2();
+            fileUploader = undefined;
+
+            $('#fileupload').fileupload();
+        });
+
+
+        $("#DictatorID").on('change', function () {
+            let dictatorID = $("#DictatorID").val();
+            FileUploading(dictatorID);
+        });
+
+        $("#files").on('change', function () {
+            let dictatorID = $("#DictatorID").val();
+            if (dictatorID == '' || dictatorID == null || dictatorID == undefined) {
+                alert("Please select a Provider!");
+                $('.table tbody.files').empty();
+                return;
+            } else {
+                FileUploading(dictatorID);
+                $("#startUpload").attr("disabled", false);
+                $(".cancel").attr("disabled", false);
+                //$('#progressbar').show();
+                $('#fileUploadProgress').removeClass('d-none');
+                CheckProgress();
+            }
+        });
+
+        $(".cancel").on('click', function () {
+            $('.table tbody.files').empty();
+            $("#startUpload").attr("disabled", true);
+            $(".cancel").attr("disabled", true);
+            location.reload();
+        });
+
+        $("#startUpload").on('click', function () {
+            $("#startUpload").attr("disabled", true);
+            $(".cancel").attr("disabled", false);
+
+        });
+
+        function FileUploading(dictatorID) {
+            fileUploader = $('#fileupload').fileupload
+                ('option',
+                    {
+                        url: '/UploadFiles/SingleUploadAsync?DictatorID=' + dictatorID,
+                        sequentialUploads: true,
+                        dataType: 'json',
+                        type: 'POST',
+                    },
+                );
+        }
+
+        function CheckProgress() {
+            let checkProgress = setInterval(function () {
+                if ($('#btnStrt').length == 0) {
+                    $('#successAlert').removeClass('d-none');
+                    $('#fileUploadProgress').addClass('d-none');
+                    $('#progressbar').hide();
+                    clearInterval(checkProgress);
+                    fileUploader.fileupload('destroy');
+                    fileUploader = undefined;
+                }
+            }, 10);
+        }
+        $("#ClinicID").change(function () {
+            var ClinicID = $('#ClinicID').val();
+            getProviders(ClinicID);
+        });
+
+        function getProviders(ClinicID) {
+
+            if (ClinicID == "") { ClinicID = -1; }
+            var json = { "ClinicID": ClinicID };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '/Dictators/GetProviders',
+                async: true,
+                data: JSON.stringify(json),
+                success: function (data) {
+                    //console.log(data)
+                    GetDropdown("DictatorID", data, true);
+                },
+                error: function (err) { console.log(err); }
+            });
+        }
+
+    </script>
+}

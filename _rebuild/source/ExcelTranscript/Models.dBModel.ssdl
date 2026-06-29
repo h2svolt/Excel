@@ -1,0 +1,887 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_ExcelTransModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AccountType">
+    <Key>
+      <PropertyRef Name="AccountTypeID" />
+    </Key>
+    <Property Name="AccountTypeID" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AppUserProfile">
+    <Key>
+      <PropertyRef Name="AppUserID" />
+    </Key>
+    <Property Name="AppUserID" Type="int" Nullable="false" />
+    <Property Name="LoginID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cell" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="OtherPhone" Type="varchar" MaxLength="20" />
+    <Property Name="CNICNo" Type="varchar" MaxLength="20" />
+    <Property Name="Description" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="AddOn" Type="smalldatetime" Nullable="false" />
+    <Property Name="AddBy" Type="int" Nullable="false" />
+    <Property Name="UpdateOn" Type="smalldatetime" />
+    <Property Name="UpdateBy" Type="int" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsApproved" Type="bit" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="UserType" Type="nvarchar" MaxLength="50" />
+    <Property Name="DistrictID" Type="int" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+    <Property Name="AgentID" Type="int" />
+    <Property Name="DeviceID" Type="nvarchar" MaxLength="100" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ShortCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CountryID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Clinic">
+    <Key>
+      <PropertyRef Name="ClinicID" />
+    </Key>
+    <Property Name="ClinicID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="State" Type="nvarchar" MaxLength="50" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" />
+    <Property Name="ZipCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cell" Type="nvarchar" MaxLength="50" />
+    <Property Name="FaxNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="URL" Type="nvarchar" MaxLength="100" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CP_Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="CP_Phone" Type="nvarchar" MaxLength="100" />
+    <Property Name="CP_Cell" Type="nvarchar" MaxLength="20" />
+    <Property Name="CP_Address" Type="nvarchar" MaxLength="120" />
+    <Property Name="CP_Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="CP_Pager" Type="nvarchar" MaxLength="100" />
+    <Property Name="SystemID" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ContactPerson">
+    <Key>
+      <PropertyRef Name="CPID" />
+    </Key>
+    <Property Name="CPID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cell" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Pager" Type="nvarchar" MaxLength="50" />
+    <Property Name="AccountTypeID" Type="int" Nullable="false" />
+    <Property Name="AccountID" Type="int" Nullable="false" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="CountryID" />
+    </Key>
+    <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ShortCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dictator">
+    <Key>
+      <PropertyRef Name="DictatorID" />
+    </Key>
+    <Property Name="DictatorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountID" Type="int" Nullable="false" />
+    <Property Name="SystemID" Type="nvarchar" MaxLength="50" />
+    <Property Name="LoginID" Type="nvarchar" MaxLength="128" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="AllClientAccess" Type="bit" Nullable="false" />
+    <Property Name="Prefix" Type="nvarchar" MaxLength="50" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+    <Property Name="SpecialityID" Type="int" Nullable="false" />
+    <Property Name="IsSecretary" Type="bit" Nullable="false" />
+    <Property Name="IsFax" Type="bit" Nullable="false" />
+    <Property Name="IsReview" Type="bit" Nullable="false" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CP_Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="CP_Phone" Type="nvarchar" MaxLength="100" />
+    <Property Name="CP_Cell" Type="nvarchar" MaxLength="20" />
+    <Property Name="CP_Address" Type="nvarchar" MaxLength="120" />
+    <Property Name="CP_Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="CP_Pager" Type="nvarchar" MaxLength="100" />
+    <Property Name="SecretaryName" Type="nvarchar" MaxLength="100" />
+    <Property Name="NoOfLine" Type="int" />
+    <Property Name="RateOfLine" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="AddSign" Type="bit" />
+  </EntityType>
+  <EntityType Name="DictatorSecretary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DictatorId" Type="int" />
+    <Property Name="SecretaryId" Type="int" />
+  </EntityType>
+  <EntityType Name="FileFaxStatus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FaxID" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="UpDocID" Type="int" Nullable="false" />
+    <Property Name="FileID" Type="int" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="ToNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="DateCreated" Type="nvarchar" MaxLength="50" />
+    <Property Name="PageCount" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FileLog">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileID" Type="int" Nullable="false" />
+    <Property Name="LogDate" Type="datetime" />
+    <Property Name="LogTypeID" Type="int" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogType">
+    <Key>
+      <PropertyRef Name="LogTypeID" />
+    </Key>
+    <Property Name="LogTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LogTypeTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Manager">
+    <Key>
+      <PropertyRef Name="ManagerID" />
+    </Key>
+    <Property Name="ManagerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountID" Type="int" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="AddedOn" Type="datetime" />
+    <Property Name="AddedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="isActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ManagerClinic">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ManagerID" Type="int" Nullable="false" />
+    <Property Name="ClinicID" Type="int" Nullable="false" />
+    <Property Name="DictatorID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Modality">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ModalityName" Type="varchar" MaxLength="255" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="Secretary">
+    <Key>
+      <PropertyRef Name="SecretaryID" />
+    </Key>
+    <Property Name="SecretaryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ShortCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="DictatorID" Type="int" />
+  </EntityType>
+  <EntityType Name="Speciality">
+    <Key>
+      <PropertyRef Name="SpecialityID" />
+    </Key>
+    <Property Name="SpecialityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="255" />
+    <Property Name="Color" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Typist">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypistName" Type="nvarchar" MaxLength="100" />
+    <Property Name="AddedOn" Type="datetime" Nullable="false" />
+    <Property Name="AddedBy" Type="int" Nullable="false" />
+    <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UploadedDocument">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileID" Type="int" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="400" />
+    <Property Name="FilePath" Type="nvarchar" MaxLength="800" />
+    <Property Name="Extension" Type="nvarchar" MaxLength="50" />
+    <Property Name="Size" Type="nvarchar" MaxLength="100" />
+    <Property Name="Decription" Type="nvarchar(max)" />
+    <Property Name="WordCount" Type="int" />
+    <Property Name="IsApproved" Type="bit" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="UploadBy" Type="int" Nullable="false" />
+    <Property Name="UploadOn" Type="datetime" Nullable="false" />
+    <Property Name="Duration" Type="nvarchar" MaxLength="50" />
+    <Property Name="DocChildID" Type="int" />
+    <Property Name="CharCount" Type="int" />
+    <Property Name="CharCountWithSpace" Type="int" />
+    <Property Name="LineCount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PatientName" Type="varchar" MaxLength="200" />
+    <Property Name="ModalityId" Type="int" />
+    <Property Name="MRN" Type="varchar" MaxLength="150" />
+    <Property Name="DOB" Type="varchar" MaxLength="50" />
+    <Property Name="DOS" Type="varchar" MaxLength="50" />
+    <Property Name="RefDoctor" Type="varchar" MaxLength="255" />
+    <Property Name="FaxNumber" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="UploadedFile">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="FilePath" Type="nvarchar" MaxLength="400" />
+    <Property Name="Extension" Type="nvarchar" MaxLength="50" />
+    <Property Name="Size" Type="nvarchar" MaxLength="50" />
+    <Property Name="DictatorID" Type="int" />
+    <Property Name="ClinicID" Type="int" />
+    <Property Name="UploadBy" Type="int" Nullable="false" />
+    <Property Name="UploadOn" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="IsDownloaded" Type="bit" Nullable="false" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="Duration" Type="nvarchar" MaxLength="50" />
+    <Property Name="TypistId" Type="int" />
+    <Property Name="TypistAssignID" Type="int" />
+    <Property Name="StackMark" Type="int" />
+  </EntityType>
+  <EntityType Name="UserLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AudioID" Type="int" />
+    <Property Name="DocID" Type="int" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="300" />
+    <Property Name="FileType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Action" Type="int" />
+    <Property Name="UserLogName" Type="nvarchar" MaxLength="150" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="UserLogId" Type="int" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="ProviderId" Type="int" />
+  </EntityType>
+  <Association Name="FK_AppUserProfile_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="AppUserProfile" Type="Self.AppUserProfile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AppUserProfile">
+        <PropertyRef Name="LoginID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_City_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="City" Type="Self.City" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="CountryID" />
+      </Principal>
+      <Dependent Role="City">
+        <PropertyRef Name="CountryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileLog_LogType">
+    <End Role="LogType" Type="Self.LogType" Multiplicity="0..1" />
+    <End Role="FileLog" Type="Self.FileLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogType">
+        <PropertyRef Name="LogTypeID" />
+      </Principal>
+      <Dependent Role="FileLog">
+        <PropertyRef Name="LogTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileLog_UploadedFile">
+    <End Role="UploadedFile" Type="Self.UploadedFile" Multiplicity="1" />
+    <End Role="FileLog" Type="Self.FileLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UploadedFile">
+        <PropertyRef Name="FileID" />
+      </Principal>
+      <Dependent Role="FileLog">
+        <PropertyRef Name="FileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ManagerClinics_Clinic">
+    <End Role="Clinic" Type="Self.Clinic" Multiplicity="1" />
+    <End Role="ManagerClinic" Type="Self.ManagerClinic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clinic">
+        <PropertyRef Name="ClinicID" />
+      </Principal>
+      <Dependent Role="ManagerClinic">
+        <PropertyRef Name="ClinicID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ManagerClinics_Dictator">
+    <End Role="Dictator" Type="Self.Dictator" Multiplicity="1" />
+    <End Role="ManagerClinic" Type="Self.ManagerClinic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dictator">
+        <PropertyRef Name="DictatorID" />
+      </Principal>
+      <Dependent Role="ManagerClinic">
+        <PropertyRef Name="DictatorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ManagerClinics_Manager">
+    <End Role="Manager" Type="Self.Manager" Multiplicity="1" />
+    <End Role="ManagerClinic" Type="Self.ManagerClinic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Manager">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="ManagerClinic">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Secretary_Dictator">
+    <End Role="Dictator" Type="Self.Dictator" Multiplicity="0..1" />
+    <End Role="Secretary" Type="Self.Secretary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dictator">
+        <PropertyRef Name="DictatorID" />
+      </Principal>
+      <Dependent Role="Secretary">
+        <PropertyRef Name="DictatorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UploadedDocument_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="UploadedDocument" Type="Self.UploadedDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UploadedDocument">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UploadedDocument_UploadedFile">
+    <End Role="UploadedFile" Type="Self.UploadedFile" Multiplicity="0..1" />
+    <End Role="UploadedDocument" Type="Self.UploadedDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UploadedFile">
+        <PropertyRef Name="FileID" />
+      </Principal>
+      <Dependent Role="UploadedDocument">
+        <PropertyRef Name="FileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UploadedFile_Clinic">
+    <End Role="Clinic" Type="Self.Clinic" Multiplicity="0..1" />
+    <End Role="UploadedFile" Type="Self.UploadedFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clinic">
+        <PropertyRef Name="ClinicID" />
+      </Principal>
+      <Dependent Role="UploadedFile">
+        <PropertyRef Name="ClinicID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UploadedFile_Dictator">
+    <End Role="Dictator" Type="Self.Dictator" Multiplicity="0..1" />
+    <End Role="UploadedFile" Type="Self.UploadedFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dictator">
+        <PropertyRef Name="DictatorID" />
+      </Principal>
+      <Dependent Role="UploadedFile">
+        <PropertyRef Name="DictatorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UploadedFile_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="UploadedFile" Type="Self.UploadedFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UploadedFile">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UploadedFile_Typist">
+    <End Role="Typist" Type="Self.Typist" Multiplicity="0..1" />
+    <End Role="UploadedFile" Type="Self.UploadedFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typist">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UploadedFile">
+        <PropertyRef Name="TypistId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLog_Dictator">
+    <End Role="Dictator" Type="Self.Dictator" Multiplicity="0..1" />
+    <End Role="UserLog" Type="Self.UserLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dictator">
+        <PropertyRef Name="DictatorID" />
+      </Principal>
+      <Dependent Role="UserLog">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLog_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="UserLog" Type="Self.UserLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLog">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLog_UploadedDocument">
+    <End Role="UploadedDocument" Type="Self.UploadedDocument" Multiplicity="0..1" />
+    <End Role="UserLog" Type="Self.UserLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UploadedDocument">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLog">
+        <PropertyRef Name="DocID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLog_UploadedFile">
+    <End Role="UploadedFile" Type="Self.UploadedFile" Multiplicity="0..1" />
+    <End Role="UserLog" Type="Self.UserLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UploadedFile">
+        <PropertyRef Name="FileID" />
+      </Principal>
+      <Dependent Role="UserLog">
+        <PropertyRef Name="AudioID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetFaxStatusFilterWise" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ClinicIDs" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="fromDate" Type="datetime" Mode="In" />
+    <Parameter Name="toDate" Type="datetime" Mode="In" />
+    <Parameter Name="ProviderIDs" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="TypistID" Type="int" Mode="In" />
+    <Parameter Name="FileName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="GetManagers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ManagerID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Proc_InsertErrorDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="stp_Dictator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="AccountID" Type="int" Mode="In" />
+    <Parameter Name="SystemID" Type="nvarchar" Mode="In" />
+    <Parameter Name="LoginID" Type="nvarchar" Mode="In" />
+    <Parameter Name="Password" Type="nvarchar" Mode="In" />
+    <Parameter Name="AllClientAccess" Type="bit" Mode="In" />
+    <Parameter Name="Prefix" Type="nvarchar" Mode="In" />
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="MiddleName" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Gender" Type="nvarchar" Mode="In" />
+    <Parameter Name="SpecialityID" Type="int" Mode="In" />
+    <Parameter Name="IsSecretary" Type="bit" Mode="In" />
+    <Parameter Name="IsFax" Type="bit" Mode="In" />
+    <Parameter Name="IsReview" Type="bit" Mode="In" />
+    <Parameter Name="AddedOn" Type="datetime" Mode="In" />
+    <Parameter Name="AddedBy" Type="int" Mode="In" />
+    <Parameter Name="UpdatedOn" Type="datetime" Mode="In" />
+    <Parameter Name="UpdatedBy" Type="int" Mode="In" />
+    <Parameter Name="IsActive" Type="bit" Mode="In" />
+    <Parameter Name="CP_Name" Type="nvarchar" Mode="In" />
+    <Parameter Name="CP_Phone" Type="nvarchar" Mode="In" />
+    <Parameter Name="CP_Cell" Type="nvarchar" Mode="In" />
+    <Parameter Name="CP_Address" Type="nvarchar" Mode="In" />
+    <Parameter Name="CP_Email" Type="nvarchar" Mode="In" />
+    <Parameter Name="CP_Pager" Type="nvarchar" Mode="In" />
+    <Parameter Name="SecretaryName" Type="nvarchar" Mode="In" />
+    <Parameter Name="NoOfLine" Type="int" Mode="In" />
+    <Parameter Name="RateOfLine" Type="decimal" Mode="In" />
+    <Parameter Name="AddSign" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="stp_DocumentReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorID" Type="int" Mode="In" />
+    <Parameter Name="ClinicID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+    <Parameter Name="TypistAssignId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="stp_GetActivityLogs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="stp_GetDictations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorIDs" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="ClinicIDs" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="TypistID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="stp_GetDocuments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorIDs" Type="int" Mode="In" />
+    <Parameter Name="ClinicID" Type="int" Mode="In" />
+    <Parameter Name="TypistID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="stp_GetDocumentsData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorID" Type="int" Mode="In" />
+    <Parameter Name="ClinicID" Type="int" Mode="In" />
+    <Parameter Name="TypistID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="DotFromDate" Type="datetime" Mode="In" />
+    <Parameter Name="DotToDate" Type="datetime" Mode="In" />
+    <Parameter Name="DosFromDate" Type="datetime" Mode="In" />
+    <Parameter Name="DosToDate" Type="datetime" Mode="In" />
+    <Parameter Name="DobFromDate" Type="datetime" Mode="In" />
+    <Parameter Name="DobToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="stp_GetDocumentsDataNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorIDs" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="ClinicIDs" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="TypistID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="DotFromDate" Type="datetime" Mode="In" />
+    <Parameter Name="DotToDate" Type="datetime" Mode="In" />
+    <Parameter Name="DosFromDate" Type="datetime" Mode="In" />
+    <Parameter Name="DosToDate" Type="datetime" Mode="In" />
+    <Parameter Name="DoDFromDate" Type="datetime" Mode="In" />
+    <Parameter Name="DoDToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="stp_GetTypist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="stp_GetUploadedAudio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorID" Type="int" Mode="In" />
+    <Parameter Name="ClinicID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+    <Parameter Name="TypistAssignId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="stp_GetUploadedAudioInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DictatorID" Type="int" Mode="In" />
+    <Parameter Name="ClinicID" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+    <Parameter Name="TypistAssignId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="stp_GetUserLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AudioID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="stp_GetUserLogByDocumentId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="STRINGSplit_Fun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="pString" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="pDelimiter" Type="char" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ItemNumber" Type="bigint" />
+          <Property Name="Item" Type="nvarchar(max)" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <EntityContainer Name="db_ExcelTransModelStoreContainer">
+    <EntitySet Name="AccountType" EntityType="Self.AccountType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AppUserProfile" EntityType="Self.AppUserProfile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Clinic" EntityType="Self.Clinic" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ContactPerson" EntityType="Self.ContactPerson" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dictator" EntityType="Self.Dictator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DictatorSecretary" EntityType="Self.DictatorSecretary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileFaxStatus" EntityType="Self.FileFaxStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileLog" EntityType="Self.FileLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogType" EntityType="Self.LogType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ManagerClinic" EntityType="Self.ManagerClinic" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Modality" EntityType="Self.Modality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Secretary" EntityType="Self.Secretary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Speciality" EntityType="Self.Speciality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Typist" EntityType="Self.Typist" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UploadedDocument" EntityType="Self.UploadedDocument" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UploadedFile" EntityType="Self.UploadedFile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserLog" EntityType="Self.UserLog" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AppUserProfile_AspNetUsers" Association="Self.FK_AppUserProfile_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AppUserProfile" EntitySet="AppUserProfile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_City_Country" Association="Self.FK_City_Country">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="City" EntitySet="City" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileLog_LogType" Association="Self.FK_FileLog_LogType">
+      <End Role="LogType" EntitySet="LogType" />
+      <End Role="FileLog" EntitySet="FileLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileLog_UploadedFile" Association="Self.FK_FileLog_UploadedFile">
+      <End Role="UploadedFile" EntitySet="UploadedFile" />
+      <End Role="FileLog" EntitySet="FileLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ManagerClinics_Clinic" Association="Self.FK_ManagerClinics_Clinic">
+      <End Role="Clinic" EntitySet="Clinic" />
+      <End Role="ManagerClinic" EntitySet="ManagerClinic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ManagerClinics_Dictator" Association="Self.FK_ManagerClinics_Dictator">
+      <End Role="Dictator" EntitySet="Dictator" />
+      <End Role="ManagerClinic" EntitySet="ManagerClinic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ManagerClinics_Manager" Association="Self.FK_ManagerClinics_Manager">
+      <End Role="Manager" EntitySet="Manager" />
+      <End Role="ManagerClinic" EntitySet="ManagerClinic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Secretary_Dictator" Association="Self.FK_Secretary_Dictator">
+      <End Role="Dictator" EntitySet="Dictator" />
+      <End Role="Secretary" EntitySet="Secretary" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UploadedDocument_Status" Association="Self.FK_UploadedDocument_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="UploadedDocument" EntitySet="UploadedDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UploadedDocument_UploadedFile" Association="Self.FK_UploadedDocument_UploadedFile">
+      <End Role="UploadedFile" EntitySet="UploadedFile" />
+      <End Role="UploadedDocument" EntitySet="UploadedDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UploadedFile_Clinic" Association="Self.FK_UploadedFile_Clinic">
+      <End Role="Clinic" EntitySet="Clinic" />
+      <End Role="UploadedFile" EntitySet="UploadedFile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UploadedFile_Dictator" Association="Self.FK_UploadedFile_Dictator">
+      <End Role="Dictator" EntitySet="Dictator" />
+      <End Role="UploadedFile" EntitySet="UploadedFile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UploadedFile_Status" Association="Self.FK_UploadedFile_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="UploadedFile" EntitySet="UploadedFile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UploadedFile_Typist" Association="Self.FK_UploadedFile_Typist">
+      <End Role="Typist" EntitySet="Typist" />
+      <End Role="UploadedFile" EntitySet="UploadedFile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLog_Dictator" Association="Self.FK_UserLog_Dictator">
+      <End Role="Dictator" EntitySet="Dictator" />
+      <End Role="UserLog" EntitySet="UserLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLog_Status" Association="Self.FK_UserLog_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="UserLog" EntitySet="UserLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLog_UploadedDocument" Association="Self.FK_UserLog_UploadedDocument">
+      <End Role="UploadedDocument" EntitySet="UploadedDocument" />
+      <End Role="UserLog" EntitySet="UserLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLog_UploadedFile" Association="Self.FK_UserLog_UploadedFile">
+      <End Role="UploadedFile" EntitySet="UploadedFile" />
+      <End Role="UserLog" EntitySet="UserLog" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

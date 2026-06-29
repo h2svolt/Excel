@@ -1,0 +1,87 @@
+@{
+    ViewBag.Title = "Historic Data Entry";
+}
+
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="m-0">Historic Data Entry <small>(old records — stored with MRN = "Historic")</small></h5>
+        </div>
+        <div class="card-body">
+
+            @if (TempData["HistoricMsg"] != null)
+            {
+                <div class="alert alert-success">@TempData["HistoricMsg"]</div>
+            }
+            @if (TempData["HistoricErr"] != null)
+            {
+                <div class="alert alert-danger">@TempData["HistoricErr"]</div>
+            }
+
+            @using (Html.BeginForm("Save", "Historic", FormMethod.Post))
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Provider</label>
+                            @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), "Select Provider", new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Patient Name</label>
+                            <input name="PatientName" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Document Name</label>
+                            <input name="DocumentName" type="text" class="form-control" placeholder="optional" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Status</label>
+                            @Html.DropDownList("StatusId", new SelectList(ViewBag.StatusId, "value", "text", 5), new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Date of Typing (DOT)</label>
+                            <input id="DOT" name="DOT" type="text" class="form-control histdate" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Date of Service (DOS)</label>
+                            <input id="DOS" name="DOS" type="text" class="form-control histdate" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>MRN</label>
+                            <input type="text" class="form-control" value="Historic" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <div class="form-group w-100">
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="fa fa-save"></i>&nbsp;Save Historic Record
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            if ($.fn.datepicker) {
+                $(".histdate").datepicker({ dateFormat: 'mm/dd/yy' });
+            }
+        });
+    </script>
+}

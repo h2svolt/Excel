@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="169ef142b3a7409e8d773b171aad40eb" Name="Diagram1" ZoomLevel="58">
+        <EntityTypeShape EntityType="db_ExcelTransModel.AppUserProfile" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.AspNetRole" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.AspNetUserRole" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.AspNetUser" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_AppUserProfile_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.AccountType" Width="1.5" PointX="10.375" PointY="4.75" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.City" Width="1.5" PointX="12.625" PointY="1" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Clinic" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.ContactPerson" Width="1.5" PointX="10.375" PointY="7.75" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Country" Width="1.5" PointX="10.375" PointY="1.125" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_City_Country" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Speciality" Width="1.5" PointX="5.375" PointY="5.625" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.FileLog" Width="1.5" PointX="9.625" PointY="15.375" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.LogType" Width="1.5" PointX="7.375" PointY="19.75" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_FileLog_LogType" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Secretary" Width="1.5" PointX="9.875" PointY="18.875" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Status" Width="1.5" PointX="14.875" PointY="6.875" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Typist" Width="1.5" PointX="0.75" PointY="14" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.UserLog" Width="1.5" PointX="19.375" PointY="9" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UserLog_Status" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.UploadedFile" Width="1.5" PointX="20.125" PointY="14.125" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UploadedFile_Clinic" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_FileLog_UploadedFile" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UploadedFile_Status" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UploadedFile_Typist" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UserLog_UploadedFile" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Modality" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.FileFaxStatu" Width="1.5" PointX="12.375" PointY="10.75" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.DictatorSecretary" Width="1.5" PointX="14.375" PointY="10.75" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.UploadedDocument" Width="1.5" PointX="22.375" PointY="10.125" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UploadedDocument_Status" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UploadedDocument_UploadedFile" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UserLog_UploadedDocument" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Dictator" Width="1.5" PointX="12.625" PointY="14.375" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_Dictator_Clinic1" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_Dictator_Speciality1" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_Secretary_Dictator" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UploadedFile_Dictator" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_UserLog_Dictator" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.Manager" Width="1.5" PointX="12.625" PointY="6" />
+        <EntityTypeShape EntityType="db_ExcelTransModel.ManagerClinic" Width="1.5" PointX="14.875" PointY="14" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_ManagerClinics_Clinic" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_ManagerClinics_Dictator" />
+        <AssociationConnector Association="db_ExcelTransModel.FK_ManagerClinics_Manager" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

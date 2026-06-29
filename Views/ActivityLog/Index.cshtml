@@ -1,0 +1,245 @@
+@model IEnumerable<ExcelTranscript.Models.stp_GetUploadedAudioInfo_Result>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<style>
+    .disablefocus:focus {
+        box-shadow: none !important;
+        border-color: #b5b5b5;
+    }
+
+    .disablefocus {
+        border-color: #b5b5b5;
+        font-size: 14px !important;
+        height: 31px !important;
+    }
+
+    #example_length {
+        padding-right: 50px !important;
+        padding-top: 5px !important;
+    }
+</style>
+
+<section class="content">
+
+    <!-- *========== Breadcrumbs ========== -->
+    <div>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white px-0 mb-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "ActivityLog")">Home</a></li>
+                    <li class="breadcrumb-item active">Activity Log</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- *========== Data Table ========== -->
+    <div class="py-3">
+        <div class="container-fluid">
+            <!-- *========== Filter ========== -->
+            <div class="py-2">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="" method="" class="py-2 px-3 box-shadow box-rounded">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="form-title p-0 mb-1"><i class="fa fa-filter" aria-hidden="true"></i> Filter</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="Provider">Provider</label>
+                                            @if (User.IsInRole("Provider"))
+                                            {
+                                                @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), new { @class = "form-control", @Disabled = "Disabled" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("DictatorID", new SelectList(ViewBag.DictatorID, "value", "text"), "Select Provider", new { @class = "form-control" })
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="Status">Status</label>
+                                            @Html.DropDownList("StatusId", new SelectList(ViewBag.StatusId, "value", "text"), "Select Status", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="from">From</label>
+                                            <input id="fromDate" type="text" class="form-control disablefocus" name="from">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group m-0">
+                                            <label class="m-0" for="to">To</label>
+                                            <input id="toDate" type="text" class="form-control disablefocus" name="to">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" style="padding-top:20px;">
+                                        <button type="button" class="btn btn-primary" id="btnSearch">
+                                            <i class="fa fa-search"></i>&nbsp;Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div id="SearchResult">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        //let IsUserAdmin = false;
+        //let IsUserSuperAdmin = false;
+        $(document).ready(function () {
+            var date = new Date();
+            date.setDate(date.getDate() - 1);
+
+            //IsUserAdmin = '@User.IsInRole("Admin")';
+            //IsUserSuperAdmin = '@User.IsInRole("SuperAdmin")';
+
+            $("#fromDate").datepicker({
+            dateFormat: 'mm/dd/yy'
+            });
+
+            $("#toDate").datepicker({
+                      dateFormat: 'mm/dd/yy'
+            });
+            $("#fromDate").datepicker('setDate', date);
+            $("#toDate").datepicker('setDate', new Date());
+
+            $("#example").DataTable();
+            $("#DictatorID").select2();
+            $("#StatusId").select2();
+            $("#btnSearch").trigger("click");
+        });
+
+
+         $("#btnSearch").on("click", function () {
+             $('.Loader').show();
+            var DictatorID = $('#DictatorID').val();
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            var StatusId = $('#StatusId').val();
+            var html = '<img src="@ViewBag.Picture" class="brand-logo" align = "left" margin="10px"><h1  align="center">@ViewBag.CompanyName</h1><h5 align="center">@ViewBag.CompanyAddress </h5><h5 align="center">Contact: @ViewBag.CompanyCell</h5><hr /><h4 align="center"> @ViewBag.Title </h4>';
+
+
+            if (fromDate != "" && toDate != "")
+            {
+                html += "<h4>From:    " + fromDate + "            TO:    " + toDate + " </h4>";
+            }
+            if (fromDate != "" && toDate != "" && (new Date($("#fromDate").val())) != "Invalid Date" && (new Date($("#toDate").val()) != "Invalid Date")) {
+
+            $.ajax({
+                url: "@Url.Action("Index", "ActivityLog")",
+                data: {
+                    btn: true,
+                    DictatorID: $('#DictatorID').val(),
+                    StatusId: $('#StatusId').val(),
+                    fromDate: $('#fromDate').val(),
+                    toDate: $('#toDate').val(),
+                },
+                success: function (data) {
+                    $("#SearchResult").html(data);
+                    $('#example').dataTable({
+                        dom: '<"top" lB> frtip',
+                        buttons: [
+                {
+                    extend: 'print',
+                    messageTop: function () {
+                        return '<h3 align="center">Notification List</h3>';
+                        //return '<h3 align="center" style="margin-top:208px; margin-bottom:76px;">Products List</h3>';
+                    },
+                    title: '',
+                    messageBottom: 'Powered by H2S Volt',
+                    exportOptions: {
+                       // columns: [0, 1, 2, 3]
+                    }
+                },
+                {
+                    extend: 'excel',
+                    messageTop: 'Notification List',
+                    messageBottom: 'Powered by H2S Volt',
+                    exportOptions: {
+                      // columns: [0, 1, 2, 3]
+                    }
+                }
+            ]
+                    });
+                    $('.Loader').hide();
+                },
+                error: function (xhr, status) {
+                    $('.Loader').hide();
+                }
+            });
+             }
+             else {
+                 $('.Loader').hide();
+                 swal({
+                     title: "Invalid Date",
+                     text: "Please select correct date range!",
+                     icon: "warning",
+                     buttons: false,
+                     timer: 2500
+                 });
+             }
+        });
+
+        function GetActivityLog(AudioID) {
+            let FileID = AudioID || 0;   
+            if (FileID > 0) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/ActivityLog/GetActivityLog?AudioID=' + FileID,
+                    async: true,
+                    success: function (data) {
+
+                        $("#revisedTable tbody").empty();
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Action === "Faxed") {
+                                data[i].UserRole = "System";                                
+                            }
+
+                            var markup2 = `<tr>
+                                            <td> ${ data[i].UserRole }</td>
+                                            <td> ${ data[i].Date } </td>
+                                            <td> ${ data[i].Time } </td>
+                                            <td> ${ data[i].Action } </td>
+                                            <td> ${ data[i].FileType } </td>
+                                            </tr>`;
+
+                            $("#revisedTable tbody").append(markup2);                            
+                        }
+
+
+                    },
+                    error: function (err) { console.log(err); }
+                });
+            }
+        }
+
+
+    </script>
+}
+
