@@ -59,7 +59,7 @@ BEGIN
       AND (@TypistID IS NULL OR uf.TypistAssignID = @TypistID)
       AND (@StatusId IS NULL OR ud.StatusId = @StatusId)
       AND (@FromDate IS NULL OR uf.UploadOn >= @FromDate)
-      AND (@ToDate   IS NULL OR uf.UploadOn <= @ToDate)
+      AND (@ToDate   IS NULL OR uf.UploadOn < DATEADD(DAY,1,@ToDate))
     ORDER BY ud.Id DESC;
 END
 GO
@@ -87,7 +87,7 @@ BEGIN
       AND (@TypistID    IS NULL OR uf.TypistAssignID = @TypistID)
       AND (@StatusId    IS NULL OR uf.StatusId = @StatusId)
       AND (@FromDate    IS NULL OR uf.UploadOn >= @FromDate)
-      AND (@ToDate      IS NULL OR uf.UploadOn <= @ToDate)
+      AND (@ToDate      IS NULL OR uf.UploadOn < DATEADD(DAY,1,@ToDate))
     ORDER BY uf.FileID DESC;
 END
 GO
@@ -126,11 +126,11 @@ BEGIN
       AND (@TypistID    IS NULL OR uf.TypistAssignID = @TypistID)
       AND (@StatusId    IS NULL OR uf.StatusId = @StatusId)
       AND (@DotFromDate IS NULL OR uf.UploadOn >= @DotFromDate)
-      AND (@DotToDate   IS NULL OR uf.UploadOn <= @DotToDate)
+      AND (@DotToDate   IS NULL OR uf.UploadOn < DATEADD(DAY,1,@DotToDate))
       AND (@DosFromDate IS NULL OR TRY_CONVERT(datetime, ud.DOS) >= @DosFromDate)
-      AND (@DosToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOS) <= @DosToDate)
+      AND (@DosToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOS) < DATEADD(DAY,1,@DosToDate))
       AND (@DoDFromDate IS NULL OR TRY_CONVERT(datetime, ud.DOB) >= @DoDFromDate)
-      AND (@DoDToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOB) <= @DoDToDate)
+      AND (@DoDToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOB) < DATEADD(DAY,1,@DoDToDate))
     ORDER BY ISNULL(uf.StackMark,0) DESC, uf.FileID DESC;
 END
 GO
@@ -181,13 +181,13 @@ BEGIN
       AND (@TypistID    IS NULL OR uf.TypistAssignID = @TypistID)
       AND (@FileName    IS NULL OR @FileName='' OR ffs.Status = @FileName)
       AND (@fromDate    IS NULL OR ffs.AddedOn >= @fromDate)
-      AND (@toDate      IS NULL OR ffs.AddedOn <= @toDate)
+      AND (@toDate      IS NULL OR ffs.AddedOn < DATEADD(DAY,1,@toDate))
       AND (@DotFromDate IS NULL OR uf.UploadOn >= @DotFromDate)
-      AND (@DotToDate   IS NULL OR uf.UploadOn <= @DotToDate)
+      AND (@DotToDate   IS NULL OR uf.UploadOn < DATEADD(DAY,1,@DotToDate))
       AND (@DosFromDate IS NULL OR TRY_CONVERT(datetime, ud.DOS) >= @DosFromDate)
-      AND (@DosToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOS) <= @DosToDate)
+      AND (@DosToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOS) < DATEADD(DAY,1,@DosToDate))
       AND (@DobFromDate IS NULL OR TRY_CONVERT(datetime, ud.DOB) >= @DobFromDate)
-      AND (@DobToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOB) <= @DobToDate)
+      AND (@DobToDate   IS NULL OR TRY_CONVERT(datetime, ud.DOB) < DATEADD(DAY,1,@DobToDate))
     ORDER BY ffs.ID DESC;
 END
 GO
@@ -206,7 +206,7 @@ BEGIN
     LEFT JOIN ManagerClinic mc ON mc.ManagerID = m.ManagerID
     LEFT JOIN Dictator d ON mc.DictatorID = d.DictatorID
     LEFT JOIN Clinic c ON mc.ClinicID = c.ClinicID
-    WHERE (@ManagerID IS NULL OR m.ManagerID = @ManagerID);
+    WHERE (@ManagerID IS NULL OR @ManagerID = 0 OR m.ManagerID = @ManagerID);
 END
 GO
 
@@ -228,7 +228,7 @@ BEGIN
     WHERE (@DictatorID IS NULL OR uf.DictatorID = @DictatorID)
       AND (@StatusId   IS NULL OR uf.StatusId = @StatusId)
       AND (@FromDate   IS NULL OR uf.UploadOn >= @FromDate)
-      AND (@ToDate     IS NULL OR uf.UploadOn <= @ToDate)
+      AND (@ToDate     IS NULL OR uf.UploadOn < DATEADD(DAY,1,@ToDate))
     ORDER BY uf.FileID DESC;
 END
 GO
@@ -262,7 +262,7 @@ BEGIN
       AND (@StatusId   IS NULL OR uf.StatusId = @StatusId)
       AND (@TypistAssignId IS NULL OR uf.TypistAssignID = @TypistAssignId)
       AND (@FromDate   IS NULL OR uf.UploadOn >= @FromDate)
-      AND (@ToDate     IS NULL OR uf.UploadOn <= @ToDate)
+      AND (@ToDate     IS NULL OR uf.UploadOn < DATEADD(DAY,1,@ToDate))
     ORDER BY uf.FileID DESC;
 END
 GO
@@ -298,7 +298,7 @@ BEGIN
       AND (@StatusId   IS NULL OR uf.StatusId = @StatusId)
       AND (@TypistAssignId IS NULL OR uf.TypistAssignID = @TypistAssignId)
       AND (@FromDate   IS NULL OR uf.UploadOn >= @FromDate)
-      AND (@ToDate     IS NULL OR uf.UploadOn <= @ToDate)
+      AND (@ToDate     IS NULL OR uf.UploadOn < DATEADD(DAY,1,@ToDate))
     ORDER BY uf.FileID DESC;
 END
 GO
@@ -329,7 +329,7 @@ BEGIN
       AND (@StatusId   IS NULL OR ud.StatusId = @StatusId)
       AND (@TypistAssignId IS NULL OR uf.TypistAssignID = @TypistAssignId)
       AND (@FromDate   IS NULL OR uf.UploadOn >= @FromDate)
-      AND (@ToDate     IS NULL OR uf.UploadOn <= @ToDate)
+      AND (@ToDate     IS NULL OR uf.UploadOn < DATEADD(DAY,1,@ToDate))
     ORDER BY ud.Id DESC;
 END
 GO

@@ -91,9 +91,13 @@
                                 {
                                     <span class="text-success font-weight-bold">Downloaded</span>
                                 }
-                                else
+                                else if (!string.IsNullOrEmpty(item.FilePath))
                                 {
                                     <a href="@Url.Content(item.FilePath)" onclick="UpdateStatus(@item.FileID)" download class="btn btn-link btn-sm"> Download </a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">N/A</span>
                                 }
                                 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                                 {
@@ -110,8 +114,15 @@
                         </tr>
 
                         serialNo++;
-                        minutes += Convert.ToInt32(item.Duration.Split(':')[0]);
-                        seconds += Convert.ToInt32(item.Duration.Split(':')[1]);
+                        if (!string.IsNullOrWhiteSpace(item.Duration))
+                        {
+                            var dp = item.Duration.Split(':');
+                            int hh = 0, mm = 0, ss = 0;
+                            if (dp.Length == 3) { int.TryParse(dp[0], out hh); int.TryParse(dp[1], out mm); int.TryParse(dp[2], out ss); }
+                            else if (dp.Length == 2) { int.TryParse(dp[0], out mm); int.TryParse(dp[1], out ss); }
+                            minutes += hh * 60 + mm;
+                            seconds += ss;
+                        }
 
                     }
                 </tbody>
